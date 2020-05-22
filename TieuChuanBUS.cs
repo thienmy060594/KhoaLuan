@@ -26,46 +26,34 @@ namespace KiemDinhChatLuongBUS
         {
             List<TieuChuanDTO> List = new List<TieuChuanDTO>();
             string query = "SELECT * FROM dbo.TieuChuan";
-            DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-            foreach (DataRow dataRow in data.Rows)
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
             {
                 TieuChuanDTO tieuChuan = new TieuChuanDTO(dataRow);
                 List.Add(tieuChuan);
             }
             return List;
         }
-        public bool InsertTieuChuan(string tentieuchuan, string noidungtieuchuan, string ghichu)
+        public bool InsertTieuChuan(string matieuchuan, string tentieuchuan, string noidungtieuchuan, string ghichu)
         {
-            string query = string.Format("INSERT dbo.TieuChuan (TenTieuChuan, NoiDungTieuChuan, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", tentieuchuan, noidungtieuchuan, ghichu); 
+            string query = string.Format("INSERT dbo.TieuChuan (MaTieuChuan, TenTieuChuan, NoiDungTieuChuan, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}')", matieuchuan, tentieuchuan, noidungtieuchuan, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool UpdateTieuChuan(int matieuchuan, string tentieuchuan, string noidungtieuchuan, string ghichu)
+        public bool UpdateTieuChuan(int id_tieuchuan, string matieuchuan, string tentieuchuan, string noidungtieuchuan, string ghichu)
         {
-            string query = string.Format("UPDATE dbo.TieuChuan SET TenTieuChuan = N'{1}', NoiDungTieuChuan = N'{2}', GhiChu = N'{3}' WHERE MaTieuChuan = N'{0}'", matieuchuan, tentieuchuan, noidungtieuchuan, ghichu);
+            string query = string.Format("UPDATE dbo.TieuChuan SET MaTieuChuan =N'{1}', TenTieuChuan = N'{2}', NoiDungTieuChuan = N'{3}', GhiChu = N'{4}' WHERE ID_TieuChuan = N'{0}'", id_tieuchuan, matieuchuan, tentieuchuan, noidungtieuchuan, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool DeleteTieuChuan(int matieuchuan)
+        public bool DeleteTieuChuan(int id_tieuchuan)
         {
-            string query = string.Format("DELETE dbo.TieuChuan WHERE MaTieuChuan= N'{0}'", matieuchuan);
+            string query = string.Format("DELETE dbo.TieuChuan WHERE ID_TieuChuan= N'{0}'", id_tieuchuan);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }
+        }    
 
-        //public List<TieuChuanDTO> SearchListTieuChuan(int matieuchuan)
-        //{
-        //    List<TieuChuanDTO> List = new List<TieuChuanDTO>();
-        //    string query = string.Format("SELECT * FROM dbo.TieuChuan WHERE MATIEUCHUAN LIKE N'%' + N'"+ matieuchuan + "' + '%'");
-        //    DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-        //    foreach (DataRow dataRow in data.Rows)
-        //    {
-        //        TieuChuanDTO tieuChuan = new TieuChuanDTO(dataRow);
-        //        List.Add(tieuChuan);
-        //    }
-        //    return List;
-        //}
     }
 }

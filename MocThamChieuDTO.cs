@@ -9,21 +9,21 @@ namespace KiemDinhChatLuongDTO
 {
     public class MocThamChieuDTO
     {
-        private int mamocthamchieu;
+        private int id_mocthamchieu;
+        private string mamocthamchieu;
         private string tenmocthamchieu;
         private string noidungmocthamchieu;
         private string ghichu;
 
-        public int MaMocThamChieu { get => mamocthamchieu; set => mamocthamchieu = value; }
-        
+        public int Id_MocThamChieu { get => id_mocthamchieu; set => id_mocthamchieu = value; }
+        public string MaMocThamChieu { get => mamocthamchieu; set => mamocthamchieu = value; }
         public string TenMocThamChieu { get => tenmocthamchieu; set => tenmocthamchieu = value; }
-
         public string NoiDungMocThamChieu { get => noidungmocthamchieu; set => noidungmocthamchieu = value; }
-
         public string GhiChu { get => ghichu; set => ghichu = value; }
 
-        public MocThamChieuDTO(int mamocthamchieu, string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
+        public MocThamChieuDTO(int id_mocthamchieu, string mamocthamchieu, string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
         {
+            this.Id_MocThamChieu = id_mocthamchieu;
             this.MaMocThamChieu = mamocthamchieu;            
             this.TenMocThamChieu = tenmocthamchieu;
             this.NoiDungMocThamChieu = noidungmocthamchieu;
@@ -32,8 +32,9 @@ namespace KiemDinhChatLuongDTO
 
         public MocThamChieuDTO(DataRow row)
         {
-            this.MaMocThamChieu = Int32.Parse(row["MaMocThamChieu"].ToString());            
-            this.TenMocThamChieu = row[".TenMocThamChieu"].ToString();
+            this.Id_MocThamChieu = Int32.Parse(row["ID_MocThamChieu"].ToString());
+            this.MaMocThamChieu = row["MaMocThamChieu"].ToString();
+            this.TenMocThamChieu = row["TenMocThamChieu"].ToString();
             this.NoiDungMocThamChieu = row["NoiDungMocThamChieu"].ToString();
             this.GhiChu = row["GhiChu"].ToString();
         }

@@ -9,35 +9,43 @@ namespace KiemDinhChatLuongDTO
 {
     public class TieuChiDTO
     {
-        private int matieuchi;
-        private int matieuchuan;
+        private int id_tieuchi;
+        private int id_tieuchuan;
+        private string matieuchuan;
+        private string tentieuchuan;
+        private string matieuchi;
         private string tentieuchi;
         private string noidungtieuchi;
         private string ghichu;
 
-        public int MaTieuChi { get => matieuchi; set => matieuchi = value; }
-
-        public int MaTieuChuan { get => matieuchuan; set => matieuchuan = value; }
-
+        public int Id_TieuChi { get => id_tieuchi; set => id_tieuchi = value; }
+        public int Id_TieuChuan { get => id_tieuchuan; set => id_tieuchuan = value; }
+        public string MaTieuChuan { get => matieuchuan; set => matieuchuan = value; }
+        public string TenTieuChuan { get => tentieuchuan; set => tentieuchuan = value; }
+        public string MaTieuChi { get => matieuchi; set => matieuchi = value; }
         public string TenTieuChi { get => tentieuchi; set => tentieuchi = value; }
-
         public string NoiDungTieuChi { get => noidungtieuchi; set => noidungtieuchi = value; }
-
         public string GhiChu { get => ghichu; set => ghichu = value; }
 
-        public TieuChiDTO(int matieuchi, int matieuchuan, string tentieuchi, string noidungtieuchuan, string ghichu)
+        public TieuChiDTO(int id_tieuchi, int id_tieuchuan, string matieuchuan, string tentieuchuan, string matieuchi, string tentieuchi, string noidungtieuchi, string ghichu)
         {
+            this.Id_TieuChi = id_tieuchi;
+            this.Id_TieuChuan = id_tieuchuan;
+            this.MaTieuChuan = matieuchuan;            
+            this.TenTieuChuan = tentieuchuan;
             this.MaTieuChi = matieuchi;
-            this.MaTieuChuan = matieuchuan;
             this.TenTieuChi = tentieuchi;
-            this.NoiDungTieuChi = noidungtieuchuan;
+            this.NoiDungTieuChi = noidungtieuchi;
             this.GhiChu = ghichu;
         }
 
         public TieuChiDTO(DataRow row)
         {
-            this.MaTieuChi = Int32.Parse(row["MaTieuChi"].ToString());
-            this.MaTieuChuan = Int32.Parse(row["MaTieuChuan"].ToString());
+            this.Id_TieuChi = Int32.Parse(row["ID_TieuChi"].ToString());
+            this.Id_TieuChuan = Int32.Parse(row["ID_TieuChuan"].ToString());
+            this.MaTieuChuan = row["MaTieuChuan"].ToString();
+            this.TenTieuChuan = row["TenTieuChuan"].ToString();
+            this.MaTieuChi = row["MaTieuChi"].ToString();            
             this.TenTieuChi = row["TenTieuChi"].ToString();
             this.NoiDungTieuChi = row["NoiDungTieuChi"].ToString();
             this.GhiChu = row["GhiChu"].ToString();

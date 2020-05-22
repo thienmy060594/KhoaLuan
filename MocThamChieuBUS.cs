@@ -25,47 +25,33 @@ namespace KiemDinhChatLuongBUS
         {
             List<MocThamChieuDTO> List = new List<MocThamChieuDTO>();
             string query = "SELECT * FROM dbo.MocThamChieu";
-            DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-            foreach (DataRow dataRow in data.Rows)
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
             {
                 MocThamChieuDTO mocThamChieu = new MocThamChieuDTO(dataRow);
                 List.Add(mocThamChieu);
             }
             return List;
         }
-        public bool InsertMocThamChieu(string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
+        public bool InsertMocThamChieu(string mamocthamchieu, string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
         {
-            string query = string.Format("INSERT dbo.MocThamChieu (TenMocThamChieu, NoiDungMocThamChieu, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')",tenmocthamchieu, noidungmocthamchieu, ghichu);
+            string query = string.Format("INSERT dbo.MocThamChieu (MaMocThamChieu, TenMocThamChieu, NoiDungMocThamChieu, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}')", mamocthamchieu,tenmocthamchieu, noidungmocthamchieu, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool UpdateMocThamChieu(int mamocthamchieu, string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
+        public bool UpdateMocThamChieu(int id_mocthamchieu, string mamocthamchieu, string tenmocthamchieu, string noidungmocthamchieu, string ghichu)
         {
-            string query = string.Format("UPDATE dbo.MocThamChieu SET TenMocThamChieu = N'{1}', NoiDungMocThamChieu = N'{2}', GhiChu = N'{3}' WHERE MaMocThamChieu = N'{0}'", mamocthamchieu, tenmocthamchieu, noidungmocthamchieu, ghichu);
+            string query = string.Format("UPDATE dbo.MocThamChieu SET MaMocThamChieu = N'{1}', TenMocThamChieu = N'{2}', NoiDungMocThamChieu = N'{3}', GhiChu = N'{4}' WHERE ID_MocThamChieu = N'{0}'", id_mocthamchieu, mamocthamchieu, tenmocthamchieu, noidungmocthamchieu, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool DeleteMocThamChieu(int mamocthamchieu)
+        public bool DeleteMocThamChieu(int id_mocthamchieu)
         {
-            string query = string.Format("DELETE dbo.MocThamChieu WHERE MaMocThamChieu= N'{0}'", mamocthamchieu);
+            string query = string.Format("DELETE dbo.MocThamChieu WHERE ID_MocThamChieu= N'{0}'", id_mocthamchieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
-
-        //    public List<MocThamChieuDTO> SearchListMocThamChieu(string mamocthamchieu)
-        //    {
-        //        List<MocThamChieuDTO> List = new List<MocThamChieuDTO>();
-        //        string query = string.Format("SELECT * FROM dbo.MocThamChieu WHERE MaTieuChi LIKE N'%' + N'" + mamocthamchieu + "' + '%'");
-        //        DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-        //        foreach (DataRow dataRow in data.Rows)
-        //        {
-        //            MocThamChieuDTO mocThamChieu = new MocThamChieuDTO(dataRow);
-        //            List.Add(mocThamChieu);
-        //        }
-        //        return List;
-        //    }
-        //}
     }
 }

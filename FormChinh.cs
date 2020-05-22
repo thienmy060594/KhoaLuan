@@ -77,5 +77,37 @@ namespace KiemDinhChatLuongGUI
             FrLoaiTaiLieu.ShowDialog(); //Hiển thị
             this.Show();
         }
+
+        private void mnuTieuChiYeuCau_Click(object sender, EventArgs e)
+        {
+            FormTieuChi_YeuCau FrTieuChiYeuCau = new FormTieuChi_YeuCau(); //Khởi tạo đối tượng
+            this.Hide();
+            FrTieuChiYeuCau.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuYeuCauMocThamChieu_Click(object sender, EventArgs e)
+        {
+            FormYeuCau_MocThamChieu FrYeuCauMocThamChieu = new FormYeuCau_MocThamChieu(); //Khởi tạo đối tượng
+            this.Hide();
+            FrYeuCauMocThamChieu.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuTieuChiGoiY_Click(object sender, EventArgs e)
+        {
+            FormTieuChi_NguonMinhChung FrTieuChiNguonMinhChung = new FormTieuChi_NguonMinhChung(); //Khởi tạo đối tượng
+            this.Hide();
+            FrTieuChiNguonMinhChung.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuMinhChungGoiY_Click(object sender, EventArgs e)
+        {
+            FormNguonMinhChung_MinhChung FrNguonMinhChungMinhChung = new FormNguonMinhChung_MinhChung(); //Khởi tạo đối tượng
+            this.Hide();
+            FrNguonMinhChungMinhChung.ShowDialog(); //Hiển thị
+            this.Show();
+        }
     }
 }

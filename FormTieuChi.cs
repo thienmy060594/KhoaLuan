@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using KiemDinhChatLuongDTO;
 using KiemDinhChatLuongBUS;
 using KiemDinhChatLuongDAL;
-using Microsoft.VisualBasic;
 
 namespace KiemDinhChatLuongGUI
 {
@@ -22,28 +21,32 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChi.DataSource = TieuChiList;
-            LoadListTieuChi();
-            btnSua.Enabled = false;
+            LoadListTieuChi();           
             btnLuuLai.Enabled = false;
-            txtNoiDungTieuChi.Enabled = false;
             txtTenTieuChi.Enabled = false;
+            txtMaTieuChi.Enabled = false;
+            txtNoiDungTieuChi.Enabled = false;
             txtGhiChu.Enabled = false;
         }
 
         private void LoadListTieuChi()
         {
             dgvTieuChi.DataSource = TieuChiBUS.Instance.GetListTieuChi();
-            dgvTieuChi.Columns[0].HeaderText = "Mã Tiêu Chí";
-            dgvTieuChi.Columns[1].HeaderText = "Mã Tiêu Chuẩn";
-            dgvTieuChi.Columns[2].HeaderText = "Tên Tiêu Chí";
-            dgvTieuChi.Columns[3].HeaderText = "Nội Dung Tiêu Chí";
-            dgvTieuChi.Columns[4].HeaderText = "Ghi Chú";
-            // Tự động chỉnh lại kích thước cột
-            dgvTieuChi.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvTieuChi.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChi.Columns[0].Visible = false;
+            dgvTieuChi.Columns[1].Visible = false;
+            dgvTieuChi.Columns[2].HeaderText = "Mã Tiêu Chuẩn";
+            dgvTieuChi.Columns[3].HeaderText = "Tên Tiêu Chuẩn";
+            dgvTieuChi.Columns[4].HeaderText = "Mã Tiêu Chí";
+            dgvTieuChi.Columns[5].HeaderText = "Tên Tiêu Chí";
+            dgvTieuChi.Columns[6].HeaderText = "Nội Dung Tiêu Chí";
+            dgvTieuChi.Columns[7].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột           
             dgvTieuChi.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTieuChi.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTieuChi.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChi.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChi.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChi.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChi.AllowUserToAddRows = false;
             dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
@@ -51,22 +54,32 @@ namespace KiemDinhChatLuongGUI
 
         void TieuChiBinding()
         {
+            txtMaTieuChi.DataBindings.Clear();
             txtTenTieuChi.DataBindings.Clear();
             txtNoiDungTieuChi.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
-
-        private void btnThemMoi_Click(object sender, EventArgs e)
-        {            
+        private void btnBatDau_Click(object sender, EventArgs e)
+        {
+            txtMaTieuChi.Text = "";
             txtTenTieuChi.Text = "";
             txtNoiDungTieuChi.Text = "";
-            txtGhiChu.Text = "";            
+            txtGhiChu.Text = "";
+            txtMaTieuChi.Enabled = true;
             txtTenTieuChi.Enabled = true;
             txtNoiDungTieuChi.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
-            btnSua.Enabled = true;
+            FillComBoBox();
         }
+
+        private void FillComBoBox()
+        {            
+            cbxTieuChuan.DataSource = TieuChuanBUS.Instance.GetListTieuChuan();
+            cbxTieuChuan.ValueMember = "ID_TieuChuan";
+            cbxTieuChuan.DisplayMember = "TenTieuChuan";
+                    
+        }       
 
         private event EventHandler insertTieuChuan;
         public event EventHandler InsertTieuChuan
@@ -77,13 +90,19 @@ namespace KiemDinhChatLuongGUI
 
         private void btnLuuLai_Click(object sender, EventArgs e)
         {
+            string matieuchi = txtMaTieuChi.Text;
             string tentieuchi = txtTenTieuChi.Text;
             string noidungtieuchi = txtNoiDungTieuChi.Text;
             string ghichu = txtGhiChu.Text;
-            string input = Interaction.InputBox("Nhập mã tiêu chuẩn !", "Thêm mã tiêu chuẩn", "Mã tiêu chuẩn", -1, -1);
-            int matieuchuan = Int32.Parse(input);
+            string input = cbxTieuChuan.GetItemText(cbxTieuChuan.SelectedValue);
+            int id_tieuchuan = Int32.Parse(input);
 
-            if (txtTenTieuChi.Text == "")
+            if (txtMaTieuChi.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nhập mã tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaTieuChi.Focus();
+            }
+            else if (txtTenTieuChi.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTieuChi.Focus();
@@ -93,32 +112,30 @@ namespace KiemDinhChatLuongGUI
                 MessageBox.Show("Bạn chưa nhập nội dung tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungTieuChi.Focus();
             }
-            else if (MessageBox.Show("Bạn có muốn thêm mới tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            else if (MessageBox.Show("Bạn có muốn thêm tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (TieuChiBUS.Instance.InsertTieuChi(matieuchuan, tentieuchi, noidungtieuchi, ghichu))
+                if (TieuChiBUS.Instance.InsertTieuChi(id_tieuchuan, matieuchi, tentieuchi, noidungtieuchi, ghichu))
                 {
-                    MessageBox.Show("Thêm danh mục tiêu chí mới thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertTieuChuan != null)
                     {
                         insertTieuChuan(this, new EventArgs());
-                    }
-                    btnLuuLai.Enabled = false;                    
+                    }                           
                     TieuChiBinding();
                     LoadListTieuChi();
                     ResetGiaTri();
-                    btnDong.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
+                    btnDong.Enabled = true;                    
                 }
                 else
                 {
-                    MessageBox.Show("Thêm danh mục tiêu chí mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm tiêu chí thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         void ResetGiaTri()
         {
+            txtMaTieuChi.Text = "";
             txtTenTieuChi.Text = "";
             txtNoiDungTieuChi.Text = "";
             txtGhiChu.Text = "";
@@ -131,46 +148,7 @@ namespace KiemDinhChatLuongGUI
             remove { updateTieuChi -= value; }
         }
 
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            string tentieuchi = txtTenTieuChi.Text;
-            string noidungtieuchi = txtNoiDungTieuChi.Text;
-            string ghichu = txtGhiChu.Text;
-            string input_1 = Interaction.InputBox("Nhập mã tiêu chí !", "Sửa tiêu chí", "Mã tiêu chí", -1, -1);
-            int matieuchi = Int32.Parse(input_1);
-            string input_2 = Interaction.InputBox("Nhập mã tiêu chuẩn !", "Sửa tiêu chuẩn", "Mã tiêu chuẩn", -1, -1);
-            int matieuchuan = Int32.Parse(input_2);
-
-            if (txtTenTieuChi.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập tên tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenTieuChi.Focus();
-            }
-            else if (txtNoiDungTieuChi.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập nội dung tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoiDungTieuChi.Focus();
-            }
-            else if (MessageBox.Show("Bạn có muốn sửa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (TieuChiBUS.Instance.UpdateTieuChi(matieuchi, matieuchuan, tentieuchi, noidungtieuchi, ghichu))
-                {
-                    MessageBox.Show("Sửa danh mục tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (updateTieuChi != null)
-                    {
-                        updateTieuChi(this, new EventArgs());
-                    }
-                    TieuChiBinding();
-                    LoadListTieuChi();
-                    ResetGiaTri();
-                }
-                else
-                {
-                    MessageBox.Show("Sửa danh mục tiêu chí mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
+        
         private event EventHandler deleteTieuChi;
         public event EventHandler DeleteTieuChi
         {
@@ -178,38 +156,90 @@ namespace KiemDinhChatLuongGUI
             remove { deleteTieuChi -= value; }
         }
 
-        private void btnXoa_Click(object sender, EventArgs e)
+        private void dgvTieuChi_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string input = Interaction.InputBox("Nhập mã tiêu chí !", "Xóa tiêu chí", "Mã tiêu chí", -1, -1);
-            int matieuchi = Int32.Parse(input);
-
-            if (TieuChiBUS.Instance.GetListTieuChi().Count == 0)
+            try
             {
-                MessageBox.Show("Không còn dữ liệu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (MessageBox.Show("Bạn có muốn xóa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (TieuChiBUS.Instance.DeleteTieuChi(matieuchi))
+                if (dgvTieuChi.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
-                    MessageBox.Show("Xóa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (deleteTieuChi != null)
+                    dgvTieuChi.CurrentRow.Selected = true;
+                    string input = dgvTieuChi.Rows[e.RowIndex].Cells["ID_TieuChi"].FormattedValue.ToString();
+                    int id_tieuchi = Int32.Parse(input);
+                    string input_1 = cbxTieuChuan.GetItemText(cbxTieuChuan.SelectedValue);
+                    int id_tieuchuan = Int32.Parse(input_1);
+                    if (MessageBox.Show("Bạn có muốn sửa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        deleteTieuChi(this, new EventArgs());
+                        string matieuchi = txtMaTieuChi.Text;
+                        string tentieuchi = txtTenTieuChi.Text;
+                        string noidungtieuchi = txtNoiDungTieuChi.Text;
+                        string ghichu = txtGhiChu.Text;                        
+
+                        if (txtMaTieuChi.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập mã tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtMaTieuChi.Focus();
+                            return;
+                        }
+                        else if (txtTenTieuChi.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập tên tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenTieuChi.Focus();
+                            return;
+                        }
+                        else if (txtNoiDungTieuChi.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập nội dung tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenTieuChi.Focus();
+                            return;
+                        }
+                        else
+                        {
+                            if (TieuChiBUS.Instance.UpdateTieuChi(id_tieuchi, id_tieuchuan, matieuchi, tentieuchi, noidungtieuchi, ghichu))
+                            {
+                                MessageBox.Show("Sửa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (updateTieuChi != null)
+                                {
+                                    updateTieuChi(this, new EventArgs());
+                                }
+                                TieuChiBinding();
+                                LoadListTieuChi();
+                                ResetGiaTri();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sửa tiêu chí thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                     }
-                    TieuChiBinding();
-                    LoadListTieuChi();
+                    else if (MessageBox.Show("Bạn có muốn xóa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (TieuChiBUS.Instance.DeleteTieuChi(id_tieuchi))
+                        {
+                            MessageBox.Show("Xóa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (deleteTieuChi != null)
+                            {
+                                deleteTieuChi(this, new EventArgs());
+                            }
+                            TieuChiBinding();
+                            LoadListTieuChi();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa tiêu chí thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Xóa tiêu chí thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            catch
+            {
+                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }       
     }
 }

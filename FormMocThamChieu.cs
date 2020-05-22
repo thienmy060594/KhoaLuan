@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using KiemDinhChatLuongBUS;
 using KiemDinhChatLuongDAL;
 using KiemDinhChatLuongDTO;
-using Microsoft.VisualBasic;
 
 namespace KiemDinhChatLuongGUI
 {
@@ -21,9 +20,9 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMocThamChieu.DataSource = MocThamChieuList;
-            LoadListMocThamChieu();
-            btnSua.Enabled = false;
+            LoadListMocThamChieu();            
             btnLuuLai.Enabled = false;
+            txtMaMocThamChieu.Enabled = false;
             txtNoiDungMocThamChieu.Enabled = false;
             txtTenMocThamChieu.Enabled = false;
             txtGhiChu.Enabled = false;
@@ -32,15 +31,16 @@ namespace KiemDinhChatLuongGUI
         private void LoadListMocThamChieu()
         {
             dgvMocThamChieu.DataSource = MocThamChieuBUS.Instance.GetListMocThamChieu();
-            dgvMocThamChieu.Columns[0].HeaderText = "Mã Mốc Tham Chiếu";
-            dgvMocThamChieu.Columns[1].HeaderText = "Tên Mốc Tham Chiếu";
-            dgvMocThamChieu.Columns[2].HeaderText = "Nội Dung Mốc Tham Chiếu";
-            dgvMocThamChieu.Columns[3].HeaderText = "Ghi Chú";
+            dgvMocThamChieu.Columns[0].Visible = false;
+            dgvMocThamChieu.Columns[1].HeaderText = "Mã Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[2].HeaderText = "Tên Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[3].HeaderText = "Nội Dung Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[4].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
-            dgvMocThamChieu.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMocThamChieu.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMocThamChieu.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMocThamChieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMocThamChieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvMocThamChieu.AllowUserToAddRows = false;
             dgvMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
@@ -48,21 +48,23 @@ namespace KiemDinhChatLuongGUI
 
         void MocThamChieuBinding()
         {
+            txtMaMocThamChieu.DataBindings.Clear();
             txtNoiDungMocThamChieu.DataBindings.Clear();
             txtTenMocThamChieu.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
 
-        private void btnThemMoi_Click(object sender, EventArgs e)
+        private void btnBatDau_Click(object sender, EventArgs e)
         {
-            txtNoiDungMocThamChieu.Text = "";
+            txtMaMocThamChieu.Text = "";
             txtTenMocThamChieu.Text = "";
+            txtNoiDungMocThamChieu.Text = "";            
             txtGhiChu.Text = "";
-            txtNoiDungMocThamChieu.Enabled = true;
+            txtMaMocThamChieu.Enabled = true;            
             txtTenMocThamChieu.Enabled = true;
+            txtNoiDungMocThamChieu.Enabled = true;
             txtGhiChu.Enabled = true;
-            btnLuuLai.Enabled = true;
-            btnSua.Enabled = true;
+            btnLuuLai.Enabled = true;            
         }
 
         private event EventHandler insertMocThamChieu;
@@ -74,46 +76,50 @@ namespace KiemDinhChatLuongGUI
 
         private void btnLuuLai_Click(object sender, EventArgs e)
         {
+            string mamocthamchieu = txtMaMocThamChieu.Text;
             string tenmocthamchieu = txtTenMocThamChieu.Text;
             string noidungmocthamchieu = txtNoiDungMocThamChieu.Text;
             string ghichu = txtGhiChu.Text;
 
-            if (txtNoiDungMocThamChieu.Text == "")
+            if (txtMaMocThamChieu.Text == "")
             {
-                MessageBox.Show("Bạn chưa nhập tên mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoiDungMocThamChieu.Focus();
+                MessageBox.Show("Bạn chưa nhập mã mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaMocThamChieu.Focus();
             }
             else if (txtTenMocThamChieu.Text == "")
             {
-                MessageBox.Show("Bạn chưa nhập nội dung mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Bạn chưa nhập tên mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenMocThamChieu.Focus();
+            }
+            else if (txtNoiDungMocThamChieu.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nhập nội dung mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNoiDungMocThamChieu.Focus();
             }
             else if (MessageBox.Show("Bạn có muốn thêm mới mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (MocThamChieuBUS.Instance.InsertMocThamChieu(tenmocthamchieu, noidungmocthamchieu, ghichu))
+                if (MocThamChieuBUS.Instance.InsertMocThamChieu(mamocthamchieu, tenmocthamchieu, noidungmocthamchieu, ghichu))
                 {
-                    MessageBox.Show("Thêm danh mục mốc tham chiếu mới thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertMocThamChieu != null)
                     {
                         insertMocThamChieu(this, new EventArgs());
-                    }
-                    btnLuuLai.Enabled = false;
+                    }                    
                     MocThamChieuBinding();
                     LoadListMocThamChieu();
                     ResetGiaTri();
-                    btnDong.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
+                    btnDong.Enabled = true;                    
                 }
                 else
                 {
-                    MessageBox.Show("Thêm danh mục mốc tham chiếu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         void ResetGiaTri()
         {
+            txtMaMocThamChieu.Text = "";
             txtNoiDungMocThamChieu.Text = "";
             txtTenMocThamChieu.Text = "";
             txtGhiChu.Text = "";
@@ -126,44 +132,6 @@ namespace KiemDinhChatLuongGUI
             remove { updateMocThamChieu -= value; }
         }
 
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            string tenmocthamchieu = txtTenMocThamChieu.Text;
-            string noidungmocthamchieu = txtNoiDungMocThamChieu.Text;
-            string ghichu = txtGhiChu.Text;
-            string input = Interaction.InputBox("Nhập mã mốc tham chiếu !", "Sửa mốc tham chiếu", "Mã mốc tham chiếu", -1, -1);
-            int mamocthamchieu = Int32.Parse(input);
-
-            if (txtNoiDungMocThamChieu.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập tên mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoiDungMocThamChieu.Focus();
-            }
-            else if (txtTenMocThamChieu.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập nội dung mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenMocThamChieu.Focus();
-            }
-            else if (MessageBox.Show("Bạn có muốn sửa mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (MocThamChieuBUS.Instance.UpdateMocThamChieu(mamocthamchieu, tenmocthamchieu, noidungmocthamchieu, ghichu))
-                {
-                    MessageBox.Show("Sửa danh mục mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (updateMocThamChieu != null)
-                    {
-                        updateMocThamChieu(this, new EventArgs());
-                    }
-                    MocThamChieuBinding();
-                    LoadListMocThamChieu();
-                    ResetGiaTri();
-                }
-                else
-                {
-                    MessageBox.Show("Sửa danh mục mốc tham chiếu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private event EventHandler deleteMocThamChieu;
         public event EventHandler DeleteMocThamChieu
         {
@@ -171,39 +139,89 @@ namespace KiemDinhChatLuongGUI
             remove { deleteMocThamChieu -= value; }
         }
 
-        private void btnXoa_Click(object sender, EventArgs e)
+        private void dgvMocThamChieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string input = Interaction.InputBox("Nhập mã mốc tham chiếu !", "Xóa mốc tham chiếu", "Mã mốc tham chiếu", -1, -1);
-            int mamocthamchieu = Int32.Parse(input);
-
-            if (MocThamChieuBUS.Instance.GetListMocThamChieu().Count == 0)
+            try
             {
-                MessageBox.Show("Không còn dữ liệu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (MessageBox.Show("Bạn có muốn xóa mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (MocThamChieuBUS.Instance.DeleteMocThamChieu(mamocthamchieu))
+                if (dgvMocThamChieu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
-                    MessageBox.Show("Xóa mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (deleteMocThamChieu != null)
+                    dgvMocThamChieu.CurrentRow.Selected = true;
+                    string input = dgvMocThamChieu.Rows[e.RowIndex].Cells["ID_MocThamChieu"].FormattedValue.ToString();
+                    int id_mocthamchieu = Int32.Parse(input);                   
+                    if (MessageBox.Show("Bạn có muốn sửa mốc tham chiếu  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        deleteMocThamChieu(this, new EventArgs());
+                        string mamocthamchieu = txtMaMocThamChieu.Text;
+                        string tenmocthamchieu = txtTenMocThamChieu.Text;
+                        string noidungmocthamchieu = txtNoiDungMocThamChieu.Text;
+                        string ghichu = txtGhiChu.Text;
+
+                        if (txtMaMocThamChieu.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập mã mốc tham chiếu  !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtMaMocThamChieu.Focus();
+                            return;
+                        }
+                        else if (txtTenMocThamChieu.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập tên mốc tham chiếu  !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenMocThamChieu.Focus();
+                            return;
+                        }
+                        else if (txtNoiDungMocThamChieu.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập nội dung mốc tham chiếu  !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenMocThamChieu.Focus();
+                            return;
+                        }
+                        else
+                        {
+                            if (MocThamChieuBUS.Instance.UpdateMocThamChieu(id_mocthamchieu, mamocthamchieu, tenmocthamchieu, noidungmocthamchieu, ghichu))
+                            {
+                                MessageBox.Show("Sửa mốc tham chiếu  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (updateMocThamChieu != null)
+                                {
+                                    updateMocThamChieu(this, new EventArgs());
+                                }
+                                MocThamChieuBinding();
+                                LoadListMocThamChieu();
+                                ResetGiaTri();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sửa mốc tham chiếu  thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                     }
-                    MocThamChieuBinding();
-                    LoadListMocThamChieu();
+                    else if (MessageBox.Show("Bạn có muốn xóa mốc tham chiếu  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (MocThamChieuBUS.Instance.DeleteMocThamChieu(id_mocthamchieu))
+                        {
+                            MessageBox.Show("Xóa mốc tham chiếu  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (deleteMocThamChieu != null)
+                            {
+                                deleteMocThamChieu(this, new EventArgs());
+                            }
+                            MocThamChieuBinding();
+                            LoadListMocThamChieu();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Xóa mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            }
+            catch
+            {
+                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }        
     }
 }
 

@@ -9,37 +9,36 @@ namespace KiemDinhChatLuongDTO
 {
     public class LoaiTaiLieuDTO
     {
-        private int maloaitailieu;
-        private int maminhchung;
-        private int manguonminhchung;
-        private string tentailieu;
+        private int id_loaitailieu;
+        private int id_tailieu;
+        private int id_nguonminhchung;
+        private string maloaitailieu;       
+        private string tenloaitailieu;
         private string ghichu;
 
-        public int MaLoaiTaiLieu { get => maloaitailieu; set => maloaitailieu = value; }
-
-        public int MaMinhChung { get => maminhchung; set => maminhchung = value; }
-
-        public int MaNguonMinhChung { get => manguonminhchung; set => manguonminhchung = value; }
-
-        public string TenTaiLieu { get => tentailieu; set => tentailieu = value; }
-
+        public int Id_LoaiTaiLieu { get => id_loaitailieu; set => id_loaitailieu = value; }
+        public int Id_TaiLieu { get => id_tailieu; set => id_tailieu = value; }
+        public int Id_NguonMinhChung { get => id_nguonminhchung; set => id_nguonminhchung = value; }
+        public string MaLoaiTaiLieu { get => maloaitailieu; set => maloaitailieu = value; }        
+        public string TenLoaiTaiLieu { get => tenloaitailieu; set => tenloaitailieu = value; }
         public string GhiChu { get => ghichu; set => ghichu = value; }
-
-        public LoaiTaiLieuDTO(int maloaitailieu, int maminhchung, int manguonminhchung, string tentailieu, string ghichu)
+        public LoaiTaiLieuDTO(int id_loaitailieu,int id_tailieu, int id_nguonminhchung, string maloaitailieu, string tenloaitailieu, string ghichu)
         {
-            this.MaLoaiTaiLieu = maloaitailieu;
-            this.MaMinhChung = maminhchung;
-            this.MaNguonMinhChung = manguonminhchung;
-            this.TenTaiLieu = tentailieu;
+            this.Id_LoaiTaiLieu = id_loaitailieu;
+            this.Id_TaiLieu = id_tailieu;
+            this.Id_NguonMinhChung = id_nguonminhchung;
+            this.MaLoaiTaiLieu = maloaitailieu;            
+            this.TenLoaiTaiLieu = tenloaitailieu;
             this.GhiChu = ghichu;
         }
 
         public LoaiTaiLieuDTO(DataRow row)
         {
-            this.MaLoaiTaiLieu = Int32.Parse(row["MaLoaiTaiLieu"].ToString());
-            this.MaMinhChung = Int32.Parse(row["MaMinhChung"].ToString());
-            this.MaNguonMinhChung = Int32.Parse(row["MaNguonMinhChung"].ToString());
-            this.TenTaiLieu = row["TenTaiLieu"].ToString();
+            this.Id_LoaiTaiLieu = Int32.Parse(row["ID_LoaiTaiLieu"].ToString());
+            this.Id_TaiLieu = Int32.Parse(row["ID_TaiLieu"].ToString());
+            this.Id_NguonMinhChung = Int32.Parse(row["ID_NguonMinhChung"].ToString());
+            this.MaLoaiTaiLieu = row["MaLoaiTaiLieu"].ToString();           
+            this.TenLoaiTaiLieu = row["TenLoaiTaiLieu"].ToString();
             this.GhiChu = row["GhiChu"].ToString();
         }
     }

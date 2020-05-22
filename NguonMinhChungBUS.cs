@@ -25,46 +25,33 @@ namespace KiemDinhChatLuongBUS
         {
             List<NguonMinhChungDTO> List = new List<NguonMinhChungDTO>();
             string query = "SELECT * FROM dbo.NguonMinhChung";
-            DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-            foreach (DataRow dataRow in data.Rows)
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
             {
                 NguonMinhChungDTO nguonMinhChung = new NguonMinhChungDTO(dataRow);
                 List.Add(nguonMinhChung);
             }
             return List;
         }
-        public bool InsertNguonMinhChung(string tennguonminhchung, string noidungnguonminhchung, string ghichu)
+        public bool InsertNguonMinhChung(string manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
         {
-            string query = string.Format("INSERT dbo.NguonMinhChung (TenNguonMinhChung, NoiDungNguonMinhChung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", tennguonminhchung, noidungnguonminhchung, ghichu);
+            string query = string.Format("INSERT dbo.NguonMinhChung (MaNguonMinhChung, TenNguonMinhChung, NoiDungNguonMinhChung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}')", manguonminhchung, tennguonminhchung, noidungnguonminhchung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool UpdateNguonMinhChung(int manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
+        public bool UpdateNguonMinhChung(int id_nguonminhchung, string manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
         {
-            string query = string.Format("UPDATE dbo.NguonMinhChung SET TenNguonMinhChung = N'{1}', NoiDungNguonMinhChung = N'{2}', GhiChu = N'{3}' WHERE MaNguonMinhChung = N'{0}'", manguonminhchung, tennguonminhchung, noidungnguonminhchung, ghichu);
+            string query = string.Format("UPDATE dbo.NguonMinhChung SET MaNguonMinhChung = N'{1}', TenNguonMinhChung = N'{2}', NoiDungNguonMinhChung = N'{3}', GhiChu = N'{4}' WHERE ID_NguonMinhChung = N'{0}'", id_nguonminhchung, manguonminhchung, tennguonminhchung, noidungnguonminhchung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool DeleteNguonMinhChung(int manguonminhchung)
+        public bool DeleteNguonMinhChung(int id_nguonminhchung)
         {
-            string query = string.Format("DELETE dbo.NguonMinhChung WHERE MaNguonMinhChung= N'{0}'", manguonminhchung);
+            string query = string.Format("DELETE dbo.NguonMinhChung WHERE ID_NguonMinhChung= N'{0}'", id_nguonminhchung);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }
-
-        //public List<NguonMinhChungDTO> SearchListNguonMinhChung(string manguonminhchung)
-        //{
-        //    List<NguonMinhChungDTO> List = new List<NguonMinhChungDTO>();
-        //    string query = string.Format("SELECT * FROM dbo.NguonMinhChung WHERE MaNguonMinhChung LIKE N'%' + N'" + manguonminhchung + "' + '%'");
-        //    DataTable data = DataBaseConnection.Instance.ExecuteQuery(query);
-        //    foreach (DataRow dataRow in data.Rows)
-        //    {
-        //        NguonMinhChungDTO nguonMinhChung = new NguonMinhChungDTO(dataRow);
-        //        List.Add(nguonMinhChung);
-        //    }
-        //    return List;
-        //}
+        }        
     }
 }

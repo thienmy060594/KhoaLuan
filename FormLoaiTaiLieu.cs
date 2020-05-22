@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using KiemDinhChatLuongDTO;
 using KiemDinhChatLuongBUS;
 using KiemDinhChatLuongDAL;
-using Microsoft.VisualBasic;
 
 namespace KiemDinhChatLuongGUI
 {    
@@ -21,26 +20,25 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvLoaiTaiLieu.DataSource = LoaiTaiLieuList;
-            LoadListLoaiTaiLieu();
-            btnSua.Enabled = false;
+            LoadListLoaiTaiLieu();            
             btnLuuLai.Enabled = false;
+            txtMaLoaiTaiLieu.Enabled = false;
             txtTenLoaiTaiLieu.Enabled = false;
             txtGhiChu.Enabled = false;
         }
         private void LoadListLoaiTaiLieu()
         {
             dgvLoaiTaiLieu.DataSource = LoaiTaiLieuBUS.Instance.GetListLoaiTaiLieu();
-            dgvLoaiTaiLieu.Columns[0].HeaderText = "Mã Loại Tài Liệu";
-            dgvLoaiTaiLieu.Columns[1].HeaderText = "Mã Minh Chứng";
-            dgvLoaiTaiLieu.Columns[2].HeaderText = "Mã Nguồn Minh Chứng";
-            dgvLoaiTaiLieu.Columns[3].HeaderText = "Tên Loại Tài Liệu";            
-            dgvLoaiTaiLieu.Columns[4].HeaderText = "Ghi Chú";
+            dgvLoaiTaiLieu.Columns[0].Visible = false;
+            dgvLoaiTaiLieu.Columns[1].Visible = false;
+            dgvLoaiTaiLieu.Columns[2].Visible = false;
+            dgvLoaiTaiLieu.Columns[3].HeaderText = "Mã Loại Tài Liệu";            
+            dgvLoaiTaiLieu.Columns[4].HeaderText = "Tên Loại Tài Liệu";            
+            dgvLoaiTaiLieu.Columns[5].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
-            dgvLoaiTaiLieu.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvLoaiTaiLieu.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvLoaiTaiLieu.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvLoaiTaiLieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvLoaiTaiLieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;           
+            dgvLoaiTaiLieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;              
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvLoaiTaiLieu.AllowUserToAddRows = false;
             dgvLoaiTaiLieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
@@ -48,19 +46,31 @@ namespace KiemDinhChatLuongGUI
 
         void LoaiTaiLieuBinding()
         {
+            txtMaLoaiTaiLieu.DataBindings.Clear();
             txtTenLoaiTaiLieu.DataBindings.Clear();            
             txtGhiChu.DataBindings.Clear();
         }
-
-        private void btnThemMoi_Click(object sender, EventArgs e)
+        private void btnBatDau_Click(object sender, EventArgs e)
         {
-            txtTenLoaiTaiLieu.Text = "";            
+            txtMaLoaiTaiLieu.Text = "";
+            txtTenLoaiTaiLieu.Text = "";
             txtGhiChu.Text = "";
-            txtTenLoaiTaiLieu.Enabled = true;            
+            txtMaLoaiTaiLieu.Enabled = true;
+            txtTenLoaiTaiLieu.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
-            btnSua.Enabled = true;
+            FillComBoBox();
         }
+
+        private void FillComBoBox()
+        {
+            cbxMinhChung.DataSource = MinhChungBUS.Instance.GetListMinhChung();
+            cbxMinhChung.ValueMember = "ID_TaiLieu";
+            cbxMinhChung.DisplayMember = "TenTaiLieu";
+            cbxNguonMinhChung.DataSource = NguonMinhChungBUS.Instance.GetListNguonMinhChung();
+            cbxNguonMinhChung.ValueMember = "ID_NguonMinhChung";
+            cbxNguonMinhChung.DisplayMember = "TenNguonMinhChung";
+        }        
 
         private event EventHandler insertLoaiTaiLieu;
         public event EventHandler InsertLoaiTaiLieu
@@ -71,44 +81,43 @@ namespace KiemDinhChatLuongGUI
 
         private void btnLuuLai_Click(object sender, EventArgs e)
         {
+            string maloaitailieu = txtMaLoaiTaiLieu.Text;
             string tenloaitailieu = txtTenLoaiTaiLieu.Text;           
             string ghichu = txtGhiChu.Text;           
-            string input_1 = Interaction.InputBox("Nhập mã minh chứng !", "Sửa minh chứng", "Mã minh chứng", -1, -1);
-            int maminhchung = Int32.Parse(input_1);
-            string input_2 = Interaction.InputBox("Nhập mã nguồn minh chứng !", "Sửa nguồn minh chứng", "Mã nguồn minh chứng", -1, -1);
-            int manguonminhchung = Int32.Parse(input_2);
+            string input_1 = cbxMinhChung.GetItemText(cbxMinhChung.SelectedValue); ;
+            int id_tailieu = Int32.Parse(input_1);
+            string input_2 = cbxNguonMinhChung.GetItemText(cbxNguonMinhChung.SelectedValue); ;
+            int id_nguonminhchung = Int32.Parse(input_2);
 
             if (txtTenLoaiTaiLieu.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenLoaiTaiLieu.Focus();
             }            
-            else if (MessageBox.Show("Bạn có muốn thêm mới loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            else if (MessageBox.Show("Bạn có muốn thêm loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (LoaiTaiLieuBUS.Instance.InsertLoaiTaiLieu(maminhchung, manguonminhchung,tenloaitailieu, ghichu))
+                if (LoaiTaiLieuBUS.Instance.InsertLoaiTaiLieu(id_tailieu, id_nguonminhchung ,maloaitailieu, tenloaitailieu, ghichu))
                 {
-                    MessageBox.Show("Thêm danh mục loại tài liệu mới thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm loại tài liệu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertLoaiTaiLieu != null)
                     {
                         insertLoaiTaiLieu(this, new EventArgs());
-                    }
-                    btnLuuLai.Enabled = false;
+                    }                    
                     LoaiTaiLieuBinding();
                     LoadListLoaiTaiLieu();
                     ResetGiaTri();
-                    btnDong.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
+                    btnDong.Enabled = true;                    
                 }
                 else
                 {
-                    MessageBox.Show("Thêm danh mục loại tài liệu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm loại tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         void ResetGiaTri()
         {
+            txtMaLoaiTaiLieu.Text = "";
             txtTenLoaiTaiLieu.Text = "";            
             txtGhiChu.Text = "";
         }
@@ -119,80 +128,89 @@ namespace KiemDinhChatLuongGUI
             add { updateLoaiTaiLieu += value; }
             remove { updateLoaiTaiLieu -= value; }
         }
-
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            string tenloaitailieu = txtTenLoaiTaiLieu.Text;            
-            string ghichu = txtGhiChu.Text;
-            string input_1 = Interaction.InputBox("Nhập mã loại tài liệu !", "Sửa yêu cầu", "Mã loại tài liệu", -1, -1);
-            int maloaitailieu = Int32.Parse(input_1);
-            string input_2 = Interaction.InputBox("Nhập mã minh chứng !", "Sửa minh chứng", "Mã minh chứng", -1, -1);
-            int maminhchung = Int32.Parse(input_2);
-            string input_3 = Interaction.InputBox("Nhập mã nguồn minh chứng !", "Sửa nguồn minh chứng", "Mã nguồn minh chứng", -1, -1);
-            int manguonminhchung = Int32.Parse(input_3);
-
-            if (txtTenLoaiTaiLieu.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập tên loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenLoaiTaiLieu.Focus();
-            }           
-            else if (MessageBox.Show("Bạn có muốn sửa loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (LoaiTaiLieuBUS.Instance.UpdateLoaiTaiLieu(maloaitailieu, maminhchung, manguonminhchung, tenloaitailieu, ghichu))
-                {
-                    MessageBox.Show("Sửa danh mục loại tài liệu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (updateLoaiTaiLieu != null)
-                    {
-                        updateLoaiTaiLieu(this, new EventArgs());
-                    }
-                    LoaiTaiLieuBinding();
-                    LoadListLoaiTaiLieu();
-                    ResetGiaTri();
-                }
-                else
-                {
-                    MessageBox.Show("Sửa danh mục loại tài liệu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
+               
         private event EventHandler deleteLoaiTaiLieu;
         public event EventHandler DeleteLoaiTaiLieu
         {
             add { deleteLoaiTaiLieu += value; }
             remove { deleteLoaiTaiLieu -= value; }
-        }
+        }               
 
-
-        private void btnXoa_Click(object sender, EventArgs e)
+        private void dgvLoaiTaiLieu_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string input = Interaction.InputBox("Nhập mã loại tài liệu !", "Xóa loại tài liệu", "Mã loại tài liệu", -1, -1);
-            int maloaitailieu = Int32.Parse(input);
 
-            if (LoaiTaiLieuBUS.Instance.GetListLoaiTaiLieu().Count == 0)
+            try
             {
-                MessageBox.Show("Không còn dữ liệu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (MessageBox.Show("Bạn có muốn xóa loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (LoaiTaiLieuBUS.Instance.DeleteLoaiTaiLieu(maloaitailieu))
+                if (dgvLoaiTaiLieu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
-                    MessageBox.Show("Xóa loại tài liệu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (deleteLoaiTaiLieu != null)
+                    dgvLoaiTaiLieu.CurrentRow.Selected = true;
+                    string input = dgvLoaiTaiLieu.Rows[e.RowIndex].Cells["ID_LoaiTaiLieu"].FormattedValue.ToString();
+                    int id_loaitailieu = Int32.Parse(input);
+                    if (MessageBox.Show("Bạn có muốn sửa loại tài liệu  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        deleteLoaiTaiLieu(this, new EventArgs());
+                        string maloaitailieu = txtMaLoaiTaiLieu.Text;
+                        string tenloaitailieu = txtTenLoaiTaiLieu.Text;
+                        string ghichu = txtGhiChu.Text;
+                        string input_1 = cbxMinhChung.GetItemText(cbxMinhChung.SelectedValue); ;
+                        int id_tailieu = Int32.Parse(input_1);
+                        string input_2 = cbxNguonMinhChung.GetItemText(cbxNguonMinhChung.SelectedValue); ;
+                        int id_nguonminhchung = Int32.Parse(input_2);
+
+                        if (txtMaLoaiTaiLieu.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa mã loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtMaLoaiTaiLieu.Focus();
+                        }
+                        else if (txtTenLoaiTaiLieu.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập tên loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenLoaiTaiLieu.Focus();
+                        }                        
+                        else
+                        {
+                            if (LoaiTaiLieuBUS.Instance.UpdateLoaiTaiLieu(id_loaitailieu, id_tailieu, id_nguonminhchung, maloaitailieu, tenloaitailieu, ghichu))
+                            {
+                                MessageBox.Show("Sửa loại tài liệu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (updateLoaiTaiLieu != null)
+                                {
+                                    updateLoaiTaiLieu(this, new EventArgs());
+                                }
+                                LoaiTaiLieuBinding();
+                                LoadListLoaiTaiLieu();
+                                ResetGiaTri();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sửa loại tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                     }
-                    LoaiTaiLieuBinding();
-                    LoadListLoaiTaiLieu();
-                }
-                else
-                {
-                    MessageBox.Show("Xóa loại tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else if (MessageBox.Show("Bạn có muốn xóa loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (LoaiTaiLieuBUS.Instance.DeleteLoaiTaiLieu(id_loaitailieu))
+                        {
+                            MessageBox.Show("Xóa loại tài liệu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (deleteLoaiTaiLieu != null)
+                            {
+                                deleteLoaiTaiLieu(this, new EventArgs());
+                            }
+                            LoaiTaiLieuBinding();
+                            LoadListLoaiTaiLieu();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa loại tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
-        }
+            catch
+            {
+                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
+        }
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -21,9 +21,9 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvYeuCau.DataSource = YeuCauList;
-            LoadListYeuCau();
-            btnSua.Enabled = false;
+            LoadListYeuCau();            
             btnLuuLai.Enabled = false;
+            txtMaYeuCau.Enabled = false;
             txtNoiDungYeuCau.Enabled = false;
             txtTenYeuCau.Enabled = false;
             txtGhiChu.Enabled = false;
@@ -31,38 +31,29 @@ namespace KiemDinhChatLuongGUI
         private void LoadListYeuCau()
         {
             dgvYeuCau.DataSource = YeuCauBUS.Instance.GetListYeuCau();
-            dgvYeuCau.Columns[0].HeaderText = "Mã Yêu Cầu";
-            dgvYeuCau.Columns[1].HeaderText = "Tên Yêu Cầu";
-            dgvYeuCau.Columns[2].HeaderText = "Nội Yêu Cầu";
-            dgvYeuCau.Columns[3].HeaderText = "Ghi Chú";
+            dgvYeuCau.Columns[0].Visible = false;
+            dgvYeuCau.Columns[1].HeaderText = "Mã Yêu Cầu";
+            dgvYeuCau.Columns[2].HeaderText = "Tên Yêu Cầu";
+            dgvYeuCau.Columns[3].HeaderText = "Nội Dung Yêu Cầu";
+            dgvYeuCau.Columns[4].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
-            dgvYeuCau.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvYeuCau.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvYeuCau.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvYeuCau.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCau.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvYeuCau.AllowUserToAddRows = false;
             dgvYeuCau.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
         }
 
         void YeuCauBinding()
-        {            
+        {
+            txtMaYeuCau.DataBindings.Clear();
             txtTenYeuCau.DataBindings.Clear();
             txtNoiDungYeuCau.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
-
-        private void btnThemMoi_Click(object sender, EventArgs e)
-        {            
-            txtTenYeuCau.Text = "";
-            txtNoiDungYeuCau.Text = "";
-            txtGhiChu.Text = "";            
-            txtTenYeuCau.Enabled = true;
-            txtNoiDungYeuCau.Enabled = true;
-            txtGhiChu.Enabled = true;
-            btnLuuLai.Enabled = true;
-            btnSua.Enabled = true;
-        }
+        
 
         private event EventHandler insertYeuCau;
         public event EventHandler InsertYeuCau
@@ -73,11 +64,17 @@ namespace KiemDinhChatLuongGUI
 
         private void btnLuuLai_Click(object sender, EventArgs e)
         {
+            string mayeucau = txtMaYeuCau.Text;
             string tenyeucau = txtTenYeuCau.Text;
             string noidungyeucau = txtNoiDungYeuCau.Text;
             string ghichu = txtGhiChu.Text;
 
-            if (txtTenYeuCau.Text == "")
+            if (txtMaYeuCau.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nhập mã yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaYeuCau.Focus();
+            }
+            else if (txtTenYeuCau.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenYeuCau.Focus();
@@ -87,35 +84,46 @@ namespace KiemDinhChatLuongGUI
                 MessageBox.Show("Bạn chưa nhập nội dung yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungYeuCau.Focus();
             }
-            else if (MessageBox.Show("Bạn có muốn thêm mới yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            else if (MessageBox.Show("Bạn có muốn thêm yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (YeuCauBUS.Instance.InsertYeuCau(tenyeucau, noidungyeucau, ghichu))
+                if (YeuCauBUS.Instance.InsertYeuCau(mayeucau, tenyeucau, noidungyeucau, ghichu))
                 {
-                    MessageBox.Show("Thêm danh mục yêu cầu mới thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertYeuCau != null)
                     {
                         insertYeuCau(this, new EventArgs());
-                    }
-                    btnLuuLai.Enabled = false;
+                    }                   
                     YeuCauBinding();
                     LoadListYeuCau();
                     ResetGiaTri();
-                    btnDong.Enabled = true;
-                    btnSua.Enabled = true;
-                    btnXoa.Enabled = true;
+                    btnDong.Enabled = true;                    
                 }
                 else
                 {
-                    MessageBox.Show("Thêm danh mục yêu cầu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm yêu cầu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }      
         }
 
         void ResetGiaTri()
         {
+            txtMaYeuCau.Text = "";
             txtTenYeuCau.Text = "";
             txtNoiDungYeuCau.Text = "";
             txtGhiChu.Text = "";
+        } 
+        
+        private void btnBatDau_Click(object sender, EventArgs e)
+        {
+            txtMaYeuCau.Text = "";
+            txtTenYeuCau.Text = "";
+            txtNoiDungYeuCau.Text = "";
+            txtGhiChu.Text = "";
+            txtMaYeuCau.Enabled = true;
+            txtTenYeuCau.Enabled = true;
+            txtNoiDungYeuCau.Enabled = true;
+            txtGhiChu.Enabled = true;
+            btnLuuLai.Enabled = true;
         }
 
         private event EventHandler updateYeuCau;
@@ -123,85 +131,99 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateYeuCau += value; }
             remove { updateYeuCau -= value; }
-        }
-
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            string tenyeucau = txtTenYeuCau.Text;
-            string noidungyeucau = txtNoiDungYeuCau.Text;
-            string ghichu = txtGhiChu.Text;
-            string input = Interaction.InputBox("Nhập mã yêu cầu !", "Sửa yêu cầu", "Mã yêu cầu", -1, -1);
-            int mayeucau = Int32.Parse(input);
-
-            if (txtTenYeuCau.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập tên yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenYeuCau.Focus();
-            }
-            else if (txtNoiDungYeuCau.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập nội dung yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoiDungYeuCau.Focus();
-            }
-            else if (MessageBox.Show("Bạn có muốn sửa yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (YeuCauBUS.Instance.UpdateYeuCau(mayeucau, tenyeucau, noidungyeucau, ghichu))
-                {
-                    MessageBox.Show("Sửa danh mục yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (updateYeuCau != null)
-                    {
-                        updateYeuCau(this, new EventArgs());
-                    }
-                    YeuCauBinding();
-                    LoadListYeuCau();
-                    ResetGiaTri();
-                }
-                else
-                {
-                    MessageBox.Show("Sửa danh mục yêu cầu mới thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        }        
 
         private event EventHandler deleteYeuCau;
         public event EventHandler DeleteYeuCau
         {
             add { deleteYeuCau += value; }
             remove { deleteYeuCau -= value; }
-        }
-
-        private void btnXoa_Click(object sender, EventArgs e)
+        } 
+        
+        private void dgvYeuCau_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            string input = Interaction.InputBox("Nhập mã yêu cầu !", "Xóa yêu cầu", "Mã yêu cầu", -1, -1);
-            int mayeucau = Int32.Parse(input);
-
-            if (YeuCauBUS.Instance.GetListYeuCau().Count == 0)
+            try
             {
-                MessageBox.Show("Không còn dữ liệu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (MessageBox.Show("Bạn có muốn xóa yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {
-                if (YeuCauBUS.Instance.DeleteYeuCau(mayeucau))
+                if (dgvYeuCau.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
-                    MessageBox.Show("Xóa yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    if (deleteYeuCau != null)
+                    dgvYeuCau.CurrentRow.Selected = true;
+                    string input = dgvYeuCau.Rows[e.RowIndex].Cells["ID_YeuCau"].FormattedValue.ToString();
+                    int id_yeucau = Int32.Parse(input);
+                    if (MessageBox.Show("Bạn có muốn sửa yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        deleteYeuCau(this, new EventArgs());
+                        string mayeucau = txtMaYeuCau.Text;
+                        string tenyeucau = txtTenYeuCau.Text;
+                        string noidungyeucau = txtNoiDungYeuCau.Text;
+                        string ghichu = txtGhiChu.Text;
+
+                        if (txtMaYeuCau.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập mã yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtMaYeuCau.Focus();
+                            return;
+                        }
+                        else if (txtTenYeuCau.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập tên yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtTenYeuCau.Focus();
+                            return;
+                        }
+                        else if (txtNoiDungYeuCau.Text == "")
+                        {
+                            MessageBox.Show("Bạn chưa nhập nội dung yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtNoiDungYeuCau.Focus();
+                            return;
+                        }
+                        else
+                        {
+                            if (YeuCauBUS.Instance.UpdateYeuCau(id_yeucau, mayeucau, tenyeucau, noidungyeucau, ghichu))
+                            {
+                                MessageBox.Show("Sửa yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (updateYeuCau != null)
+                                {
+                                    updateYeuCau(this, new EventArgs());
+                                }
+                                YeuCauBinding();
+                                LoadListYeuCau();
+                                ResetGiaTri();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Sửa yêu cầu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                     }
-                    YeuCauBinding();
-                    LoadListYeuCau();
-                }
-                else
-                {
-                    MessageBox.Show("Xóa yêu cầu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else if (MessageBox.Show("Bạn có muốn xóa yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (YeuCauBUS.Instance.DeleteYeuCau(id_yeucau))
+                        {
+                            MessageBox.Show("Xóa yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (deleteYeuCau != null)
+                            {
+                                deleteYeuCau(this, new EventArgs());
+                            }
+                            YeuCauBinding();
+                            LoadListYeuCau();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xóa yêu cầu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             }
-        }
+            catch
+            {
+                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }       
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+       
     }
 }

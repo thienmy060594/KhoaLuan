@@ -9,21 +9,21 @@ namespace KiemDinhChatLuongDTO
 {
     public class NguonMinhChungDTO
     {
-        private int manguonminhchung;
+        private int id_nguonminhchung;
+        private string manguonminhchung;
         private string tennguonminhchung;
         private string noidungnguonminhchung;
         private string ghichu;
 
-        public int MaNguonMinhChung { get => manguonminhchung; set => manguonminhchung = value; }        
-
+        public int Id_NguonMinhChung { get => id_nguonminhchung; set => id_nguonminhchung = value; }
+        public string MaNguonMinhChung { get => manguonminhchung; set => manguonminhchung = value; }       
         public string TenNguonMinhChung { get => tennguonminhchung; set => tennguonminhchung = value; }
-
         public string NoiDungNguonMinhChung { get => noidungnguonminhchung; set => noidungnguonminhchung = value; }
-
         public string GhiChu { get => ghichu; set => ghichu = value; }
 
-        public NguonMinhChungDTO(int manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
+        public NguonMinhChungDTO(int id_nguonminhchung, string manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
         {
+            this.Id_NguonMinhChung = Id_NguonMinhChung;
             this.MaNguonMinhChung = manguonminhchung;
             this.TenNguonMinhChung = tennguonminhchung;
             this.NoiDungNguonMinhChung = noidungnguonminhchung;
@@ -32,7 +32,8 @@ namespace KiemDinhChatLuongDTO
 
         public NguonMinhChungDTO(DataRow row)
         {
-            this.MaNguonMinhChung = Int32.Parse(row["MaNguonMinhChung"].ToString());            
+            this.Id_NguonMinhChung = Int32.Parse(row["ID_NguonMinhChung"].ToString());
+            this.MaNguonMinhChung = row["MaNguonMinhChung"].ToString();            
             this.TenNguonMinhChung = row["TenNguonMinhChung"].ToString();
             this.NoiDungNguonMinhChung = row["NoiDungNguonMinhChung"].ToString();
             this.GhiChu = row["GhiChu"].ToString();
