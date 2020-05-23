@@ -47,9 +47,9 @@ namespace KiemDinhChatLuongBUS
             return result > 0;
         }
 
-        public bool DeleteMinhChung(int id_tailie)
+        public bool DeleteMinhChung(int id_tailieu)
         {
-            string query = string.Format("DELETE dbo.MinhChung WHERE ID_TaiLieu= N'{0}'", id_tailie);
+            string query = string.Format("DELETE dbo.MinhChung WHERE ID_TaiLieu = N'{0}'", id_tailieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }        

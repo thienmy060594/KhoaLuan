@@ -9,7 +9,7 @@ using KiemDinhChatLuongDTO;
 
 namespace KiemDinhChatLuongBUS
 {
-    class NguonMinhChung_MinhChungBUS
+    public class NguonMinhChung_MinhChungBUS
     {
         private static NguonMinhChung_MinhChungBUS instance;
 
@@ -24,7 +24,9 @@ namespace KiemDinhChatLuongBUS
         public List<NguonMinhChung_MinhChungDTO> GetListNguonMinhChung_MinhChung()
         {
             List<NguonMinhChung_MinhChungDTO> List = new List<NguonMinhChung_MinhChungDTO>();
-            string query = "SELECT * FROM dbo.NguonMinhChung_MinhChung";
+            string query = "SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
+                           "FROM dbo.NguonMinhChung_MinhChung NMChungMChung, dbo.NguonMinhChung NMChung, dbo.MinhChung MChung " +
+                           "WHERE NMChung.ID_NguonMinhChung = MChung.ID_TaiLieu";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -33,9 +35,16 @@ namespace KiemDinhChatLuongBUS
             }
             return List;
         }
-        public bool InsertNguonMinhChung_MinhChung(int id_nguonminhchung, int id_minhchung, string ghichu)
+        public bool InsertNguonMinhChung_MinhChung(int id_nguonminhchung, int id_tailieu, string ghichu)
         {
-            string query = string.Format("INSERT dbo.NguonMinhChung_MinhChung (ID_NguonMinhChung, ID_MinhChung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", id_nguonminhchung, id_minhchung, ghichu);
+            string query = string.Format("INSERT dbo.NguonMinhChung_MinhChung (ID_NguonMinhChung, ID_TaiLieu, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", id_nguonminhchung, id_tailieu, ghichu);
+            int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool DeleteNguonMinhChung_MinhChung(int id_nguonminhchung, int id_tailieu)
+        {
+            string query = string.Format("DELETE dbo.YeuCau_MocThamChieu WHERE ID_YeuCau = N'{0}' AND ID_MocThamChieu = N'{1}' ", id_nguonminhchung, id_tailieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }

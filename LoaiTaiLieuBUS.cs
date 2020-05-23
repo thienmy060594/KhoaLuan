@@ -24,7 +24,9 @@ namespace KiemDinhChatLuongBUS
         public List<LoaiTaiLieuDTO> GetListLoaiTaiLieu()
         {
             List<LoaiTaiLieuDTO> List = new List<LoaiTaiLieuDTO>();
-            string query = "SELECT * FROM dbo.LoaiTaiLieu";
+            string query = "SELECT LTLieu.ID_LoaiTaiLieu, MChung.ID_TaiLieu, NMChung.ID_NguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, LTLieu.MaLoaiTaiLieu, LTLieu.TenLoaiTaiLieu, LTLieu.GhiChu " +
+                            "FROM dbo.LoaiTaiLieu LTLieu, dbo.MinhChung MChung, dbo.NguonMinhChung NMChung " +
+                            "WHERE MChung.ID_TaiLieu = NMChung.ID_NguonMinhChung";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

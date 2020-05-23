@@ -51,7 +51,7 @@ namespace KiemDinhChatLuongBUS
 
         public bool DeleteTieuChi(int id_tieuchi)
         {
-            string query = string.Format("DELETE dbo.TieuChi WHERE ID_TieuChi= N'{0}'", id_tieuchi);
+            string query = string.Format("DELETE dbo.TieuChi WHERE ID_TieuChi = N'{0}'", id_tieuchi);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }        

@@ -24,7 +24,9 @@ namespace KiemDinhChatLuongBUS
         public List<TieuChi_YeuCauDTO> GetListTieuChi_YeuCau()
         {
             List<TieuChi_YeuCauDTO> List = new List<TieuChi_YeuCauDTO>();
-            string query = "SELECT * FROM dbo.TieuChi_YeuCau";
+            string query = "SELECT TChiYCau.ID_TieuChi, TChiYCau.ID_YeuCau, TChi.MaTieuChi, TChi.TenTieuChi, YCau.MaYeuCau, YCau.TenYeuCau, TChiYCau.GhiChu " +
+                            "FROM dbo.TieuChi_YeuCau TChiYCau, dbo.TieuChi TChi, dbo.YeuCau YCau " +
+                            "WHERE TChi.ID_TieuChi = YCau.ID_YeuCau ";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -38,6 +40,13 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("INSERT dbo.LoaiTaiLieu (ID_TieuChi, ID_YeuCau, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", id_tieuchi, id_yeucau, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }           
+        }
+
+        public bool DeleteTieuChi_YeuCau(int id_tieuchi, int id_yeucau)
+        {
+            string query = string.Format("DELETE dbo.TieuChi_YeuCau WHERE ID_TieuChi = N'{0}' AND ID_YeuCau = N'{1}' ", id_tieuchi, id_yeucau);
+            int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
+            return result > 0;
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace KiemDinhChatLuongBUS
 
         public bool DeleteMocThamChieu(int id_mocthamchieu)
         {
-            string query = string.Format("DELETE dbo.MocThamChieu WHERE ID_MocThamChieu= N'{0}'", id_mocthamchieu);
+            string query = string.Format("DELETE dbo.MocThamChieu WHERE ID_MocThamChieu = N'{0}'", id_mocthamchieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
