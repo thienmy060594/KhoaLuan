@@ -85,16 +85,29 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã nguồn minh chứng !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaNguonMinhChung.Focus();
+                return;
             }
             else if (txtTenNguonMinhChung.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên nguồn minh chứng !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenNguonMinhChung.Focus();
+                return;
             }
             else if (txtNoiDungNguonMinhChung.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung nguồn minh chứng !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungNguonMinhChung.Focus();
+                return;
+            }
+            else if (txtMaNguonMinhChung.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.NguonMinhChung NMChung WHERE NMChung.MaNguonMinhChung = N'{0}'", manguonminhchung);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã nguồn minh chứng đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaNguonMinhChung.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm nguồn minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {

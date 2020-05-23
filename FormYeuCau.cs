@@ -73,16 +73,29 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaYeuCau.Focus();
+                return;
             }
             else if (txtTenYeuCau.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenYeuCau.Focus();
+                return;
             }
             else if (txtNoiDungYeuCau.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung yêu cầu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungYeuCau.Focus();
+                return;
+            }
+            else if (txtMaYeuCau.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.YeuCau YCau WHERE YCau.MaYeuCau = N'{0}'", mayeucau);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã yêu cầu đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaYeuCau.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {

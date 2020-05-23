@@ -32,13 +32,21 @@ namespace KiemDinhChatLuongGUI
             dgvLoaiTaiLieu.Columns[0].Visible = false;
             dgvLoaiTaiLieu.Columns[1].Visible = false;
             dgvLoaiTaiLieu.Columns[2].Visible = false;
-            dgvLoaiTaiLieu.Columns[3].HeaderText = "Mã Loại Tài Liệu";            
-            dgvLoaiTaiLieu.Columns[4].HeaderText = "Tên Loại Tài Liệu";            
-            dgvLoaiTaiLieu.Columns[5].HeaderText = "Ghi Chú";
+            dgvLoaiTaiLieu.Columns[3].HeaderText = "Mã Tài Liệu";
+            dgvLoaiTaiLieu.Columns[4].HeaderText = "Tên Tài Liệu";
+            dgvLoaiTaiLieu.Columns[5].HeaderText = "Mã Nguồn Minh Chứng";
+            dgvLoaiTaiLieu.Columns[6].HeaderText = "Tên Nguồn Minh Chứng";            
+            dgvLoaiTaiLieu.Columns[7].HeaderText = "Mã Loại Tài Liệu";            
+            dgvLoaiTaiLieu.Columns[8].HeaderText = "Tên Loại Tài Liệu";            
+            dgvLoaiTaiLieu.Columns[9].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
             dgvLoaiTaiLieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvLoaiTaiLieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvLoaiTaiLieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;              
+            dgvLoaiTaiLieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;           
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvLoaiTaiLieu.AllowUserToAddRows = false;
             dgvLoaiTaiLieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
@@ -209,8 +217,8 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
         }
+
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();

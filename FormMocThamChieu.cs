@@ -85,16 +85,29 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaMocThamChieu.Focus();
+                return;
             }
             else if (txtTenMocThamChieu.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenMocThamChieu.Focus();
+                return;
             }
             else if (txtNoiDungMocThamChieu.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung mốc tham chiếu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungMocThamChieu.Focus();
+                return;
+            }
+            else if (txtMaMocThamChieu.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.MocThamChieu MTChieu WHERE MTChieu.MaMocThamChieu = N'{0}'", mamocthamchieu);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã mốc tham chiếu đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaMocThamChieu.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm mới mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {

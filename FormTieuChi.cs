@@ -101,16 +101,29 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaTieuChi.Focus();
+                return;
             }
             else if (txtTenTieuChi.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTieuChi.Focus();
+                return;
             }
             else if (txtNoiDungTieuChi.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungTieuChi.Focus();
+                return;
+            }
+            else if (txtMaTieuChi.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.TieuChi TChi WHERE TChi.MaTieuChi = N'{0}'", matieuchi);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã tiêu chí đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTieuChi.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {

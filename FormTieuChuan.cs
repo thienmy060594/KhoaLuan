@@ -27,7 +27,6 @@ namespace KiemDinhChatLuongGUI
             txtMaTieuChuan.Enabled = false;
             txtNoiDungTieuChuan.Enabled = false;
             txtGhiChu.Enabled = false;
-
         }
 
         private void LoadListTieuChuan()
@@ -88,16 +87,29 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaTieuChuan.Focus();
+                return;
             }
             else if (txtTenTieuChuan.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTieuChuan.Focus();
+                return;
             }
             else if (txtNoiDungTieuChuan.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNoiDungTieuChuan.Focus();
+                return;
+            }
+            else if (txtMaTieuChuan.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.TieuChuan TChuan WHERE TChuan.MaTieuChuan = N'{0}'", matieuchuan);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã tiêu chuẩn đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTieuChuan.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {

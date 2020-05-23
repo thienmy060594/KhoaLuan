@@ -112,36 +112,53 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập mã tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMaTaiLieu.Focus();
+                return;
             }
             else if (txtTenTaiLieu.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenTaiLieu.Focus();
+                return;
             }
             else if (txtNgayKy.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập ngày ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNgayKy.Focus();
+                return;
             }
             else if (txtNguoiKy.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập người ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNguoiKy.Focus();
+                return;
             }
             else if (txtSoBanHanh.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập số ban hành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtSoBanHanh.Focus();
+                return;
             }
             else if (txtTomTatNoiDung.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tóm tắt nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTomTatNoiDung.Focus();
+                return;
             }
             else if (txtDuongLink.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập đường link !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDuongLink.Focus();
+                return;
+            }
+            else if (txtMaTaiLieu.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã tài liệu này đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTaiLieu.Focus();
+                    return;
+                }
             }
             else if (MessageBox.Show("Bạn có muốn thêm minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
