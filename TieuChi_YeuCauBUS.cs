@@ -37,14 +37,21 @@ namespace KiemDinhChatLuongBUS
         }
         public bool InsertTieuChi_YeuCau(int id_tieuchi, int id_yeucau, string ghichu)
         {
-            string query = string.Format("INSERT dbo.LoaiTaiLieu (ID_TieuChi, ID_YeuCau, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", id_tieuchi, id_yeucau, ghichu);
+            string query = string.Format("INSERT dbo.TieuChi_YeuCau (ID_TieuChi, ID_YeuCau, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}')", id_tieuchi, id_yeucau, ghichu);
+            int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
+            return result > 0;
+        }
+
+        public bool UpdateTieuChi_YeuCau(int id_tieuchi, int id_yeucau, string ghichu)
+        {
+            string query = string.Format("UPDATE dbo.TieuChi_YeuCau SET GhiChu = N'{2}' WHERE ID_TieuChi = N'{0}' AND ID_YeuCau = N'{1}'", id_tieuchi, id_yeucau, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
         public bool DeleteTieuChi_YeuCau(int id_tieuchi, int id_yeucau)
         {
-            string query = string.Format("DELETE dbo.TieuChi_YeuCau WHERE ID_TieuChi = N'{0}' AND ID_YeuCau = N'{1}' ", id_tieuchi, id_yeucau);
+            string query = string.Format("DELETE dbo.TieuChi_YeuCau WHERE ID_TieuChi = N'{0}' AND ID_YeuCau = N'{1}'", id_tieuchi, id_yeucau);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }

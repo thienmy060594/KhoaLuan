@@ -42,9 +42,16 @@ namespace KiemDinhChatLuongBUS
             return result > 0;
         }
 
+        public bool UpdateTieuChi_NguonMinhChung(int id_tieuchi, int id_nguonminhchung, string ghichu)
+        {
+            string query = string.Format("UPDATE dbo.TieuChi_NguonMinhChung SET GhiChu = N'{2}' WHERE ID_TieuChi = N'{0}' AND ID_NguonMinhChung = N'{1}'", id_tieuchi, id_nguonminhchung, ghichu);
+            int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
+            return result > 0;
+        }
+
         public bool DeleteTieuChi_NguonMinhChung(int id_tieuchi, int id_nguonminhchung)
         {
-            string query = string.Format("DELETE dbo.YeuCau_MocThamChieu WHERE ID_YeuCau = N'{0}' AND ID_MocThamChieu = N'{1}' ", id_tieuchi, id_nguonminhchung);
+            string query = string.Format("DELETE dbo.TieuChi_NguonMinhChung WHERE ID_TieuChi = N'{0}' AND ID_NguonMinhChung = N'{1}'", id_tieuchi, id_nguonminhchung);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
