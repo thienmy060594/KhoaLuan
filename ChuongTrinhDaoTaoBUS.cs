@@ -25,9 +25,9 @@ namespace KiemDinhChatLuongBUS
         public List<ChuongTrinhDaoTaoDTO> GetListChuongTrinhDaoTao()
         {
             List<ChuongTrinhDaoTaoDTO> List = new List<ChuongTrinhDaoTaoDTO>();
-            string query = "SELECT CTrinhDTao.ID_ChuongTrinhDaoTao, CTrinhDTao.ID_Nganh, N.MaNganh, N.TenNganh, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu " +
-                           "FROM dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.Nganh N " +
-                           "WHERE CTrinhDTao.ID_Nganh = N.ID_Nganh";
+            string query = "SELECT CTrinhDTao.ID_ChuongTrinhDaoTao, CTrinhDTao.ID_Nganh, CTrinhDTao.ID_TaiLieu, N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu " +
+                           "FROM dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.Nganh N, dbo.MinhChung MChung " +
+                           "WHERE CTrinhDTao.ID_Nganh = N.ID_Nganh AND CTrinhDTao.ID_TaiLieu = MChung.ID_TaiLieu";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -36,16 +36,16 @@ namespace KiemDinhChatLuongBUS
             }
             return List;
         }
-        public bool InsertChuongTrinhDaoTao(int id_nganh, string machuongtrinhdaotao, string namky, string namapdung, string tomtatnoidung, string ghichu)
+        public bool InsertChuongTrinhDaoTao(int id_nganh, int id_tailieu, string machuongtrinhdaotao, string namky, string namapdung, string tomtatnoidung, string ghichu)
         {
-            string query = string.Format("INSERT dbo.ChuongTrinhDaoTao (ID_Nganh, MaChuongTrinhDaoTao, NamKy, NamApDung, TomTatNoiDung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}')", id_nganh, machuongtrinhdaotao, tomtatnoidung, namky, namapdung, tomtatnoidung, ghichu);
+            string query = string.Format("INSERT dbo.ChuongTrinhDaoTao (ID_Nganh, ID_TaiLieu, MaChuongTrinhDaoTao, NamKy, NamApDung, TomTatNoiDung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}, N'{6}')", id_nganh, id_tailieu, machuongtrinhdaotao, tomtatnoidung, namky, namapdung, tomtatnoidung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool UpdateChuongTrinhDaoTao(int id_chuongtrinhdaotao, int id_nganh, string machuongtrinhdaotao, string namky, string namapdung, string tomtatnoidung, string ghichu)
+        public bool UpdateChuongTrinhDaoTao(int id_chuongtrinhdaotao, int id_nganh, int id_tailieu, string machuongtrinhdaotao, string namky, string namapdung, string tomtatnoidung, string ghichu)
         {
-            string query = string.Format("UPDATE dbo.ChuongTrinhDaoTao SET ID_Nganh = N'{1}', MaChuongTrinhDaoTao = N'{2}', NamKy = N'{3}', NamApDung = N'{4}', TomTatNoiDung = N'{3}', GhiChu = N'{4}' WHERE ID_ChuongTrinhDaoTao = N'{0}'", id_chuongtrinhdaotao, id_nganh, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu);
+            string query = string.Format("UPDATE dbo.ChuongTrinhDaoTao SET ID_Nganh = N'{1}', ID_TaiLieu = N'{2}', MaChuongTrinhDaoTao = N'{3}', NamKy = N'{4}', NamApDung = N'{5}', TomTatNoiDung = N'{6}', GhiChu = N'{7}' WHERE ID_ChuongTrinhDaoTao = N'{0}'", id_chuongtrinhdaotao, id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
