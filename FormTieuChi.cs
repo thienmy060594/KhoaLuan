@@ -21,12 +21,13 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChi.DataSource = TieuChiList;
-            LoadListTieuChi();           
-            btnLuuLai.Enabled = false;
-            txtTenTieuChi.Enabled = false;
+            LoadListTieuChi();          
             txtMaTieuChi.Enabled = false;
+            txtTenTieuChi.Enabled = false;
             txtNoiDungTieuChi.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;           
+           
         }
 
         private void LoadListTieuChi()
@@ -59,6 +60,7 @@ namespace KiemDinhChatLuongGUI
             txtNoiDungTieuChi.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
+
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             txtMaTieuChi.Text = "";
@@ -77,8 +79,7 @@ namespace KiemDinhChatLuongGUI
         {            
             cbxTieuChuan.DataSource = TieuChuanBUS.Instance.GetListTieuChuan();
             cbxTieuChuan.ValueMember = "ID_TieuChuan";
-            cbxTieuChuan.DisplayMember = "TenTieuChuan";
-                    
+            cbxTieuChuan.DisplayMember = "TenTieuChuan";                    
         }       
 
         private event EventHandler insertTieuChuan;

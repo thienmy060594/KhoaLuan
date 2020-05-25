@@ -66,22 +66,22 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(986, 135);
+            this.groupBox1.Size = new System.Drawing.Size(1032, 135);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi Tiết Tiêu Chí";
             // 
             // txtGhiChu
             // 
-            this.txtGhiChu.Location = new System.Drawing.Point(199, 93);
+            this.txtGhiChu.Location = new System.Drawing.Point(219, 93);
             this.txtGhiChu.Name = "txtGhiChu";
             this.txtGhiChu.Size = new System.Drawing.Size(304, 28);
-            this.txtGhiChu.TabIndex = 6;
+            this.txtGhiChu.TabIndex = 4;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(41, 96);
+            this.label5.Location = new System.Drawing.Point(61, 96);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 21);
             this.label5.TabIndex = 7;
@@ -90,7 +90,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(509, 63);
+            this.label11.Location = new System.Drawing.Point(529, 63);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(95, 21);
             this.label11.TabIndex = 5;
@@ -100,28 +100,28 @@
             // 
             this.cbxTieuChuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTieuChuan.FormattingEnabled = true;
-            this.cbxTieuChuan.Location = new System.Drawing.Point(624, 60);
+            this.cbxTieuChuan.Location = new System.Drawing.Point(644, 60);
             this.cbxTieuChuan.Name = "cbxTieuChuan";
-            this.cbxTieuChuan.Size = new System.Drawing.Size(134, 28);
-            this.cbxTieuChuan.TabIndex = 4;
+            this.cbxTieuChuan.Size = new System.Drawing.Size(316, 28);
+            this.cbxTieuChuan.TabIndex = 5;
             // 
             // txtNoiDungTieuChi
             // 
-            this.txtNoiDungTieuChi.Location = new System.Drawing.Point(199, 60);
+            this.txtNoiDungTieuChi.Location = new System.Drawing.Point(219, 60);
             this.txtNoiDungTieuChi.Name = "txtNoiDungTieuChi";
             this.txtNoiDungTieuChi.Size = new System.Drawing.Size(304, 28);
             this.txtNoiDungTieuChi.TabIndex = 3;
             // 
             // txtTenTieuChi
             // 
-            this.txtTenTieuChi.Location = new System.Drawing.Point(624, 27);
+            this.txtTenTieuChi.Location = new System.Drawing.Point(644, 27);
             this.txtTenTieuChi.Name = "txtTenTieuChi";
             this.txtTenTieuChi.Size = new System.Drawing.Size(316, 28);
             this.txtTenTieuChi.TabIndex = 2;
             // 
             // txtMaTieuChi
             // 
-            this.txtMaTieuChi.Location = new System.Drawing.Point(199, 27);
+            this.txtMaTieuChi.Location = new System.Drawing.Point(219, 27);
             this.txtMaTieuChi.Name = "txtMaTieuChi";
             this.txtMaTieuChi.Size = new System.Drawing.Size(304, 28);
             this.txtMaTieuChi.TabIndex = 1;
@@ -129,7 +129,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(41, 63);
+            this.label3.Location = new System.Drawing.Point(61, 63);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(152, 21);
             this.label3.TabIndex = 3;
@@ -138,7 +138,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(509, 30);
+            this.label2.Location = new System.Drawing.Point(529, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 21);
             this.label2.TabIndex = 2;
@@ -147,7 +147,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 30);
+            this.label1.Location = new System.Drawing.Point(61, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(104, 21);
             this.label1.TabIndex = 1;
@@ -159,7 +159,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 135);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(986, 363);
+            this.groupBox2.Size = new System.Drawing.Size(1032, 345);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông Tin Tiêu Chí";
@@ -172,7 +172,7 @@
             this.dgvTieuChi.Name = "dgvTieuChi";
             this.dgvTieuChi.RowHeadersWidth = 51;
             this.dgvTieuChi.RowTemplate.Height = 24;
-            this.dgvTieuChi.Size = new System.Drawing.Size(980, 334);
+            this.dgvTieuChi.Size = new System.Drawing.Size(1026, 315);
             this.dgvTieuChi.TabIndex = 0;
             this.dgvTieuChi.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTieuChi_CellClick);
             // 
@@ -182,9 +182,9 @@
             this.groupBox3.Controls.Add(this.btnLuuLai);
             this.groupBox3.Controls.Add(this.btnBatDau);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 501);
+            this.groupBox3.Location = new System.Drawing.Point(0, 486);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(986, 66);
+            this.groupBox3.Size = new System.Drawing.Size(1032, 67);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
@@ -223,7 +223,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(986, 567);
+            this.ClientSize = new System.Drawing.Size(1032, 553);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);

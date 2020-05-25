@@ -21,9 +21,9 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChiNguonMinhChung.DataSource = TieuChi_NguonMinhChungList;
-            LoadListTieuChi_NguonMinhChung();
-            btnLuuLai.Enabled = false;
+            LoadListTieuChi_NguonMinhChung();            
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;
         }
 
         private void LoadListTieuChi_NguonMinhChung()
@@ -56,6 +56,17 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            FillComBoBox();
+        }
+
+        private void FillComBoBox()
+        {
+            cbxTieuChi.DataSource = TieuChiBUS.Instance.GetListTieuChi();
+            cbxTieuChi.ValueMember = "ID_TieuChi";
+            cbxTieuChi.DisplayMember = "TenTieuChi";
+            cbxNguonMinhChung.DataSource = NguonMinhChungBUS.Instance.GetListNguonMinhChung();
+            cbxNguonMinhChung.ValueMember = "ID_NguonMinhChung";
+            cbxNguonMinhChung.DisplayMember = "TenNguonMinhChung";
         }
 
         private event EventHandler insertTieuChi_NguonMinhChung;
@@ -99,6 +110,13 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
         }
 
+        private event EventHandler updateTieuChi_NguonMinhChung;
+        public event EventHandler UpdateTieuChi_NguonMinhChung
+        {
+            add { updateTieuChi_NguonMinhChung += value; }
+            remove { updateTieuChi_NguonMinhChung -= value; }
+        }
+
         private event EventHandler deleteTieuChi_NguonMinhChung;
         public event EventHandler DeleteTieuChi_NguonMinhChung
         {
@@ -113,11 +131,32 @@ namespace KiemDinhChatLuongGUI
                 if (dgvTieuChiNguonMinhChung.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
                     dgvTieuChiNguonMinhChung.CurrentRow.Selected = true;
+                    string ghichu = txtGhiChu.Text;
                     string input_1 = dgvTieuChiNguonMinhChung.Rows[e.RowIndex].Cells["ID_TieuChi"].FormattedValue.ToString();
                     int id_tieuchi = Int32.Parse(input_1);
                     string input_2 = dgvTieuChiNguonMinhChung.Rows[e.RowIndex].Cells["ID_NguonMinhChung"].FormattedValue.ToString();
                     int id_nguonminhchung = Int32.Parse(input_2);
-                    if (MessageBox.Show("Bạn có muốn xóa tiêu chí - nguồn minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+
+                    if (MessageBox.Show("Bạn có muốn sửa tiêu chí - nguồn minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (TieuChi_NguonMinhChungBUS.Instance.UpdateTieuChi_NguonMinhChung(id_tieuchi, id_nguonminhchung, ghichu))
+                        {
+                            MessageBox.Show("Sửa tiêu chí - nguồn minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (updateTieuChi_NguonMinhChung != null)
+                            {
+                                updateTieuChi_NguonMinhChung(this, new EventArgs());
+                            }
+                            TieuChi_NguonMinhChungBinding();
+                            LoadListTieuChi_NguonMinhChung();
+                            ResetGiaTri();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sửa tiêu chí - nguồn minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else if(MessageBox.Show("Bạn có muốn xóa tiêu chí - nguồn minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (TieuChi_YeuCauBUS.Instance.DeleteTieuChi_YeuCau(id_tieuchi, id_nguonminhchung))
                         {

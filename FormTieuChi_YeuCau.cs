@@ -20,9 +20,9 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChiYeuCau.DataSource = TieuChi_YeuCauList;
-            LoadListTieuChi_YeuCau();
-            btnLuuLai.Enabled = false;         
+            LoadListTieuChi_YeuCau();                  
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;  
         }
 
         private void LoadListTieuChi_YeuCau()
@@ -55,6 +55,17 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";           
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            FillComBoBox();
+        }
+
+        private void FillComBoBox()
+        {
+            cbxTieuChi.DataSource = TieuChiBUS.Instance.GetListTieuChi();
+            cbxTieuChi.ValueMember = "ID_TieuChi";
+            cbxTieuChi.DisplayMember = "TenTieuChi";
+            cbxYeuCau.DataSource = YeuCauBUS.Instance.GetListYeuCau();
+            cbxYeuCau.ValueMember = "ID_YeuCau";
+            cbxYeuCau.DisplayMember = "TenYeuCau";
         }
 
         private event EventHandler insertTieuChi_YeuCau;
@@ -99,6 +110,13 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
         }
 
+        private event EventHandler updateTieuChi_YeuCau;
+        public event EventHandler UpdateTieuChi_YeuCau
+        {
+            add { updateTieuChi_YeuCau += value; }
+            remove { updateTieuChi_YeuCau -= value; }
+        }
+
         private event EventHandler deleteTieuChi_YeuCau;
         public event EventHandler DeleteTieuChi_YeuCau
         {
@@ -113,11 +131,32 @@ namespace KiemDinhChatLuongGUI
                 if (dgvTieuChiYeuCau.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
                     dgvTieuChiYeuCau.CurrentRow.Selected = true;
+                    string ghichu = txtGhiChu.Text;
                     string input_1 = dgvTieuChiYeuCau.Rows[e.RowIndex].Cells["ID_TieuChi"].FormattedValue.ToString();
                     int id_tieuchi = Int32.Parse(input_1);
                     string input_2 = dgvTieuChiYeuCau.Rows[e.RowIndex].Cells["ID_YeuCau"].FormattedValue.ToString();
                     int id_yeucau = Int32.Parse(input_2);
-                    if (MessageBox.Show("Bạn có muốn xóa tiêu chí - yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+
+                    if (MessageBox.Show("Bạn có muốn sửa tiêu chí - yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (TieuChi_YeuCauBUS.Instance.UpdateTieuChi_YeuCau(id_tieuchi, id_yeucau, ghichu))
+                        {
+                            MessageBox.Show("Sửa tiêu chí - yêu cầu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (updateTieuChi_YeuCau != null)
+                            {
+                                updateTieuChi_YeuCau(this, new EventArgs());
+                            }
+                            TieuChi_YeuCauBinding();
+                            LoadListTieuChi_YeuCau();
+                            ResetGiaTri();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sửa tiêu chí - yêu cầu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else if(MessageBox.Show("Bạn có muốn xóa tiêu chí - yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (TieuChi_YeuCauBUS.Instance.DeleteTieuChi_YeuCau(id_tieuchi, id_yeucau))
                         {

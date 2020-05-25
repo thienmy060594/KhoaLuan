@@ -21,11 +21,11 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvMocThamChieu.DataSource = MocThamChieuList;
             LoadListMocThamChieu();            
-            btnLuuLai.Enabled = false;
             txtMaMocThamChieu.Enabled = false;
             txtNoiDungMocThamChieu.Enabled = false;
             txtTenMocThamChieu.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;            
         }
 
         private void LoadListMocThamChieu()

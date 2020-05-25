@@ -21,7 +21,6 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvMinhChung.DataSource = MinhChungList;
             LoadListMinhChung();           
-            btnLuuLai.Enabled = false;
             txtMaTaiLieu.Enabled = false;
             txtTenTaiLieu.Enabled = false;
             txtNgayKy.Enabled = false;
@@ -30,6 +29,7 @@ namespace KiemDinhChatLuongGUI
             txtTomTatNoiDung.Enabled = false;
             txtDuongLink.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;           
         }
         private void LoadListMinhChung()
         {
@@ -52,11 +52,10 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            //Không cho người dùng thêm dữ liệu trực tiếp
-            dgvMinhChung.AllowUserToAddRows = false;
-            dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
-        }
-
+            dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+        }           
+        
         void MinhChungBinding()
         {
             txtMaTaiLieu.DataBindings.Clear();
@@ -215,7 +214,7 @@ namespace KiemDinhChatLuongGUI
                     dgvMinhChung.CurrentRow.Selected = true;
                     string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
                     int id_tailieu = Int32.Parse(input);
-                    if (MessageBox.Show("Bạn có muốn sửa minh chứng  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show("Bạn có muốn sửa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {                  
                         string matailieu = txtMaTaiLieu.Text;
                         string tentailieu = txtTenTaiLieu.Text;
@@ -265,7 +264,7 @@ namespace KiemDinhChatLuongGUI
                         {
                             if (MinhChungBUS.Instance.UpdateMinhChung(id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu))
                             {
-                                MessageBox.Show("Sửa minh chứng  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Sửa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 if (updateMinhChung != null)
                                 {
                                     updateMinhChung(this, new EventArgs());
@@ -281,11 +280,11 @@ namespace KiemDinhChatLuongGUI
                             }
                         }
                     }
-                    else if (MessageBox.Show("Bạn có muốn xóa minh chứng  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    else if (MessageBox.Show("Bạn có muốn xóa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (MinhChungBUS.Instance.DeleteMinhChung(id_tailieu))
                         {
-                            MessageBox.Show("Xóa minh chứng  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Xóa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (deleteMinhChung != null)
                             {
                                 deleteMinhChung(this, new EventArgs());

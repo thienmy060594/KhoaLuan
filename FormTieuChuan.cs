@@ -21,12 +21,12 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChuan.DataSource = TieuChuanList;
-            LoadListTieuChuan();           
-            btnLuuLai.Enabled = false;
-            txtTenTieuChuan.Enabled = false;
+            LoadListTieuChuan();        
             txtMaTieuChuan.Enabled = false;
+            txtTenTieuChuan.Enabled = false;
             txtNoiDungTieuChuan.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;            
         }
 
         private void LoadListTieuChuan()

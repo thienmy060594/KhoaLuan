@@ -21,10 +21,10 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvLoaiTaiLieu.DataSource = LoaiTaiLieuList;
             LoadListLoaiTaiLieu();            
-            btnLuuLai.Enabled = false;
             txtMaLoaiTaiLieu.Enabled = false;
             txtTenLoaiTaiLieu.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;            
         }
         private void LoadListLoaiTaiLieu()
         {

@@ -22,11 +22,11 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvNguonMinhChung.DataSource = NguonMinhChungList;
             LoadListNguonMinhChung();            
-            btnLuuLai.Enabled = false;
             txtMaNguonMinhChung.Enabled = false;
             txtTenNguonMinhChung.Enabled = false;
             txtNoiDungNguonMinhChung.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;           
         }
         private void LoadListNguonMinhChung()
         {

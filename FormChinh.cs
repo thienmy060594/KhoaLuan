@@ -109,5 +109,79 @@ namespace KiemDinhChatLuongGUI
             FrNguonMinhChungMinhChung.ShowDialog(); //Hiển thị
             this.Show();
         }
+
+        private void mnuKhoa_Click(object sender, EventArgs e)
+        {
+            FormKhoa FrKhoa = new FormKhoa(); //Khởi tạo đối tượng
+            this.Hide();
+            FrKhoa.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuNganh_Click(object sender, EventArgs e)
+        {
+            FormNganh FrNganh = new FormNganh(); //Khởi tạo đối tượng
+            this.Hide();
+            FrNganh.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuChuongTrinhDaoTao_Click(object sender, EventArgs e)
+        {
+            FormChuongTrinhDaoTao FrChuongTrinhDaoTao = new FormChuongTrinhDaoTao(); //Khởi tạo đối tượng
+            this.Hide();
+            FrChuongTrinhDaoTao.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuMonHoc_Click(object sender, EventArgs e)
+        {
+            FormMonHoc FrMonHoc = new FormMonHoc(); //Khởi tạo đối tượng
+            this.Hide();
+            FrMonHoc.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuNhomTuChon_Click(object sender, EventArgs e)
+        {
+            FormNhomTuChon FrNhomTuChon = new FormNhomTuChon(); //Khởi tạo đối tượng
+            this.Hide();
+            FrNhomTuChon.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuLoaiMon_Click(object sender, EventArgs e)
+        {
+            FormLoaiMon FrLoaiMon = new FormLoaiMon(); //Khởi tạo đối tượng
+            this.Hide();
+            FrLoaiMon.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuDeCuongMonHoc_Click(object sender, EventArgs e)
+        {
+            FormDeCuongMonHoc FrDeCuongMonHoc = new FormDeCuongMonHoc(); //Khởi tạo đối tượng
+            this.Hide();
+            FrDeCuongMonHoc.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuChuongTrinhDaoTaoMonHoc_Click(object sender, EventArgs e)
+        {
+            FormChuongTrinhDaoTao_MonHoc FrChuongTrinhDaoTao_MonHoc = new FormChuongTrinhDaoTao_MonHoc(); //Khởi tạo đối tượng
+            this.Hide();
+            FrChuongTrinhDaoTao_MonHoc.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuMonHocNhomTuChon_Click(object sender, EventArgs e)
+        {
+            FormMonHoc_NhomTuChon FrMonHoc_NhomTuChon = new FormMonHoc_NhomTuChon(); //Khởi tạo đối tượng
+            this.Hide();
+            FrMonHoc_NhomTuChon.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        
     }
 }

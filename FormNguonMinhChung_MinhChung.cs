@@ -21,8 +21,8 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvNguonMinhChungMinhChung.DataSource = NguonMinhChung_MinhChungList;
             LoadListNguonMinhChung_MinhChung();
-            btnLuuLai.Enabled = false;
             txtGhiChu.Enabled = false;
+            btnLuuLai.Enabled = false;            
         }
 
         private void LoadListNguonMinhChung_MinhChung()
@@ -55,6 +55,17 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            FillComBoBox();
+        }
+
+        private void FillComBoBox()
+        {           
+            cbxNguonMinhChung.DataSource = NguonMinhChungBUS.Instance.GetListNguonMinhChung();
+            cbxNguonMinhChung.ValueMember = "ID_NguonMinhChung";
+            cbxNguonMinhChung.DisplayMember = "TenNguonMinhChung";
+            cbxMinhChung.DataSource = MinhChungBUS.Instance.GetListMinhChung();
+            cbxMinhChung.ValueMember = "ID_Tailieu";
+            cbxMinhChung.DisplayMember = "TenTaiLieu";
         }
 
         private event EventHandler insertNguonMinhChung_MinhChung;
@@ -98,6 +109,13 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
         }
 
+        private event EventHandler updateNguonMinhChung_MinhChung;
+        public event EventHandler UpdateNguonMinhChung_MinhChung
+        {
+            add { updateNguonMinhChung_MinhChung += value; }
+            remove { updateNguonMinhChung_MinhChung -= value; }
+        }
+
         private event EventHandler deleteNguonMinhChung_MinhChung;
         public event EventHandler DeleteNguonMinhChung_MinhChung
         {
@@ -111,13 +129,33 @@ namespace KiemDinhChatLuongGUI
             {
                 if (dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
                 {
-                    dgvNguonMinhChungMinhChung.CurrentRow.Selected = true;                    
+                    dgvNguonMinhChungMinhChung.CurrentRow.Selected = true;
+                    string ghichu = txtGhiChu.Text;
                     string input_1 = dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells["ID_NguonMinhChung"].FormattedValue.ToString();
                     int id_nguonminhchung = Int32.Parse(input_1);
                     string input_2 = dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
                     int id_tailieu = Int32.Parse(input_2);
 
-                    if (MessageBox.Show("Bạn có muốn xóa nguồn minh chứng - minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show("Bạn có muốn sửa nguồn minh chứng - minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (NguonMinhChung_MinhChungBUS.Instance.UpdateNguonMinhChung_MinhChung(id_nguonminhchung, id_tailieu, ghichu))
+                        {
+                            MessageBox.Show("Sửa nguồn minh chứng - minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            if (updateNguonMinhChung_MinhChung != null)
+                            {
+                                updateNguonMinhChung_MinhChung(this, new EventArgs());
+                            }
+                            NguonMinhChung_MinhChungBinding();
+                            LoadListNguonMinhChung_MinhChung();
+                            ResetGiaTri();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sửa nguồn minh chứng - minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else if(MessageBox.Show("Bạn có muốn xóa nguồn minh chứng - minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (TieuChi_YeuCauBUS.Instance.DeleteTieuChi_YeuCau(id_nguonminhchung, id_tailieu))
                         {
