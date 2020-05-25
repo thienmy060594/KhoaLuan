@@ -111,7 +111,7 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
-            else if (MessageBox.Show("Bạn có muốn thêm tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thêm tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (TieuChuanBUS.Instance.InsertTieuChuan(matieuchuan, tentieuchuan, noidungtieuchuan, ghichu))
                 {
@@ -170,6 +170,7 @@ namespace KiemDinhChatLuongGUI
                         string tentieuchuan = txtTenTieuChuan.Text;
                         string noidungtieuchuan = txtNoiDungTieuChuan.Text;
                         string ghichu = txtGhiChu.Text;
+
                         if (txtMaTieuChuan.Text == "")
                         {
                             MessageBox.Show("Bạn chưa nhập mã tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);

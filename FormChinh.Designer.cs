@@ -261,6 +261,7 @@
             this.mnuMonTienQuyet.Name = "mnuMonTienQuyet";
             this.mnuMonTienQuyet.Size = new System.Drawing.Size(316, 26);
             this.mnuMonTienQuyet.Text = "Môn Tiên Quyết";
+            this.mnuMonTienQuyet.Click += new System.EventHandler(this.mnuMonTienQuyet_Click);
             // 
             // mnuNhomTuChon
             // 

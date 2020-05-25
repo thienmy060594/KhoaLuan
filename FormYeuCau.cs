@@ -21,12 +21,12 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvYeuCau.DataSource = YeuCauList;
-            LoadListYeuCau();            
-            btnLuuLai.Enabled = false;
+            LoadListYeuCau();        
             txtMaYeuCau.Enabled = false;
             txtNoiDungYeuCau.Enabled = false;
             txtTenYeuCau.Enabled = false;
-            txtGhiChu.Enabled = false;
+            txtGhiChu.Enabled = false; 
+            btnLuuLai.Enabled = false;
         }
         private void LoadListYeuCau()
         {
@@ -53,7 +53,19 @@ namespace KiemDinhChatLuongGUI
             txtNoiDungYeuCau.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
-        
+
+        private void btnBatDau_Click(object sender, EventArgs e)
+        {
+            txtMaYeuCau.Text = "";
+            txtTenYeuCau.Text = "";
+            txtNoiDungYeuCau.Text = "";
+            txtGhiChu.Text = "";
+            txtMaYeuCau.Enabled = true;
+            txtTenYeuCau.Enabled = true;
+            txtNoiDungYeuCau.Enabled = true;
+            txtGhiChu.Enabled = true;
+            btnLuuLai.Enabled = true;
+        }
 
         private event EventHandler insertYeuCau;
         public event EventHandler InsertYeuCau
@@ -97,7 +109,7 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
-            else if (MessageBox.Show("Bạn có muốn thêm yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thêm yêu cầu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (YeuCauBUS.Instance.InsertYeuCau(mayeucau, tenyeucau, noidungyeucau, ghichu))
                 {
@@ -124,21 +136,8 @@ namespace KiemDinhChatLuongGUI
             txtTenYeuCau.Text = "";
             txtNoiDungYeuCau.Text = "";
             txtGhiChu.Text = "";
-        } 
+        }  
         
-        private void btnBatDau_Click(object sender, EventArgs e)
-        {
-            txtMaYeuCau.Text = "";
-            txtTenYeuCau.Text = "";
-            txtNoiDungYeuCau.Text = "";
-            txtGhiChu.Text = "";
-            txtMaYeuCau.Enabled = true;
-            txtTenYeuCau.Enabled = true;
-            txtNoiDungYeuCau.Enabled = true;
-            txtGhiChu.Enabled = true;
-            btnLuuLai.Enabled = true;
-        }
-
         private event EventHandler updateYeuCau;
         public event EventHandler UpdateYeuCau
         {

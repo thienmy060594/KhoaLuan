@@ -109,7 +109,7 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
-            else if (MessageBox.Show("Bạn có muốn thêm ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thêm ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (NganhBUS.Instance.InsertNganh(id_khoa, manganh, tennganh, ghichu))
                 {

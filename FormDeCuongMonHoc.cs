@@ -134,7 +134,7 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
-            else if (MessageBox.Show("Bạn có muốn thêm đề cương môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thêm đề cương môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (DeCuongMonHocBUS.Instance.InsertDeCuongMonHoc(id_monhoc, id_tailieu, madecuongmonhoc, tendecuongmonhoc, noidung, ghichu))
                 {

@@ -34,13 +34,16 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTao.DataSource = ChuongTrinhDaoTaoBUS.Instance.GetListChuongTrinhDaoTao();
             dgvChuongTrinhDaoTao.Columns[0].Visible = false;
             dgvChuongTrinhDaoTao.Columns[1].Visible = false;
-            dgvChuongTrinhDaoTao.Columns[2].HeaderText = "Mã Ngành";
-            dgvChuongTrinhDaoTao.Columns[3].HeaderText = "Tên Tên Ngành";
-            dgvChuongTrinhDaoTao.Columns[4].HeaderText = "Mã Chương Trình Đào Tạo";
-            dgvChuongTrinhDaoTao.Columns[5].HeaderText = "Năm Ký";
-            dgvChuongTrinhDaoTao.Columns[6].HeaderText = "Năm Áp Dụng";
-            dgvChuongTrinhDaoTao.Columns[7].HeaderText = "Tóm Tắt Nội Dung";
-            dgvChuongTrinhDaoTao.Columns[8].HeaderText = "Ghi Chú";
+            dgvChuongTrinhDaoTao.Columns[2].Visible = false;
+            dgvChuongTrinhDaoTao.Columns[3].HeaderText = "Mã Ngành";
+            dgvChuongTrinhDaoTao.Columns[4].HeaderText = "Tên Tên Ngành";
+            dgvChuongTrinhDaoTao.Columns[5].HeaderText = "Mã Tài Liệu";
+            dgvChuongTrinhDaoTao.Columns[6].HeaderText = "Tên Tài Liệu";
+            dgvChuongTrinhDaoTao.Columns[7].HeaderText = "Mã Chương Trình Đào Tạo";
+            dgvChuongTrinhDaoTao.Columns[8].HeaderText = "Năm Ký";
+            dgvChuongTrinhDaoTao.Columns[9].HeaderText = "Năm Áp Dụng";
+            dgvChuongTrinhDaoTao.Columns[10].HeaderText = "Tóm Tắt Nội Dung";
+            dgvChuongTrinhDaoTao.Columns[11].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột           
             dgvChuongTrinhDaoTao.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvChuongTrinhDaoTao.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -49,6 +52,9 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTao.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvChuongTrinhDaoTao.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvChuongTrinhDaoTao.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvChuongTrinhDaoTao.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvChuongTrinhDaoTao.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvChuongTrinhDaoTao.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvChuongTrinhDaoTao.AllowUserToAddRows = false;
             dgvChuongTrinhDaoTao.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
@@ -84,6 +90,9 @@ namespace KiemDinhChatLuongGUI
             cbxNganh.DataSource = NganhBUS.Instance.GetListNganh();
             cbxNganh.ValueMember = "ID_Nganh";
             cbxNganh.DisplayMember = "TenNganh";
+            cbxMinhChung.DataSource = MinhChungBUS.Instance.GetListMinhChung();
+            cbxMinhChung.ValueMember = "ID_TaiLieu";
+            cbxMinhChung.DisplayMember = "TenTaiLieu";
         }
 
         private event EventHandler insertChuongTrinhDaoTao;
@@ -102,6 +111,8 @@ namespace KiemDinhChatLuongGUI
             string ghichu = txtGhiChu.Text;
             string input = cbxNganh.GetItemText(cbxNganh.SelectedValue);
             int id_nganh = Int32.Parse(input);
+            string input_1 = cbxMinhChung.GetItemText(cbxMinhChung.SelectedValue);
+            int id_tailieu = Int32.Parse(input_1);
 
             if (txtMaChuongTrinhDaoTao.Text == "")
             {
@@ -137,9 +148,9 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
-            else if (MessageBox.Show("Bạn có muốn thêm chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show("Bạn có muốn thêm chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (ChuongTrinhDaoTaoBUS.Instance.InsertChuongTrinhDaoTao(id_nganh, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
+                if (ChuongTrinhDaoTaoBUS.Instance.InsertChuongTrinhDaoTao(id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
                 {
                     MessageBox.Show("Thêm chương trình đào tạo thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertChuongTrinhDaoTao != null)
@@ -193,6 +204,9 @@ namespace KiemDinhChatLuongGUI
                     int id_chuongtrinhdaotao = Int32.Parse(input);
                     string input_1 = cbxNganh.GetItemText(cbxNganh.SelectedValue);
                     int id_nganh = Int32.Parse(input_1);
+                    string input_2 = cbxMinhChung.GetItemText(cbxMinhChung.SelectedValue);
+                    int id_tailieu = Int32.Parse(input_2);
+
                     if (MessageBox.Show("Bạn có muốn sửa chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         string machuongtrinhdaotao = txtMaChuongTrinhDaoTao.Text;
@@ -227,7 +241,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         else
                         {
-                            if (ChuongTrinhDaoTaoBUS.Instance.UpdateChuongTrinhDaoTao(id_chuongtrinhdaotao, id_nganh, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
+                            if (ChuongTrinhDaoTaoBUS.Instance.UpdateChuongTrinhDaoTao(id_chuongtrinhdaotao, id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
                             {
                                 MessageBox.Show("Sửa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 if (updateChuongTrinhDaoTao != null)

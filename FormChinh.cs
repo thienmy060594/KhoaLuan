@@ -182,6 +182,12 @@ namespace KiemDinhChatLuongGUI
             this.Show();
         }
 
-        
+        private void mnuMonTienQuyet_Click(object sender, EventArgs e)
+        {
+            FormMonTienQuyet FrMonTienQuyet = new FormMonTienQuyet(); //Khởi tạo đối tượng
+            this.Hide();
+            FrMonTienQuyet.ShowDialog(); //Hiển thị
+            this.Show();
+        }
     }
 }
