@@ -23,7 +23,7 @@ namespace KiemDinhChatLuongDTO
 
         public NguonMinhChungDTO(int id_nguonminhchung, string manguonminhchung, string tennguonminhchung, string noidungnguonminhchung, string ghichu)
         {
-            this.Id_NguonMinhChung = Id_NguonMinhChung;
+            this.Id_NguonMinhChung = id_nguonminhchung;
             this.MaNguonMinhChung = manguonminhchung;
             this.TenNguonMinhChung = tennguonminhchung;
             this.NoiDungNguonMinhChung = noidungnguonminhchung;
