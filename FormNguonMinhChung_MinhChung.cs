@@ -42,7 +42,21 @@ namespace KiemDinhChatLuongGUI
             dgvNguonMinhChungMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvNguonMinhChungMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvNguonMinhChungMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvNguonMinhChungMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvNguonMinhChungMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvNguonMinhChungMinhChung.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvNguonMinhChungMinhChung.Columns.Add(btnXoa);
         }
 
         void NguonMinhChung_MinhChungBinding()
@@ -127,7 +141,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvNguonMinhChungMinhChung.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvNguonMinhChungMinhChung.CurrentRow.Selected = true;
                     string ghichu = txtGhiChu.Text;
@@ -154,8 +168,16 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Sửa nguồn minh chứng - minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                    }
-                    else if(MessageBox.Show("Bạn có muốn xóa nguồn minh chứng - minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvNguonMinhChungMinhChung.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    string input_1 = dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells["ID_NguonMinhChung"].FormattedValue.ToString();
+                    int id_nguonminhchung = Int32.Parse(input_1);
+                    string input_2 = dgvNguonMinhChungMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
+                    int id_tailieu = Int32.Parse(input_2);
+
+                    if (MessageBox.Show("Bạn có muốn xóa nguồn minh chứng - minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (TieuChi_YeuCauBUS.Instance.DeleteTieuChi_YeuCau(id_nguonminhchung, id_tailieu))
                         {
@@ -172,7 +194,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa nguồn minh chứng - minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

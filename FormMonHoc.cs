@@ -49,6 +49,20 @@ namespace KiemDinhChatLuongGUI
             dgvMonHoc.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvMonHoc.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvMonHoc.Columns.Add(btnXoa);
         }
                  
          void MonHocBinding()
@@ -183,11 +197,12 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvMonHoc.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
                 {
                     dgvMonHoc.CurrentRow.Selected = true;
                     string input = dgvMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
                     int id_monhoc = Int32.Parse(input);
+
                     if (MessageBox.Show("Bạn có muốn sửa môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         string mamonhoc = txtMaMonHoc.Text;
@@ -246,8 +261,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa môn học  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvMonHoc.CurrentRow.Selected = true;
+                    string input = dgvMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
+                    int id_monhoc = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa môn học  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (MonHocBUS.Instance.DeleteMonHoc(id_monhoc))
                         {
@@ -264,7 +286,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

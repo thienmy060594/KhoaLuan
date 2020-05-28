@@ -48,7 +48,21 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTaoMonHoc.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvChuongTrinhDaoTaoMonHoc.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvChuongTrinhDaoTaoMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvChuongTrinhDaoTaoMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvChuongTrinhDaoTaoMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp 
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvChuongTrinhDaoTaoMonHoc.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvChuongTrinhDaoTaoMonHoc.Columns.Add(btnXoa);
         }
 
         void ChuongTrinhDaoTao_MonHocBinding()
@@ -143,7 +157,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvChuongTrinhDaoTaoMonHoc.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvChuongTrinhDaoTaoMonHoc.CurrentRow.Selected = true;
                     string hocky = txtHocKy.Text;
@@ -173,8 +187,18 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Sửa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvChuongTrinhDaoTaoMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    string input_1 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_ChuongTrinhDaoTao"].FormattedValue.ToString();
+                    int id_chuongtrinhdaotao = Int32.Parse(input_1);
+                    string input_2 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
+                    int id_monhoc = Int32.Parse(input_2);
+                    string input_3 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
+                    int id_loaimon = Int32.Parse(input_3);
+
+                    if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (ChuongTrinhDaoTao_MonHocBUS.Instance.DeleteChuongTrinhDaoTao_MonHoc(id_chuongtrinhdaotao, id_monhoc, id_loaimon))
                         {
@@ -191,7 +215,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

@@ -43,7 +43,21 @@ namespace KiemDinhChatLuongGUI
             dgvMocThamChieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvMocThamChieu.AllowUserToAddRows = false;
-            dgvMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp      
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvMocThamChieu.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvMocThamChieu.Columns.Add(btnXoa);
         }
 
         void MocThamChieuBinding()
@@ -156,7 +170,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvMocThamChieu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvMocThamChieu.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvMocThamChieu.CurrentRow.Selected = true;
                     string input = dgvMocThamChieu.Rows[e.RowIndex].Cells["ID_MocThamChieu"].FormattedValue.ToString();
@@ -205,8 +219,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa mốc tham chiếu  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvMocThamChieu.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvMocThamChieu.CurrentRow.Selected = true;
+                    string input = dgvMocThamChieu.Rows[e.RowIndex].Cells["ID_MocThamChieu"].FormattedValue.ToString();
+                    int id_mocthamchieu = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa mốc tham chiếu  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (MocThamChieuBUS.Instance.DeleteMocThamChieu(id_mocthamchieu))
                         {
@@ -223,7 +244,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

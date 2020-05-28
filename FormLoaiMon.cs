@@ -39,7 +39,21 @@ namespace KiemDinhChatLuongGUI
             dgvLoaiMon.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvLoaiMon.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvLoaiMon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvLoaiMon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvLoaiMon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvLoaiMon.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvLoaiMon.Columns.Add(btnXoa);
         }
 
         void LoaiMonBinding()
@@ -141,7 +155,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvLoaiMon.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvLoaiMon.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvLoaiMon.CurrentRow.Selected = true;
                     string input = dgvLoaiMon.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
@@ -182,8 +196,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvLoaiMon.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvLoaiMon.CurrentRow.Selected = true;
+                    string input = dgvLoaiMon.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
+                    int id_loaimon = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (LoaiMonBUS.Instance.DeleteLoaiMon(id_loaimon))
                         {
@@ -200,7 +221,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

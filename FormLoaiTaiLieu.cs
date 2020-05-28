@@ -49,7 +49,21 @@ namespace KiemDinhChatLuongGUI
             dgvLoaiTaiLieu.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;           
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvLoaiTaiLieu.AllowUserToAddRows = false;
-            dgvLoaiTaiLieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvLoaiTaiLieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvLoaiTaiLieu.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvLoaiTaiLieu.Columns.Add(btnXoa);
         }
 
         void LoaiTaiLieuBinding()
@@ -150,7 +164,7 @@ namespace KiemDinhChatLuongGUI
 
             try
             {
-                if (dgvLoaiTaiLieu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvLoaiTaiLieu.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvLoaiTaiLieu.CurrentRow.Selected = true;
                     string input = dgvLoaiTaiLieu.Rows[e.RowIndex].Cells["ID_LoaiTaiLieu"].FormattedValue.ToString();
@@ -194,8 +208,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvLoaiTaiLieu.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvLoaiTaiLieu.CurrentRow.Selected = true;
+                    string input = dgvLoaiTaiLieu.Rows[e.RowIndex].Cells["ID_LoaiTaiLieu"].FormattedValue.ToString();
+                    int id_loaitailieu = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (LoaiTaiLieuBUS.Instance.DeleteLoaiTaiLieu(id_loaitailieu))
                         {
@@ -212,7 +233,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa loại tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

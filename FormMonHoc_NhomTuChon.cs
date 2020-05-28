@@ -42,7 +42,21 @@ namespace KiemDinhChatLuongGUI
             dgvMonHocNhomTuChon.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHocNhomTuChon.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHocNhomTuChon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvMonHocNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvMonHocNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvMonHocNhomTuChon.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvMonHocNhomTuChon.Columns.Add(btnXoa);
         }
 
         void MonHoc_NhomTuChonBinding()
@@ -127,7 +141,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvMonHocNhomTuChon.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvMonHocNhomTuChon.CurrentRow.Selected = true;
                     string ghichu = txtGhiChu.Text;
@@ -154,8 +168,17 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Sửa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvMonHocNhomTuChon.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvMonHocNhomTuChon.CurrentRow.Selected = true;                    
+                    string input_1 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
+                    int id_monhoc = Int32.Parse(input_1);
+                    string input_2 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_NhomTuChon"].FormattedValue.ToString();
+                    int id_nhomtuchon = Int32.Parse(input_2);
+
+                    if (MessageBox.Show("Bạn có muốn xóa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (MonHoc_NhomTuChonBUS.Instance.DeleteMonHoc_NhomTuChon(id_monhoc, id_nhomtuchon))
                         {
@@ -172,7 +195,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

@@ -50,15 +50,30 @@ namespace KiemDinhChatLuongGUI
             dgvTieuChi.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChi.AllowUserToAddRows = false;
-            dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
-        }
+            dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp 
+            
 
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            dgvTieuChi.Columns.Add(btnSua);
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;            
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            dgvTieuChi.Columns.Add(btnXoa);
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+        }
+        
         void TieuChiBinding()
         {
             txtMaTieuChi.DataBindings.Clear();
             txtTenTieuChi.DataBindings.Clear();
             txtNoiDungTieuChi.DataBindings.Clear();
-            txtGhiChu.DataBindings.Clear();
+            txtGhiChu.DataBindings.Clear();            
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -73,7 +88,7 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
             FillComBoBox();
-        }
+        }             
 
         private void FillComBoBox()
         {            
@@ -174,7 +189,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvTieuChi.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvTieuChi.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvTieuChi.CurrentRow.Selected = true;
                     string input = dgvTieuChi.Rows[e.RowIndex].Cells["ID_TieuChi"].FormattedValue.ToString();
@@ -225,8 +240,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if (dgvTieuChi.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvTieuChi.CurrentRow.Selected = true;
+                    string input = dgvTieuChi.Rows[e.RowIndex].Cells["ID_TieuChi"].FormattedValue.ToString();
+                    int id_tieuchi = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (TieuChiBUS.Instance.DeleteTieuChi(id_tieuchi))
                         {

@@ -44,8 +44,23 @@ namespace KiemDinhChatLuongGUI
             dgvNganh.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvNganh.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvNganh.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvNganh.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvNganh.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvNganh.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvNganh.Columns.Add(btnXoa);
         }
+
         void NganhBinding()
         {
             txtMaNganh.DataBindings.Clear();
@@ -156,7 +171,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvNganh.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvNganh.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvNganh.CurrentRow.Selected = true;                    
                     string input = dgvNganh.Rows[e.RowIndex].Cells["ID_Nganh"].FormattedValue.ToString();
@@ -200,8 +215,14 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvNganh.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    string input = dgvNganh.Rows[e.RowIndex].Cells["ID_Nganh"].FormattedValue.ToString();
+                    int id_nganh = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (NganhBUS.Instance.DeleteNganh(id_nganh))
                         {
@@ -218,7 +239,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa ngành thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

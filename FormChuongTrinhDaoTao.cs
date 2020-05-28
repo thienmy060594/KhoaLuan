@@ -57,7 +57,21 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTao.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvChuongTrinhDaoTao.AllowUserToAddRows = false;
-            dgvChuongTrinhDaoTao.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
+            dgvChuongTrinhDaoTao.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvChuongTrinhDaoTao.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvChuongTrinhDaoTao.Columns.Add(btnXoa);
         }
 
         void ChuongTrinhDaoTaoBinding()
@@ -197,7 +211,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvChuongTrinhDaoTao.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvChuongTrinhDaoTao.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvChuongTrinhDaoTao.CurrentRow.Selected = true;
                     string input = dgvChuongTrinhDaoTao.Rows[e.RowIndex].Cells["ID_ChuongTrinhDaoTao"].FormattedValue.ToString();
@@ -258,8 +272,14 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvChuongTrinhDaoTao.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    string input = dgvChuongTrinhDaoTao.Rows[e.RowIndex].Cells["ID_ChuongTrinhDaoTao"].FormattedValue.ToString();
+                    int id_chuongtrinhdaotao = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (ChuongTrinhDaoTaoBUS.Instance.DeleteChuongTrinhDaoTao(id_chuongtrinhdaotao))
                         {
@@ -276,7 +296,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa chương trình đào tạo thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {

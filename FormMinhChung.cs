@@ -54,6 +54,20 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+
+            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
+            btnSua.HeaderText = "Nút Sửa";
+            btnSua.Name = "btnSua";
+            btnSua.Text = "Sửa";
+            btnSua.UseColumnTextForButtonValue = true;
+            dgvMinhChung.Columns.Add(btnSua);
+
+            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
+            btnXoa.HeaderText = "Nút Xóa";
+            btnXoa.Name = "btnXoa";
+            btnXoa.Text = "Xóa";
+            btnXoa.UseColumnTextForButtonValue = true;
+            dgvMinhChung.Columns.Add(btnXoa);
         }           
         
         void MinhChungBinding()
@@ -209,7 +223,7 @@ namespace KiemDinhChatLuongGUI
         {
             try
             {
-                if (dgvMinhChung.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (dgvMinhChung.Columns[e.ColumnIndex].Name == "btnSua")
                 {
                     dgvMinhChung.CurrentRow.Selected = true;
                     string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
@@ -279,8 +293,15 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    }                    
+                }
+                if(dgvMinhChung.Columns[e.ColumnIndex].Name == "btnXoa")
+                {
+                    dgvMinhChung.CurrentRow.Selected = true;
+                    string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
+                    int id_tailieu = Int32.Parse(input);
+
+                    if (MessageBox.Show("Bạn có muốn xóa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (MinhChungBUS.Instance.DeleteMinhChung(id_tailieu))
                         {
@@ -297,7 +318,7 @@ namespace KiemDinhChatLuongGUI
                             MessageBox.Show("Xóa minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                }
+                }    
             }
             catch
             {
