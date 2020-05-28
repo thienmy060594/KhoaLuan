@@ -215,6 +215,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     TieuChi_YeuCauBinding();
                     LoadListTieuChi_YeuCau();
+                    ResetGiaTri();
                 }
                 else
                 {

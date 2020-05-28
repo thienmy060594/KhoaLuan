@@ -278,6 +278,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         MonHocBinding();
                         LoadListMonHoc();
+                        ResetGiaTri();
                     }
                     else
                     {

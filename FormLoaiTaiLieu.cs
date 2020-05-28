@@ -142,11 +142,27 @@ namespace KiemDinhChatLuongGUI
             string input_2 = cbxNguonMinhChung.GetItemText(cbxNguonMinhChung.SelectedValue); ;
             int id_nguonminhchung = Int32.Parse(input_2);
 
-            if (txtTenLoaiTaiLieu.Text == "")
+            if (txtMaLoaiTaiLieu.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nhập mã loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMaLoaiTaiLieu.Focus();
+                return;
+            }
+            else if (txtTenLoaiTaiLieu.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập tên loại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenLoaiTaiLieu.Focus();
                 return;
+            }
+            else if (txtMaLoaiTaiLieu.Text != "")
+            {
+                string sql = string.Format("SELECT * FROM dbo.LoaiTaiLieu LTLieu WHERE LTLieu.MaLoaiTaiLieu = N'{0}'", maloaitailieu);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
+                {
+                    MessageBox.Show("Mã loại tài liệu này đã tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaLoaiTaiLieu.Focus();
+                    return;
+                }
             }
             if (MessageBox.Show("Bạn có muốn thêm loại tài liệu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
@@ -159,8 +175,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     LoaiTaiLieuBinding();
                     LoadListLoaiTaiLieu();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                   
                 }
                 else
                 {
@@ -262,6 +277,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         LoaiTaiLieuBinding();
                         LoadListLoaiTaiLieu();
+                        ResetGiaTri();
                     }
                     else
                     {

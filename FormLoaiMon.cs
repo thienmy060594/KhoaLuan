@@ -216,6 +216,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         LoaiMonBinding();
                         LoadListLoaiMon();
+                        ResetGiaTri();
                     }
                     else
                     {

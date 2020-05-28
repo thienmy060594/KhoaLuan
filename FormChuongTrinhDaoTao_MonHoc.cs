@@ -235,6 +235,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     ChuongTrinhDaoTao_MonHocBinding();
                     LoadListChuongTrinhDaoTao_MonHoc();
+                    ResetGiaTri();
                 }
                 else
                 {

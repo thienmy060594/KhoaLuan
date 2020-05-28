@@ -214,6 +214,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     MonHoc_NhomTuChonBinding();
                     LoadListMonHoc_NhomTuChon();
+                    ResetGiaTri();
                 }
                 else
                 {

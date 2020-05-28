@@ -294,6 +294,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         TieuChiBinding();
                         LoadListTieuChi();
+                        ResetGiaTri();
                     }
                     else
                     {

@@ -282,6 +282,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         NhomTuChonBinding();
                         LoadListNhomTuChon();
+                        ResetGiaTri();
                     }
                     else
                     {

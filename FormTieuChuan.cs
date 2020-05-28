@@ -21,30 +21,34 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChuan.DataSource = TieuChuanList;
-            LoadListTieuChuan();        
+            LoadListTieuChuan();           
             txtMaTieuChuan.Enabled = false;
             txtTenTieuChuan.Enabled = false;
             txtNoiDungTieuChuan.Enabled = false;
             txtGhiChu.Enabled = false;
-            btnLuuLai.Enabled = false;            
+            btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false; 
         }
 
         private void LoadListTieuChuan()
-        {
+        {          
             dgvTieuChuan.DataSource = TieuChuanBUS.Instance.GetListTieuChuan();
             dgvTieuChuan.Columns[0].Visible = false;
             dgvTieuChuan.Columns[1].HeaderText = "Mã Tiêu Chuẩn";
             dgvTieuChuan.Columns[2].HeaderText = "Tên Tiêu Chuẩn";
             dgvTieuChuan.Columns[3].HeaderText = "Nội Dung Tiêu Chuẩn";
-            dgvTieuChuan.Columns[4].HeaderText = "Ghi Chú";            
-            // Tự động chỉnh lại kích thước cột     
+            dgvTieuChuan.Columns[4].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột                 
             dgvTieuChuan.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTieuChuan.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTieuChuan.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvTieuChuan.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChuan.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;           
             dgvTieuChuan.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvTieuChuan.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
-        }
+            dgvTieuChuan.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+            dgvTieuChuan.AutoGenerateColumns = false;         
+        }      
 
         void TieuChuanBinding()
         {
@@ -65,7 +69,10 @@ namespace KiemDinhChatLuongGUI
             txtTenTieuChuan.Enabled = true;
             txtNoiDungTieuChuan.Enabled = true;
             txtGhiChu.Enabled = true;
-            btnLuuLai.Enabled = true;           
+            btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
         }
 
         private event EventHandler insertTieuChuan;
@@ -121,7 +128,7 @@ namespace KiemDinhChatLuongGUI
                         insertTieuChuan(this, new EventArgs());
                     }
                     TieuChuanBinding();
-                    LoadListTieuChuan();
+                    LoadListTieuChuan();                    
                     ResetGiaTri();
                     btnDong.Enabled = true;                    
                 }
@@ -138,6 +145,66 @@ namespace KiemDinhChatLuongGUI
             txtTenTieuChuan.Text = "";
             txtNoiDungTieuChuan.Text = "";
             txtGhiChu.Text = "";
+        }                  
+
+        private event EventHandler updateTieuChuan;
+        public event EventHandler UpdateTieuChuan
+        {
+            add { updateTieuChuan += value; }
+            remove { updateTieuChuan -= value; }
+        }                 
+      
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            string matieuchuan = txtMaTieuChuan.Text;
+            string tentieuchuan = txtTenTieuChuan.Text;
+            string noidungtieuchuan = txtNoiDungTieuChuan.Text;
+            string ghichu = txtGhiChu.Text;           
+
+            if (MessageBox.Show("Bạn có muốn sửa tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {               
+                if (txtMaTieuChuan.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTieuChuan.Focus();
+                    return;
+                }
+                else if (txtTenTieuChuan.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenTieuChuan.Focus();
+                    return;
+                }
+                else if (txtNoiDungTieuChuan.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập nội dung tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenTieuChuan.Focus();
+                    return;
+                }
+                else
+                {
+                    string sql = string.Format("SELECT ID_TieuChuan FROM dbo.TieuChuan TChuan WHERE TChuan.MaTieuChuan = N'{0}'", matieuchuan);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_tieuchuan = Int32.Parse(input);
+
+                    if (TieuChuanBUS.Instance.UpdateTieuChuan(id_tieuchuan, matieuchuan, tentieuchuan, noidungtieuchuan, ghichu))
+                    {
+                        MessageBox.Show("Sửa tiêu chuẩn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateTieuChuan != null)
+                        {
+                            updateTieuChuan(this, new EventArgs());
+                        }
+                        TieuChuanBinding();
+                        LoadListTieuChuan();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
         }
 
         private event EventHandler deleteTieuChuan;
@@ -145,99 +212,54 @@ namespace KiemDinhChatLuongGUI
         {
             add { deleteTieuChuan += value; }
             remove { deleteTieuChuan -= value; }
-        }        
+        }
 
-        private event EventHandler updateTieuChuan;
-        public event EventHandler UpdateTieuChuan
-        {
-            add { updateTieuChuan += value; }
-            remove { updateTieuChuan -= value; }
-        }        
+        private void btnXoa_Click(object sender, EventArgs e)
+        {            
 
-        //chức năng xóa sửa
-        private void dgvTieuChuan_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvTieuChuan.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                if (txtMaTieuChuan.Text == "")
                 {
-                    dgvTieuChuan.CurrentRow.Selected = true;
-                    string input = dgvTieuChuan.Rows[e.RowIndex].Cells["ID_TieuChuan"].FormattedValue.ToString();
+                    MessageBox.Show("Bạn chưa nhập mã tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTieuChuan.Focus();
+                    return;
+                }
+                else
+                {
+                    string matieuchuan = txtMaTieuChuan.Text;
+                    string sql = string.Format("SELECT ID_TieuChuan FROM dbo.TieuChuan TChuan WHERE TChuan.MaTieuChuan = N'{0}'", matieuchuan);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_tieuchuan = Int32.Parse(input);
-                    if (MessageBox.Show("Bạn có muốn sửa tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string matieuchuan = txtMaTieuChuan.Text;
-                        string tentieuchuan = txtTenTieuChuan.Text;
-                        string noidungtieuchuan = txtNoiDungTieuChuan.Text;
-                        string ghichu = txtGhiChu.Text;
 
-                        if (txtMaTieuChuan.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaTieuChuan.Focus();
-                            return;
-                        }
-                        else if (txtTenTieuChuan.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenTieuChuan.Focus();
-                            return;
-                        }
-                        else if (txtNoiDungTieuChuan.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập nội dung tiêu chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenTieuChuan.Focus();
-                            return;
-                        }
-                        else
-                        {
-                            if (TieuChuanBUS.Instance.UpdateTieuChuan(id_tieuchuan, matieuchuan, tentieuchuan, noidungtieuchuan, ghichu))
-                            {
-                                MessageBox.Show("Sửa tiêu chuẩn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateTieuChuan != null)
-                                {
-                                    updateTieuChuan(this, new EventArgs());
-                                }
-                                TieuChuanBinding();
-                                LoadListTieuChuan();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }
-                    else if (MessageBox.Show("Bạn có muốn xóa tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (TieuChuanBUS.Instance.DeleteTieuChuan(id_tieuchuan))
                     {
-                        if (TieuChuanBUS.Instance.DeleteTieuChuan(id_tieuchuan))
+                        MessageBox.Show("Xóa tiêu chuẩn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteTieuChuan != null)
                         {
-                            MessageBox.Show("Xóa tiêu chuẩn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteTieuChuan != null)
-                            {
-                                deleteTieuChuan(this, new EventArgs());
-                            }
-                            TieuChuanBinding();
-                            LoadListTieuChuan();
+                            deleteTieuChuan(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        TieuChuanBinding();
+                        LoadListTieuChuan();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }                
-            }  
-            catch
-            {
-                    MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }    
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }        
+        }
     }
 }
 

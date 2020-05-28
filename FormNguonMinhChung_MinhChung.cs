@@ -214,6 +214,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     NguonMinhChung_MinhChungBinding();
                     LoadListNguonMinhChung_MinhChung();
+                    ResetGiaTri();
                 }
                 else
                 {

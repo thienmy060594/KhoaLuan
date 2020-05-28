@@ -20,9 +20,49 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvYeuCauMocThamChieu.DataSource = YeuCau_MocThamChieuList;
-            LoadListYeuCau_MocThamChieu();            
+            LoadListYeuCau_MocThamChieu();           
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvYeuCauMocThamChieu[column, row];
+            DataGridViewCell cell2 = dgvYeuCauMocThamChieu[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvYeuCauMocThamChieu_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvYeuCauMocThamChieu.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvYeuCauMocThamChieu_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListYeuCau_MocThamChieu()
@@ -42,8 +82,9 @@ namespace KiemDinhChatLuongGUI
             dgvYeuCauMocThamChieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvYeuCauMocThamChieu.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvYeuCauMocThamChieu.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
-            dgvYeuCauMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp            
-        }
+            dgvYeuCauMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
+            dgvYeuCauMocThamChieu.AutoGenerateColumns = false;
+        }        
 
         void YeuCau_MocThamChieuBinding()
         {
@@ -55,6 +96,9 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
 
@@ -85,7 +129,7 @@ namespace KiemDinhChatLuongGUI
 
             if (MessageBox.Show("Bạn có muốn thêm yêu cầu - mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (TieuChi_YeuCauBUS.Instance.InsertTieuChi_YeuCau(id_yeucau, id_mocthamchieu, ghichu))
+                if (YeuCau_MocThamChieuBUS.Instance.InsertYeuCau_MocThamChieu(id_yeucau, id_mocthamchieu, ghichu))
                 {
                     MessageBox.Show("Thêm yêu cầu - mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertYeuCau_MocThamChieu != null)
@@ -114,6 +158,35 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateYeuCau_MocThamChieu += value; }
             remove { updateYeuCau_MocThamChieu -= value; }
+        }                  
+        
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa yêu cầu - mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {                
+                string ghichu = txtGhiChu.Text;
+                string input_1 = cbxYeuCau.GetItemText(cbxYeuCau.SelectedValue); ;
+                int id_yeucau = Int32.Parse(input_1);
+                string input_2 = cbxMocThamChieu.GetItemText(cbxMocThamChieu.SelectedValue); ;
+                int id_mocthamchieu = Int32.Parse(input_2);
+
+                if (YeuCau_MocThamChieuBUS.Instance.UpdateYeuCau_MocThamChieu(id_yeucau, id_mocthamchieu, ghichu))
+                {
+                    MessageBox.Show("Sửa yêu cầu - mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (updateYeuCau_MocThamChieu != null)
+                    {
+                        updateYeuCau_MocThamChieu(this, new EventArgs());
+                    }
+                    YeuCau_MocThamChieuBinding();
+                    LoadListYeuCau_MocThamChieu();
+                    ResetGiaTri();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa yêu cầu - mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
         }
 
         private event EventHandler deleteYeuCau_MocThamChieu;
@@ -123,61 +196,36 @@ namespace KiemDinhChatLuongGUI
             remove { deleteYeuCau_MocThamChieu -= value; }
         }
 
-        private void dgvYeuCauMocThamChieu_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa yêu cầu - mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvYeuCauMocThamChieu.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
-                {
-                    dgvYeuCauMocThamChieu.CurrentRow.Selected = true;
-                    string ghichu = txtGhiChu.Text;
-                    string input_1 = dgvYeuCauMocThamChieu.Rows[e.RowIndex].Cells["ID_YeuCau"].FormattedValue.ToString();
-                    int id_yeucau = Int32.Parse(input_1);
-                    string input_2 = dgvYeuCauMocThamChieu.Rows[e.RowIndex].Cells["ID_MocThamChieu"].FormattedValue.ToString();
-                    int id_mocthamchieu = Int32.Parse(input_2);
+                string input_1 = cbxYeuCau.GetItemText(cbxYeuCau.SelectedValue); ;
+                int id_yeucau = Int32.Parse(input_1);
+                string input_2 = cbxMocThamChieu.GetItemText(cbxMocThamChieu.SelectedValue); ;
+                int id_mocthamchieu = Int32.Parse(input_2);
 
-                    if(MessageBox.Show("Bạn có muốn sửa yêu cầu - mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                if (YeuCau_MocThamChieuBUS.Instance.DeleteYeuCau_MocThamChieu(id_yeucau, id_mocthamchieu))
+                {
+                    MessageBox.Show("Xóa yêu cầu - mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (deleteYeuCau_MocThamChieu != null)
                     {
-                        if (YeuCau_MocThamChieuBUS.Instance.UpdateYeuCau_MocThamChieu(id_yeucau, id_mocthamchieu, ghichu))
-                        {
-                            MessageBox.Show("Sửa yêu cầu - mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (updateYeuCau_MocThamChieu != null)
-                            {
-                                updateYeuCau_MocThamChieu(this, new EventArgs());
-                            }
-                            YeuCau_MocThamChieuBinding();
-                            LoadListYeuCau_MocThamChieu();
-                            ResetGiaTri();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sửa yêu cầu - mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
+                        deleteYeuCau_MocThamChieu(this, new EventArgs());
                     }
-                    else if (MessageBox.Show("Bạn có muốn xóa yêu cầu - mốc tham chiếu này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        if (YeuCau_MocThamChieuBUS.Instance.DeleteYeuCau_MocThamChieu(id_yeucau, id_mocthamchieu))
-                        {
-                            MessageBox.Show("Xóa yêu cầu - mốc tham chiếu thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteYeuCau_MocThamChieu != null)
-                            {
-                                deleteYeuCau_MocThamChieu(this, new EventArgs());
-                            }
-                            YeuCau_MocThamChieuBinding();
-                            LoadListYeuCau_MocThamChieu();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa yêu cầu - mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
+                    YeuCau_MocThamChieuBinding();
+                    LoadListYeuCau_MocThamChieu();
+                    ResetGiaTri();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa yêu cầu - mốc tham chiếu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

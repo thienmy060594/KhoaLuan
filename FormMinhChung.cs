@@ -336,6 +336,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         MinhChungBinding();
                         LoadListMinhChung();
+                        ResetGiaTri();
                     }
                     else
                     {

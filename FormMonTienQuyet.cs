@@ -213,6 +213,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     MonTienQuyetBinding();
                     LoadListMonTienQuyet();
+                    ResetGiaTri();
                 }
                 else
                 {

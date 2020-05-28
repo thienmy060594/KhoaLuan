@@ -269,6 +269,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         NganhBinding();
                         LoadListNganh();
+                        ResetGiaTri();
                     }
                     else
                     {

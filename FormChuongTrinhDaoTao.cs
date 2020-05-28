@@ -264,7 +264,7 @@ namespace KiemDinhChatLuongGUI
                     string namapdung = txtNamApDung.Text;
                     string tomtatnoidung = txtTomTatNoiDung.Text;
                     string ghichu = txtGhiChu.Text;
-                    string sql = string.Format("SELECT ID_ChuongTrinhDaoTao FROM dbo.ChuongTrinhDaoTao CTrinhDTao WHERE CTrinhDTao.MaChuongTrinhDaoTao = N'{0}'", machuongtrinhdaotao);
+                    string sql = string.Format("SELECT ID_ChuongTrinhDaoTao FROM dbo.ChuongTrinhDaoTao CTDTao WHERE CTDTao.MaChuongTrinhDaoTao = N'{0}'", machuongtrinhdaotao);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_chuongtrinhdaotao = Int32.Parse(input);
                     string input_1 = cbxNganh.GetItemText(cbxNganh.SelectedValue);
@@ -313,7 +313,7 @@ namespace KiemDinhChatLuongGUI
                 else
                 {
                     string machuongtrinhdaotao = txtMaChuongTrinhDaoTao.Text;
-                    string sql = string.Format("SELECT ID_ChuongTrinhDaoTao FROM dbo.ChuongTrinhDaoTao CTrinhDTao WHERE CTrinhDTao.MaChuongTrinhDaoTao = N'{0}'", machuongtrinhdaotao);
+                    string sql = string.Format("SELECT ID_ChuongTrinhDaoTao FROM dbo.ChuongTrinhDaoTao CTDTao WHERE CTDTao.MaChuongTrinhDaoTao = N'{0}'", machuongtrinhdaotao);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_chuongtrinhdaotao = Int32.Parse(input);
 
@@ -326,6 +326,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         ChuongTrinhDaoTaoBinding();
                         LoadListChuongTrinhDaoTao();
+                        ResetGiaTri();
                     }
                     else
                     {

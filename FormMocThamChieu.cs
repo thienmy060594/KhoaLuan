@@ -180,7 +180,7 @@ namespace KiemDinhChatLuongGUI
                     string tenmocthamchieu = txtTenMocThamChieu.Text;
                     string noidungmocthamchieu = txtNoiDungMocThamChieu.Text;
                     string ghichu = txtGhiChu.Text;
-                    string sql = string.Format("SELECT ID_MocThamChieu FROM dbo.MocthamChieu MTChieu WHERE MTChieu.MocThamChieu = N'{0}'", mamocthamchieu);
+                    string sql = string.Format("SELECT ID_MocThamChieu FROM dbo.MocthamChieu MTChieu WHERE MTChieu.MaMocThamChieu = N'{0}'", mamocthamchieu);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_mocthamchieu = Int32.Parse(input);
 
@@ -224,7 +224,7 @@ namespace KiemDinhChatLuongGUI
                 else
                 {
                     string mamocthamchieu = txtMaMocThamChieu.Text;
-                    string sql = string.Format("SELECT ID_MocThamChieu FROM dbo.MocthamChieu MTChieu WHERE MTChieu.MocThamChieu = N'{0}'", mamocthamchieu);
+                    string sql = string.Format("SELECT ID_MocThamChieu FROM dbo.MocthamChieu MTChieu WHERE MTChieu.MaMocThamChieu = N'{0}'", mamocthamchieu);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_mocthamchieu = Int32.Parse(input);
 
@@ -237,6 +237,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         MocThamChieuBinding();
                         LoadListMocThamChieu();
+                        ResetGiaTri();
                     }
                     else
                     {

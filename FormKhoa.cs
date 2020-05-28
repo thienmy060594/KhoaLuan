@@ -241,6 +241,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         KhoaBinding();
                         LoadListKhoa();
+                        ResetGiaTri();
                     }
                     else
                     {

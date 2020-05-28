@@ -304,6 +304,7 @@ namespace KiemDinhChatLuongGUI
                         }
                         DeCuongMonHocBinding();
                         LoadListDeCuongMonHoc();
+                        ResetGiaTri();
                     }
                     else
                     {
