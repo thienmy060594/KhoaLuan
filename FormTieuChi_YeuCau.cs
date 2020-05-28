@@ -20,7 +20,8 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChiYeuCau.DataSource = TieuChi_YeuCauList;
-            LoadListTieuChi_YeuCau();                  
+            LoadListTieuChi_YeuCau();
+            AddButtonColumn();
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;  
         }
@@ -43,20 +44,30 @@ namespace KiemDinhChatLuongGUI
             dgvTieuChiYeuCau.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvTieuChiYeuCau.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChiYeuCau.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+            dgvTieuChiYeuCau.AutoGenerateColumns = false;
+        }
 
+        private void AddButtonColumn()
+        {
             DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            btnSua.HeaderText = "Nút Sửa";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;
-            dgvTieuChiYeuCau.Columns.Add(btnSua);
+            {
+                btnSua.HeaderText = "Nút Sửa";
+                btnSua.Name = "btnSua";
+                btnSua.Text = "Sửa";
+                btnSua.UseColumnTextForButtonValue = true;
+                dgvTieuChiYeuCau.Columns.Add(btnSua);
+                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
 
             DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            btnXoa.HeaderText = "Nút Xóa";
-            btnXoa.Name = "btnXoa";
-            btnXoa.Text = "Xóa";
-            btnXoa.UseColumnTextForButtonValue = true;
-            dgvTieuChiYeuCau.Columns.Add(btnXoa);
+            {
+                btnXoa.HeaderText = "Nút Xóa";
+                btnXoa.Name = "btnXoa";
+                btnXoa.Text = "Xóa";
+                btnXoa.UseColumnTextForButtonValue = true;
+                dgvTieuChiYeuCau.Columns.Add(btnXoa);
+                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
 
         void TieuChi_YeuCauBinding()

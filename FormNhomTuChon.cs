@@ -21,6 +21,7 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvNhomTuChon.DataSource = NhomTuChonList;
             LoadListNhomTuChon();
+            AddButtonColumn();
             txtMaNhomTuChon.Enabled = false;
             txtTenNhomTuChon.Enabled = false;
             txtSoTinChi.Enabled = false;
@@ -46,20 +47,30 @@ namespace KiemDinhChatLuongGUI
             dgvNhomTuChon.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;            
             dgvNhomTuChon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp         
+            dgvNhomTuChon.AutoGenerateColumns = false;
+        }
 
+        private void AddButtonColumn()
+        {
             DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            btnSua.HeaderText = "Nút Sửa";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;
-            dgvNhomTuChon.Columns.Add(btnSua);
+            {
+                btnSua.HeaderText = "Nút Sửa";
+                btnSua.Name = "btnSua";
+                btnSua.Text = "Sửa";
+                btnSua.UseColumnTextForButtonValue = true;
+                dgvNhomTuChon.Columns.Add(btnSua);
+                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
 
             DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            btnXoa.HeaderText = "Nút Xóa";
-            btnXoa.Name = "btnXoa";
-            btnXoa.Text = "Xóa";
-            btnXoa.UseColumnTextForButtonValue = true;
-            dgvNhomTuChon.Columns.Add(btnXoa);
+            {
+                btnXoa.HeaderText = "Nút Xóa";
+                btnXoa.Name = "btnXoa";
+                btnXoa.Text = "Xóa";
+                btnXoa.UseColumnTextForButtonValue = true;
+                dgvNhomTuChon.Columns.Add(btnXoa);
+                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
 
         void NhomTuChonBinding()

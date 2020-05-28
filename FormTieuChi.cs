@@ -21,13 +21,14 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChi.DataSource = TieuChiList;
-            LoadListTieuChi();          
+            LoadListTieuChi();
+            AddButtonColumn();
             txtMaTieuChi.Enabled = false;
             txtTenTieuChi.Enabled = false;
             txtNoiDungTieuChi.Enabled = false;
             txtGhiChu.Enabled = false;
-            btnLuuLai.Enabled = false;           
-           
+            btnLuuLai.Enabled = false;
+
         }
 
         private void LoadListTieuChi()
@@ -50,30 +51,39 @@ namespace KiemDinhChatLuongGUI
             dgvTieuChi.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChi.AllowUserToAddRows = false;
-            dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp 
-            
+            dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp     
+            dgvTieuChi.AutoGenerateColumns = false;
+        }
 
+        private void AddButtonColumn()
+        {
             DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            dgvTieuChi.Columns.Add(btnSua);
-            btnSua.HeaderText = "Nút Sửa";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;            
+            {
+                btnSua.HeaderText = "Nút Sửa";
+                btnSua.Name = "btnSua";
+                btnSua.Text = "Sửa";
+                btnSua.UseColumnTextForButtonValue = true;
+                dgvTieuChi.Columns.Add(btnSua);
+                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
 
             DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            dgvTieuChi.Columns.Add(btnXoa);
-            btnXoa.HeaderText = "Nút Xóa";
-            btnXoa.Name = "btnXoa";
-            btnXoa.Text = "Xóa";
-            btnXoa.UseColumnTextForButtonValue = true;
+            {
+                btnXoa.HeaderText = "Nút Xóa";
+                btnXoa.Name = "btnXoa";
+                btnXoa.Text = "Xóa";
+                btnXoa.UseColumnTextForButtonValue = true;
+                dgvTieuChi.Columns.Add(btnXoa);
+                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
-        
+
         void TieuChiBinding()
         {
             txtMaTieuChi.DataBindings.Clear();
             txtTenTieuChi.DataBindings.Clear();
             txtNoiDungTieuChi.DataBindings.Clear();
-            txtGhiChu.DataBindings.Clear();            
+            txtGhiChu.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -88,14 +98,14 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
             FillComBoBox();
-        }             
+        }
 
         private void FillComBoBox()
-        {            
+        {
             cbxTieuChuan.DataSource = TieuChuanBUS.Instance.GetListTieuChuan();
             cbxTieuChuan.ValueMember = "ID_TieuChuan";
-            cbxTieuChuan.DisplayMember = "TenTieuChuan";                    
-        }       
+            cbxTieuChuan.DisplayMember = "TenTieuChuan";
+        }
 
         private event EventHandler insertTieuChuan;
         public event EventHandler InsertTieuChuan
@@ -149,11 +159,11 @@ namespace KiemDinhChatLuongGUI
                     if (insertTieuChuan != null)
                     {
                         insertTieuChuan(this, new EventArgs());
-                    }                           
+                    }
                     TieuChiBinding();
                     LoadListTieuChi();
                     ResetGiaTri();
-                    btnDong.Enabled = true;                    
+                    btnDong.Enabled = true;
                 }
                 else
                 {
@@ -177,7 +187,7 @@ namespace KiemDinhChatLuongGUI
             remove { updateTieuChi -= value; }
         }
 
-        
+
         private event EventHandler deleteTieuChi;
         public event EventHandler DeleteTieuChi
         {
@@ -201,7 +211,7 @@ namespace KiemDinhChatLuongGUI
                         string matieuchi = txtMaTieuChi.Text;
                         string tentieuchi = txtTenTieuChi.Text;
                         string noidungtieuchi = txtNoiDungTieuChi.Text;
-                        string ghichu = txtGhiChu.Text;                        
+                        string ghichu = txtGhiChu.Text;
 
                         if (txtMaTieuChi.Text == "")
                         {
@@ -240,7 +250,7 @@ namespace KiemDinhChatLuongGUI
                                 return;
                             }
                         }
-                    }                    
+                    }
                 }
                 if (dgvTieuChi.Columns[e.ColumnIndex].Name == "btnXoa")
                 {
@@ -276,6 +286,6 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }       
+        }
     }
 }

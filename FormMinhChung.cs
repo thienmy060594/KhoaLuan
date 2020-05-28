@@ -20,7 +20,8 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMinhChung.DataSource = MinhChungList;
-            LoadListMinhChung();           
+            LoadListMinhChung();
+            AddButtonColumn();
             txtMaTaiLieu.Enabled = false;
             txtTenTaiLieu.Enabled = false;
             txtNgayKy.Enabled = false;
@@ -54,22 +55,32 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+            dgvMinhChung.AutoGenerateColumns = false;
+        }
 
+        private void AddButtonColumn()
+        {
             DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            btnSua.HeaderText = "Nút Sửa";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;
-            dgvMinhChung.Columns.Add(btnSua);
+            {
+                btnSua.HeaderText = "Nút Sửa";
+                btnSua.Name = "btnSua";
+                btnSua.Text = "Sửa";
+                btnSua.UseColumnTextForButtonValue = true;
+                dgvMinhChung.Columns.Add(btnSua);
+                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
 
             DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            btnXoa.HeaderText = "Nút Xóa";
-            btnXoa.Name = "btnXoa";
-            btnXoa.Text = "Xóa";
-            btnXoa.UseColumnTextForButtonValue = true;
-            dgvMinhChung.Columns.Add(btnXoa);
-        }           
-        
+            {
+                btnXoa.HeaderText = "Nút Xóa";
+                btnXoa.Name = "btnXoa";
+                btnXoa.Text = "Xóa";
+                btnXoa.UseColumnTextForButtonValue = true;
+                dgvMinhChung.Columns.Add(btnXoa);
+                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+        }
+
         void MinhChungBinding()
         {
             txtMaTaiLieu.DataBindings.Clear();

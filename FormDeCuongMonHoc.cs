@@ -21,6 +21,7 @@ namespace KiemDinhChatLuongGUI
             InitializeComponent();
             dgvDeCuongMonHoc.DataSource = DeCuongMonHocList;
             LoadListDeCuongMonHoc();
+            AddButtonColumn();
             txtMaDeCuongMonHoc.Enabled = false;
             txtTenDeCuongMonHoc.Enabled = false;
             txtNoiDung.Enabled = false;
@@ -54,20 +55,30 @@ namespace KiemDinhChatLuongGUI
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvDeCuongMonHoc.AllowUserToAddRows = false;
             dgvDeCuongMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
+            dgvDeCuongMonHoc.AutoGenerateColumns = false;
+        }
 
+        private void AddButtonColumn()
+        {
             DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            btnSua.HeaderText = "Nút Sửa";
-            btnSua.Name = "btnSua";
-            btnSua.Text = "Sửa";
-            btnSua.UseColumnTextForButtonValue = true;
-            dgvDeCuongMonHoc.Columns.Add(btnSua);
+            {
+                btnSua.HeaderText = "Nút Sửa";
+                btnSua.Name = "btnSua";
+                btnSua.Text = "Sửa";
+                btnSua.UseColumnTextForButtonValue = true;
+                dgvDeCuongMonHoc.Columns.Add(btnSua);
+                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
 
             DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            btnXoa.HeaderText = "Nút Xóa";
-            btnXoa.Name = "btnXoa";
-            btnXoa.Text = "Xóa";
-            btnXoa.UseColumnTextForButtonValue = true;
-            dgvDeCuongMonHoc.Columns.Add(btnXoa);
+            {
+                btnXoa.HeaderText = "Nút Xóa";
+                btnXoa.Name = "btnXoa";
+                btnXoa.Text = "Xóa";
+                btnXoa.UseColumnTextForButtonValue = true;
+                dgvDeCuongMonHoc.Columns.Add(btnXoa);
+                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
 
         void DeCuongMonHocBinding()

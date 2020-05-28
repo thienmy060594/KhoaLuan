@@ -174,7 +174,7 @@
             this.dgvTieuChi.RowTemplate.Height = 24;
             this.dgvTieuChi.Size = new System.Drawing.Size(1026, 315);
             this.dgvTieuChi.TabIndex = 0;
-            this.dgvTieuChi.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTieuChi_CellClick);
+            this.dgvTieuChi.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTieuChi_CellClick);           
             // 
             // groupBox3
             // 
