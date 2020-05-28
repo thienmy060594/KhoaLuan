@@ -28,6 +28,9 @@ namespace KiemDinhChatLuongGUI
             txtTenKhoa.Enabled = false;            
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
         }
 
         private void LoadListKhoa()
@@ -85,6 +88,9 @@ namespace KiemDinhChatLuongGUI
             txtTenKhoa.Enabled = true;            
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
         }
 
         private event EventHandler insertKhoa;
@@ -155,6 +161,51 @@ namespace KiemDinhChatLuongGUI
         {
             add { deleteKhoa += value; }
             remove { deleteKhoa -= value; }
+        }          
+      
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa khoa này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {               
+                if (txtMaKhoa.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaKhoa.Focus();
+                    return;
+                }
+                else if (txtTenKhoa.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenKhoa.Focus();
+                    return;
+                }
+                else
+                {
+                    string makhoa = txtMaKhoa.Text;
+                    string tenkhoa = txtTenKhoa.Text;
+                    string ghichu = txtGhiChu.Text;                    
+                    string sql = string.Format("SELECT ID_Khoa FROM dbo.Khoa K WHERE K.MaKhoa = N'{0}'", makhoa);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_khoa = Int32.Parse(input);
+
+                    if (KhoaBUS.Instance.UpdateKhoa(id_khoa, makhoa, tenkhoa, ghichu))
+                    {
+                        MessageBox.Show("Sửa khoa thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateKhoa != null)
+                        {
+                            updateKhoa(this, new EventArgs());
+                        }
+                        KhoaBinding();
+                        LoadListKhoa();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa khoa thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
         }
 
         private event EventHandler updateKhoa;
@@ -164,83 +215,44 @@ namespace KiemDinhChatLuongGUI
             remove { updateKhoa -= value; }
         }
 
-        private void dgvKhoa_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa khoa này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvKhoa.Columns[e.ColumnIndex].Name == "btnSua")
+                if (txtMaKhoa.Text == "")
                 {
-                    dgvKhoa.CurrentRow.Selected = true;
-                    string input = dgvKhoa.Rows[e.RowIndex].Cells["ID_Khoa"].FormattedValue.ToString();
-                    int id_khoa = Int32.Parse(input);
-
-                    if (MessageBox.Show("Bạn có muốn sửa khoa này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string makhoa = txtMaKhoa.Text;
-                        string tenkhoa = txtTenKhoa.Text;                        
-                        string ghichu = txtGhiChu.Text;
-                        if (txtMaKhoa.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaKhoa.Focus();
-                            return;
-                        }
-                        else if (txtTenKhoa.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenKhoa.Focus();
-                            return;
-                        }                        
-                        else
-                        {
-                            if (KhoaBUS.Instance.UpdateKhoa(id_khoa, makhoa, tenkhoa, ghichu))
-                            {
-                                MessageBox.Show("Sửa khoa thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateKhoa != null)
-                                {
-                                    updateKhoa(this, new EventArgs());
-                                }
-                                KhoaBinding();
-                                LoadListKhoa();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa khoa thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                    
+                    MessageBox.Show("Bạn chưa nhập mã khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaKhoa.Focus();
+                    return;
                 }
-                if(dgvKhoa.Columns[e.ColumnIndex].Name == "btnXoa")
+                else
                 {
-                    dgvKhoa.CurrentRow.Selected = true;
-                    string input = dgvKhoa.Rows[e.RowIndex].Cells["ID_Khoa"].FormattedValue.ToString();
+                    string makhoa = txtMaKhoa.Text;
+                    string sql = string.Format("SELECT ID_Khoa FROM dbo.Khoa K WHERE K.MaKhoa = N'{0}'", makhoa);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_khoa = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa khoa này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (KhoaBUS.Instance.DeleteKhoa(id_khoa))
                     {
-                        if (KhoaBUS.Instance.DeleteKhoa(id_khoa))
+                        MessageBox.Show("Xóa khoa thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteKhoa != null)
                         {
-                            MessageBox.Show("Xóa khoa thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteKhoa != null)
-                            {
-                                deleteKhoa(this, new EventArgs());
-                            }
-                            KhoaBinding();
-                            LoadListKhoa();
+                            deleteKhoa(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        KhoaBinding();
+                        LoadListKhoa();
                     }
-                }    
+                    else
+                    {
+                        MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

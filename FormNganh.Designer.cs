@@ -40,7 +40,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvNganh = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnHuy = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnSua = new System.Windows.Forms.Button();
             this.btnLuuLai = new System.Windows.Forms.Button();
             this.btnBatDau = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -64,7 +67,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(851, 106);
+            this.groupBox1.Size = new System.Drawing.Size(1032, 106);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi Tiết Ngành";
@@ -73,30 +76,30 @@
             // 
             this.txtGhiChu.Location = new System.Drawing.Point(153, 62);
             this.txtGhiChu.Name = "txtGhiChu";
-            this.txtGhiChu.Size = new System.Drawing.Size(235, 28);
+            this.txtGhiChu.Size = new System.Drawing.Size(301, 28);
             this.txtGhiChu.TabIndex = 3;
             // 
             // txtTenNganh
             // 
-            this.txtTenNganh.Location = new System.Drawing.Point(492, 28);
+            this.txtTenNganh.Location = new System.Drawing.Point(558, 28);
             this.txtTenNganh.Name = "txtTenNganh";
-            this.txtTenNganh.Size = new System.Drawing.Size(261, 28);
+            this.txtTenNganh.Size = new System.Drawing.Size(304, 28);
             this.txtTenNganh.TabIndex = 2;
             // 
             // txtMaNganh
             // 
             this.txtMaNganh.Location = new System.Drawing.Point(153, 28);
             this.txtMaNganh.Name = "txtMaNganh";
-            this.txtMaNganh.Size = new System.Drawing.Size(235, 28);
+            this.txtMaNganh.Size = new System.Drawing.Size(301, 28);
             this.txtMaNganh.TabIndex = 1;
             // 
             // cbxKhoa
             // 
             this.cbxKhoa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxKhoa.FormattingEnabled = true;
-            this.cbxKhoa.Location = new System.Drawing.Point(492, 62);
+            this.cbxKhoa.Location = new System.Drawing.Point(558, 62);
             this.cbxKhoa.Name = "cbxKhoa";
-            this.cbxKhoa.Size = new System.Drawing.Size(261, 28);
+            this.cbxKhoa.Size = new System.Drawing.Size(304, 28);
             this.cbxKhoa.TabIndex = 4;
             // 
             // label4
@@ -111,7 +114,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(394, 65);
+            this.label3.Location = new System.Drawing.Point(460, 65);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(50, 21);
             this.label3.TabIndex = 2;
@@ -120,7 +123,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(394, 31);
+            this.label2.Location = new System.Drawing.Point(460, 31);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(92, 21);
             this.label2.TabIndex = 1;
@@ -141,7 +144,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 106);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(851, 315);
+            this.groupBox2.Size = new System.Drawing.Size(1032, 370);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông Tin Ngành";
@@ -154,26 +157,40 @@
             this.dgvNganh.Name = "dgvNganh";
             this.dgvNganh.RowHeadersWidth = 51;
             this.dgvNganh.RowTemplate.Height = 24;
-            this.dgvNganh.Size = new System.Drawing.Size(845, 285);
+            this.dgvNganh.Size = new System.Drawing.Size(1026, 340);
             this.dgvNganh.TabIndex = 0;
-            this.dgvNganh.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNganh_CellClick);
+            this.dgvNganh.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvNganh_CellFormatting);
+            this.dgvNganh.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvNganh_CellPainting);
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnHuy);
             this.groupBox3.Controls.Add(this.btnDong);
+            this.groupBox3.Controls.Add(this.btnXoa);
+            this.groupBox3.Controls.Add(this.btnSua);
             this.groupBox3.Controls.Add(this.btnLuuLai);
             this.groupBox3.Controls.Add(this.btnBatDau);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 427);
+            this.groupBox3.Location = new System.Drawing.Point(0, 482);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(851, 71);
+            this.groupBox3.Size = new System.Drawing.Size(1032, 71);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
             // 
+            // btnHuy
+            // 
+            this.btnHuy.Location = new System.Drawing.Point(736, 29);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(83, 30);
+            this.btnHuy.TabIndex = 17;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(693, 30);
+            this.btnDong.Location = new System.Drawing.Point(864, 30);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(84, 29);
             this.btnDong.TabIndex = 12;
@@ -181,9 +198,29 @@
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(436, 29);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(83, 30);
+            this.btnXoa.TabIndex = 16;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(323, 29);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(83, 30);
+            this.btnSua.TabIndex = 15;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(304, 30);
+            this.btnLuuLai.Location = new System.Drawing.Point(202, 30);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(84, 29);
             this.btnLuuLai.TabIndex = 11;
@@ -193,7 +230,7 @@
             // 
             // btnBatDau
             // 
-            this.btnBatDau.Location = new System.Drawing.Point(124, 30);
+            this.btnBatDau.Location = new System.Drawing.Point(87, 30);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(84, 29);
             this.btnBatDau.TabIndex = 10;
@@ -205,7 +242,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(851, 498);
+            this.ClientSize = new System.Drawing.Size(1032, 553);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -239,5 +276,8 @@
         private System.Windows.Forms.TextBox txtTenNganh;
         private System.Windows.Forms.TextBox txtMaNganh;
         private System.Windows.Forms.ComboBox cbxKhoa;
+        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnSua;
     }
 }

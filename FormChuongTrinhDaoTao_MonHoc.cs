@@ -20,11 +20,50 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvChuongTrinhDaoTaoMonHoc.DataSource = ChuongTrinhDaoTao_MonHocList;
-            LoadListChuongTrinhDaoTao_MonHoc();
-            AddButtonColumn();
+            LoadListChuongTrinhDaoTao_MonHoc();           
             txtHocKy.Enabled = false;
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvChuongTrinhDaoTaoMonHoc[column, row];
+            DataGridViewCell cell2 = dgvChuongTrinhDaoTaoMonHoc[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvChuongTrinhDaoTaoMonHoc_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvChuongTrinhDaoTaoMonHoc.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvChuongTrinhDaoTaoMonHoc_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListChuongTrinhDaoTao_MonHoc()
@@ -51,30 +90,7 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTaoMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvChuongTrinhDaoTaoMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp 
             dgvChuongTrinhDaoTaoMonHoc.AutoGenerateColumns = false;
-        }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvChuongTrinhDaoTaoMonHoc.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvChuongTrinhDaoTaoMonHoc.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+        }             
 
         void ChuongTrinhDaoTao_MonHocBinding()
         {
@@ -89,6 +105,9 @@ namespace KiemDinhChatLuongGUI
             txtHocKy.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
 
@@ -156,6 +175,38 @@ namespace KiemDinhChatLuongGUI
             add { updateChuongTrinhDaoTao_MonHoc += value; }
             remove { updateChuongTrinhDaoTao_MonHoc -= value; }
         }
+       
+        private void btnSua_Click(object sender, EventArgs e)
+        {       
+            if (MessageBox.Show("Bạn có muốn sửa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                string hocky = txtHocKy.Text;
+                string ghichu = txtGhiChu.Text;
+                string input_1 = cbxChuongTrinhDaoTao.GetItemText(cbxChuongTrinhDaoTao.SelectedValue); ;
+                int id_chuongtrinhdaotao = Int32.Parse(input_1);
+                string input_2 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue);
+                int id_monhoc = Int32.Parse(input_2);
+                string input_3 = cbxLoaiMon.GetItemText(cbxLoaiMon.SelectedValue);
+                int id_loaimon = Int32.Parse(input_3);
+
+                if (ChuongTrinhDaoTao_MonHocBUS.Instance.UpdateChuongTrinhDaoTao_MonHoc(id_chuongtrinhdaotao, id_monhoc, id_loaimon, hocky, ghichu))
+                {
+                    MessageBox.Show("Sửa chương trình đào tạo - môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (updateChuongTrinhDaoTao_MonHoc != null)
+                    {
+                        updateChuongTrinhDaoTao_MonHoc(this, new EventArgs());
+                    }
+                    ChuongTrinhDaoTao_MonHocBinding();
+                    LoadListChuongTrinhDaoTao_MonHoc();
+                    ResetGiaTri();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+        }
 
         private event EventHandler deleteChuongTrinhDaoTao_MonHoc;
         public event EventHandler DeleteChuongTrinhDaoTao_MonHoc
@@ -164,74 +215,37 @@ namespace KiemDinhChatLuongGUI
             remove { deleteChuongTrinhDaoTao_MonHoc -= value; }
         }
 
-        private void dgvChuongTrinhDaoTaoMonHoc_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvChuongTrinhDaoTaoMonHoc.Columns[e.ColumnIndex].Name == "btnSua")
-                {
-                    dgvChuongTrinhDaoTaoMonHoc.CurrentRow.Selected = true;
-                    string hocky = txtHocKy.Text;
-                    string ghichu = txtGhiChu.Text;
-                    string input_1 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_ChuongTrinhDaoTao"].FormattedValue.ToString();
-                    int id_chuongtrinhdaotao = Int32.Parse(input_1);
-                    string input_2 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_2);
-                    string input_3 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
-                    int id_loaimon = Int32.Parse(input_3);
+                string input_1 = cbxChuongTrinhDaoTao.GetItemText(cbxChuongTrinhDaoTao.SelectedValue); ;
+                int id_chuongtrinhdaotao = Int32.Parse(input_1);
+                string input_2 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue);
+                int id_monhoc = Int32.Parse(input_2);
+                string input_3 = cbxLoaiMon.GetItemText(cbxLoaiMon.SelectedValue);
+                int id_loaimon = Int32.Parse(input_3);
 
-                    if (MessageBox.Show("Bạn có muốn sửa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        if (ChuongTrinhDaoTao_MonHocBUS.Instance.UpdateChuongTrinhDaoTao_MonHoc(id_chuongtrinhdaotao, id_monhoc, id_loaimon, hocky, ghichu))
-                        {
-                            MessageBox.Show("Sửa chương trình đào tạo - môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (updateChuongTrinhDaoTao_MonHoc != null)
-                            {
-                                updateChuongTrinhDaoTao_MonHoc(this, new EventArgs());
-                            }
-                            ChuongTrinhDaoTao_MonHocBinding();
-                            LoadListChuongTrinhDaoTao_MonHoc();
-                            ResetGiaTri();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sửa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }                    
-                }
-                if(dgvChuongTrinhDaoTaoMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
+                if (ChuongTrinhDaoTao_MonHocBUS.Instance.DeleteChuongTrinhDaoTao_MonHoc(id_chuongtrinhdaotao, id_monhoc, id_loaimon))
                 {
-                    string input_1 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_ChuongTrinhDaoTao"].FormattedValue.ToString();
-                    int id_chuongtrinhdaotao = Int32.Parse(input_1);
-                    string input_2 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_2);
-                    string input_3 = dgvChuongTrinhDaoTaoMonHoc.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
-                    int id_loaimon = Int32.Parse(input_3);
-
-                    if (MessageBox.Show("Bạn có muốn xóa chương trình đào tạo - môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    MessageBox.Show("Xóa chương trình đào tạo - môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (deleteChuongTrinhDaoTao_MonHoc != null)
                     {
-                        if (ChuongTrinhDaoTao_MonHocBUS.Instance.DeleteChuongTrinhDaoTao_MonHoc(id_chuongtrinhdaotao, id_monhoc, id_loaimon))
-                        {
-                            MessageBox.Show("Xóa chương trình đào tạo - môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteChuongTrinhDaoTao_MonHoc != null)
-                            {
-                                deleteChuongTrinhDaoTao_MonHoc(this, new EventArgs());
-                            }
-                            ChuongTrinhDaoTao_MonHocBinding();
-                            LoadListChuongTrinhDaoTao_MonHoc();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        deleteChuongTrinhDaoTao_MonHoc(this, new EventArgs());
                     }
-                }    
+                    ChuongTrinhDaoTao_MonHocBinding();
+                    LoadListChuongTrinhDaoTao_MonHoc();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa chương trình đào tạo - môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

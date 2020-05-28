@@ -20,12 +20,51 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvNganh.DataSource = NganhList;
-            LoadListNganh();
-            AddButtonColumn();
+            LoadListNganh();            
             txtMaNganh.Enabled = false;
             txtTenNganh.Enabled = false;
             txtGhiChu.Enabled = false;
-            btnLuuLai.Enabled = false;            
+            btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvNganh[column, row];
+            DataGridViewCell cell2 = dgvNganh[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvNganh_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvNganh.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvNganh_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListNganh()
@@ -48,30 +87,7 @@ namespace KiemDinhChatLuongGUI
             dgvNganh.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
             dgvNganh.AutoGenerateColumns = false;
         }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvNganh.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvNganh.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
-
+      
         void NganhBinding()
         {
             txtMaNganh.DataBindings.Clear();
@@ -88,6 +104,9 @@ namespace KiemDinhChatLuongGUI
             txtTenNganh.Enabled = true;            
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
 
@@ -168,8 +187,54 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateNganh += value; }
             remove { updateNganh -= value; }
-        }
+        }        
 
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {             
+                if (txtMaNganh.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã ngành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaNganh.Focus();
+                    return;
+                }
+                else if (txtTenNganh.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên ngành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenNganh.Focus();
+                    return;
+                }
+                else
+                {
+                    string manganh = txtMaNganh.Text;
+                    string tennganh = txtTenNganh.Text;
+                    string ghichu = txtGhiChu.Text;
+                    string sql = string.Format("SELECT ID_Nganh FROM dbo.Nganh N WHERE N.MaNganh = N'{0}'", manganh);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_nganh = Int32.Parse(input);
+                    string input_1 = cbxKhoa.GetItemText(cbxKhoa.SelectedValue);
+                    int id_khoa = Int32.Parse(input_1);
+
+                    if (NganhBUS.Instance.UpdateNganh(id_nganh, id_khoa, manganh, tennganh, ghichu))
+                    {
+                        MessageBox.Show("Sửa ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateNganh != null)
+                        {
+                            updateNganh(this, new EventArgs());
+                        }
+                        NganhBinding();
+                        LoadListNganh();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa ngành thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
 
         private event EventHandler deleteNganh;
         public event EventHandler DeleteNganh
@@ -178,89 +243,49 @@ namespace KiemDinhChatLuongGUI
             remove { deleteNganh -= value; }
         }
 
-        private void dgvNganh_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvNganh.Columns[e.ColumnIndex].Name == "btnSua")
+                if (txtMaNganh.Text == "")
                 {
-                    dgvNganh.CurrentRow.Selected = true;                    
-                    string input = dgvNganh.Rows[e.RowIndex].Cells["ID_Nganh"].FormattedValue.ToString();
-                    int id_nganh = Int32.Parse(input);
-                    string input_1 = cbxKhoa.GetItemText(cbxKhoa.SelectedValue);
-                    int id_khoa = Int32.Parse(input_1);
-                    if (MessageBox.Show("Bạn có muốn sửa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string manganh = txtMaNganh.Text;
-                        string tennganh = txtTenNganh.Text;                        
-                        string ghichu = txtGhiChu.Text;
-
-                        if (txtMaNganh.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã ngành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaNganh.Focus();
-                            return;
-                        }
-                        else if (txtTenNganh.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên ngành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenNganh.Focus();
-                            return;
-                        }                        
-                        else
-                        {
-                            if (NganhBUS.Instance.UpdateNganh(id_nganh, id_khoa, manganh, tennganh, ghichu))
-                            {
-                                MessageBox.Show("Sửa ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateNganh != null)
-                                {
-                                    updateNganh(this, new EventArgs());
-                                }
-                                NganhBinding();
-                                LoadListNganh();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa ngành thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                    
+                    MessageBox.Show("Bạn chưa nhập mã ngành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaNganh.Focus();
+                    return;
                 }
-                if(dgvNganh.Columns[e.ColumnIndex].Name == "btnXoa")
+                else
                 {
-                    string input = dgvNganh.Rows[e.RowIndex].Cells["ID_Nganh"].FormattedValue.ToString();
+                    string manganh = txtMaNganh.Text;
+                    string sql = string.Format("SELECT ID_Nganh FROM dbo.Nganh N WHERE N.MaNganh = N'{0}'", manganh);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_nganh = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (NganhBUS.Instance.DeleteNganh(id_nganh))
                     {
-                        if (NganhBUS.Instance.DeleteNganh(id_nganh))
+                        MessageBox.Show("Xóa ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteNganh != null)
                         {
-                            MessageBox.Show("Xóa ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteNganh != null)
-                            {
-                                deleteNganh(this, new EventArgs());
-                            }
-                            NganhBinding();
-                            LoadListNganh();
+                            deleteNganh(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa ngành thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        NganhBinding();
+                        LoadListNganh();
                     }
-                }    
+                    else
+                    {
+                        MessageBox.Show("Xóa ngành thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }       
     }
 }

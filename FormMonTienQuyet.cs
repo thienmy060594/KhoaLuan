@@ -20,10 +20,49 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMonTienQuyet.DataSource = MonTienQuyetList;
-            LoadListMonTienQuyet();
-            AddButtonColumn();
+            LoadListMonTienQuyet();            
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvMonTienQuyet[column, row];
+            DataGridViewCell cell2 = dgvMonTienQuyet[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvMonTienQuyet_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvMonTienQuyet.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvMonTienQuyet_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListMonTienQuyet()
@@ -45,30 +84,7 @@ namespace KiemDinhChatLuongGUI
             dgvMonTienQuyet.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonTienQuyet.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
             dgvMonTienQuyet.AutoGenerateColumns = false;
-        }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvMonTienQuyet.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvMonTienQuyet.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+        }       
 
         void MonTienQuyetBinding()
         {
@@ -80,6 +96,9 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
         private void FillComBoBox()
@@ -138,6 +157,35 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateMonTienQuyet += value; }
             remove { updateMonTienQuyet -= value; }
+        }    
+        
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa môn tiên quyết này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                string ghichu = txtGhiChu.Text;
+                string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue); ;
+                int id_monhoc = Int32.Parse(input_1);
+                string input_2 = cbxMonTienQuyet.GetItemText(cbxMonTienQuyet.SelectedValue);
+                int id_monhoc_tienquyet = Int32.Parse(input_2);
+
+                if (MonTienQuyetBUS.Instance.UpdateMonTienQuyet(id_monhoc, id_monhoc_tienquyet, ghichu))
+                {
+                    MessageBox.Show("Sửa môn tiên quyết thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (updateMonTienQuyet != null)
+                    {
+                        updateMonTienQuyet(this, new EventArgs());
+                    }
+                    MonTienQuyetBinding();
+                    LoadListMonTienQuyet();
+                    ResetGiaTri();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa môn tiên quyết thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
         }
 
         private event EventHandler deleteMonTienQuyet;
@@ -147,70 +195,35 @@ namespace KiemDinhChatLuongGUI
             remove { deleteMonTienQuyet -= value; }
         }
 
-        private void dgvMonTienQuyet_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dgvMonTienQuyet.Columns[e.ColumnIndex].Name == "btnSua")
-                {
-                    dgvMonTienQuyet.CurrentRow.Selected = true;
-                    string ghichu = txtGhiChu.Text;
-                    string input_1 = dgvMonTienQuyet.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_1);
-                    string input_2 = dgvMonTienQuyet.Rows[e.RowIndex].Cells["ID_MonHoc_TienQuyet"].FormattedValue.ToString();
-                    int id_monhoc_tienquyet = Int32.Parse(input_2);
+            if (MessageBox.Show("Bạn có muốn xóa môn tiên quyết này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {                
+                string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue); ;
+                int id_monhoc = Int32.Parse(input_1);
+                string input_2 = cbxMonTienQuyet.GetItemText(cbxMonTienQuyet.SelectedValue);
+                int id_monhoc_tienquyet = Int32.Parse(input_2);
 
-                    if (MessageBox.Show("Bạn có muốn sửa môn tiên quyết này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        if (MonTienQuyetBUS.Instance.UpdateMonTienQuyet(id_monhoc, id_monhoc_tienquyet, ghichu))
-                        {
-                            MessageBox.Show("Sửa môn tiên quyết thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (updateMonTienQuyet != null)
-                            {
-                                updateMonTienQuyet(this, new EventArgs());
-                            }
-                            MonTienQuyetBinding();
-                            LoadListMonTienQuyet();
-                            ResetGiaTri();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sửa môn tiên quyết thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }                    
-                }
-                if(dgvMonTienQuyet.Columns[e.ColumnIndex].Name == "btnXoa")
+                if (MonTienQuyetBUS.Instance.DeleteMonTienQuyet(id_monhoc, id_monhoc_tienquyet))
                 {
-                    dgvMonTienQuyet.CurrentRow.Selected = true;                    
-                    string input_1 = dgvMonTienQuyet.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_1);
-                    string input_2 = dgvMonTienQuyet.Rows[e.RowIndex].Cells["ID_MonHoc_TienQuyet"].FormattedValue.ToString();
-                    int id_monhoc_tienquyet = Int32.Parse(input_2);
-
-                    if (MessageBox.Show("Bạn có muốn xóa môn tiên quyết này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    MessageBox.Show("Xóa môn tiên quyết thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (deleteMonTienQuyet != null)
                     {
-                        if (MonTienQuyetBUS.Instance.DeleteMonTienQuyet(id_monhoc, id_monhoc_tienquyet))
-                        {
-                            MessageBox.Show("Xóa môn tiên quyết thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteMonTienQuyet != null)
-                            {
-                                deleteMonTienQuyet(this, new EventArgs());
-                            }
-                            MonTienQuyetBinding();
-                            LoadListMonTienQuyet();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa môn tiên quyết thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        deleteMonTienQuyet(this, new EventArgs());
                     }
-                }    
+                    MonTienQuyetBinding();
+                    LoadListMonTienQuyet();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa môn tiên quyết thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

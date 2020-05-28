@@ -20,8 +20,7 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMonHoc.DataSource = MonHocList;
-            LoadListMonHoc();
-            AddButtonColumn();
+            LoadListMonHoc();            
             txtMaMonHoc.Enabled = false;
             txtTenMonHoc.Enabled = false;
             txtSoTinChi.Enabled = false;
@@ -29,6 +28,9 @@ namespace KiemDinhChatLuongGUI
             txtSoTietThucHanh.Enabled = false;
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
         }
 
         private void LoadListMonHoc()
@@ -51,30 +53,7 @@ namespace KiemDinhChatLuongGUI
             dgvMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMonHoc.AutoGenerateColumns = false;
-        }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvMonHoc.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvMonHoc.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+        }                
 
         void MonHocBinding()
         {
@@ -101,6 +80,9 @@ namespace KiemDinhChatLuongGUI
             txtSoTietThucHanh.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
         }
 
         private event EventHandler insertMonHoc;
@@ -196,6 +178,72 @@ namespace KiemDinhChatLuongGUI
             add { updateMonHoc += value; }
             remove { updateMonHoc -= value; }
         }
+     
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {               
+                if (txtMaMonHoc.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaMonHoc.Focus();
+                    return;
+                }
+                else if (txtTenMonHoc.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenMonHoc.Focus();
+                    return;
+                }
+                else if (txtSoTinChi.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập số tín chỉ !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoTinChi.Focus();
+                    return;
+                }
+                else if (txtSoTietLyThuyet.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập số tiết lý thuyết !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoTietLyThuyet.Focus();
+                    return;
+                }
+                else if (txtSoTietThucHanh.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập số tiết thực hành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoTietThucHanh.Focus();
+                    return;
+                }
+                else
+                {
+                    string mamonhoc = txtMaMonHoc.Text;
+                    string tenmonhoc = txtTenMonHoc.Text;
+                    int sotinchi = Int32.Parse(txtSoTinChi.Text);
+                    int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
+                    int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
+                    string ghichu = txtGhiChu.Text;
+                    string sql = string.Format("SELECT ID_MonHoc FROM dbo.MonHoc MHoc WHERE MHoc.MaMonHoc = N'{0}'", mamonhoc);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_monhoc = Int32.Parse(input);
+
+                    if (MonHocBUS.Instance.UpdateMonHoc(id_monhoc, mamonhoc, tenmonhoc, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
+                    {
+                        MessageBox.Show("Sửa minh chứng  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateMonHoc != null)
+                        {
+                            updateMonHoc(this, new EventArgs());
+                        }
+                        MonHocBinding();
+                        LoadListMonHoc();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
 
         private event EventHandler deleteMonHoc;
         public event EventHandler DeleteMonHoc
@@ -204,105 +252,44 @@ namespace KiemDinhChatLuongGUI
             remove { deleteMonHoc -= value; }
         }
 
-        private void dgvMonHoc_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa môn học  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
+                if (txtMaMonHoc.Text == "")
                 {
-                    dgvMonHoc.CurrentRow.Selected = true;
-                    string input = dgvMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input);
-
-                    if (MessageBox.Show("Bạn có muốn sửa môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string mamonhoc = txtMaMonHoc.Text;
-                        string tenmonhoc = txtTenMonHoc.Text;
-                        int sotinchi = Int32.Parse(txtSoTinChi.Text);
-                        int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
-                        int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
-                        string ghichu = txtGhiChu.Text;
-
-                        if (txtMaMonHoc.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaMonHoc.Focus();
-                            return;
-                        }
-                        else if (txtTenMonHoc.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenMonHoc.Focus();
-                            return;
-                        }
-                        else if (txtSoTinChi.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập số tín chỉ !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtSoTinChi.Focus();
-                            return;
-                        }
-                        else if (txtSoTietLyThuyet.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập số tiết lý thuyết !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtSoTietLyThuyet.Focus();
-                            return;
-                        }
-                        else if (txtSoTietThucHanh.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập số tiết thực hành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtSoTietThucHanh.Focus();
-                            return;
-                        }
-                        else
-                        {
-                            if (MonHocBUS.Instance.UpdateMonHoc(id_monhoc, mamonhoc, tenmonhoc, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
-                            {
-                                MessageBox.Show("Sửa minh chứng  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateMonHoc != null)
-                                {
-                                    updateMonHoc(this, new EventArgs());
-                                }
-                                MonHocBinding();
-                                LoadListMonHoc();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                    
+                    MessageBox.Show("Bạn chưa nhập mã môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaMonHoc.Focus();
+                    return;
                 }
-                if(dgvMonHoc.Columns[e.ColumnIndex].Name == "btnXoa")
+                else
                 {
-                    dgvMonHoc.CurrentRow.Selected = true;
-                    string input = dgvMonHoc.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
+                    string mamonhoc = txtMaMonHoc.Text;
+                    string sql = string.Format("SELECT ID_MonHoc FROM dbo.MonHoc MHoc WHERE MHoc.MaMonHoc = N'{0}'", mamonhoc);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_monhoc = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa môn học  này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (MonHocBUS.Instance.DeleteMonHoc(id_monhoc))
                     {
-                        if (MonHocBUS.Instance.DeleteMonHoc(id_monhoc))
+                        MessageBox.Show("Xóa minh môn học công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteMonHoc != null)
                         {
-                            MessageBox.Show("Xóa minh môn học công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteMonHoc != null)
-                            {
-                                deleteMonHoc(this, new EventArgs());
-                            }
-                            MonHocBinding();
-                            LoadListMonHoc();
+                            deleteMonHoc(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        MonHocBinding();
+                        LoadListMonHoc();
                     }
-                }    
+                    else
+                    {
+                        MessageBox.Show("Xóa môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

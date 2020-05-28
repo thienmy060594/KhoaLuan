@@ -20,12 +20,14 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvLoaiMon.DataSource = LoaiMonList;
-            LoadListLoaiMon();
-            AddButtonColumn();
+            LoadListLoaiMon();           
             txtMaLoaiMon.Enabled = false;
             txtTenLoaiMon.Enabled = false;
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
         }
 
         private void LoadListLoaiMon()
@@ -42,30 +44,7 @@ namespace KiemDinhChatLuongGUI
             dgvLoaiMon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvLoaiMon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
             dgvLoaiMon.AutoGenerateColumns = false;
-        }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvLoaiMon.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvLoaiMon.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+        }       
 
         void LoaiMonBinding()
         {
@@ -83,6 +62,9 @@ namespace KiemDinhChatLuongGUI
             txtTenLoaiMon.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
         }
 
         private event EventHandler insertLoaiMon;
@@ -153,6 +135,51 @@ namespace KiemDinhChatLuongGUI
         {
             add { deleteLoaiMon += value; }
             remove { deleteLoaiMon -= value; }
+        }                
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                if (txtMaLoaiMon.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã loại môn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaLoaiMon.Focus();
+                    return;
+                }
+                else if (txtTenLoaiMon.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên loại môn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenLoaiMon.Focus();
+                    return;
+                }
+                else
+                {
+                    string maloaimon = txtMaLoaiMon.Text;
+                    string tenloaimon = txtTenLoaiMon.Text;
+                    string ghichu = txtGhiChu.Text;
+                    string sql = string.Format("SELECT ID_LoaiMon FROM dbo.LoaiMon LMon WHERE LMon.MaLoaiMon  = N'{0}'", maloaimon);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_loaimon = Int32.Parse(input);
+
+                    if (LoaiMonBUS.Instance.UpdateLoaiMon(id_loaimon, maloaimon, tenloaimon, ghichu))
+                    {
+                        MessageBox.Show("Sửa loại môn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateLoaiMon != null)
+                        {
+                            updateLoaiMon(this, new EventArgs());
+                        }
+                        LoaiMonBinding();
+                        LoadListLoaiMon();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa loại môn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
         }
 
         private event EventHandler updateLoaiMon;
@@ -162,84 +189,46 @@ namespace KiemDinhChatLuongGUI
             remove { updateLoaiMon -= value; }
         }
 
-        private void dgvLoaiMon_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+
+            if (MessageBox.Show("Bạn có muốn xóa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvLoaiMon.Columns[e.ColumnIndex].Name == "btnSua")
+                if (txtMaLoaiMon.Text == "")
                 {
-                    dgvLoaiMon.CurrentRow.Selected = true;
-                    string input = dgvLoaiMon.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
-                    int id_loaimon = Int32.Parse(input);
-                    if (MessageBox.Show("Bạn có muốn sửa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string maloaimon = txtMaLoaiMon.Text;
-                        string tenloaimon = txtTenLoaiMon.Text;
-                        string ghichu = txtGhiChu.Text;
-                        if (txtMaLoaiMon.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã loại môn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaLoaiMon.Focus();
-                            return;
-                        }
-                        else if (txtTenLoaiMon.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên loại môn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenLoaiMon.Focus();
-                            return;
-                        }
-                        else
-                        {
-                            if (LoaiMonBUS.Instance.UpdateLoaiMon(id_loaimon, maloaimon, tenloaimon, ghichu))
-                            {
-                                MessageBox.Show("Sửa loại môn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateLoaiMon != null)
-                                {
-                                    updateLoaiMon(this, new EventArgs());
-                                }
-                                LoaiMonBinding();
-                                LoadListLoaiMon();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa loại môn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                    
+                    MessageBox.Show("Bạn chưa nhập mã loại môn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaLoaiMon.Focus();
+                    return;
                 }
-                if(dgvLoaiMon.Columns[e.ColumnIndex].Name == "btnXoa")
+                else
                 {
-                    dgvLoaiMon.CurrentRow.Selected = true;
-                    string input = dgvLoaiMon.Rows[e.RowIndex].Cells["ID_LoaiMon"].FormattedValue.ToString();
+                    string maloaimon = txtMaLoaiMon.Text;
+                    string sql = string.Format("SELECT ID_LoaiMon FROM dbo.LoaiMon LMon WHERE LMon.MaLoaiMon  = N'{0}'", maloaimon);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_loaimon = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa loại môn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (LoaiMonBUS.Instance.DeleteLoaiMon(id_loaimon))
                     {
-                        if (LoaiMonBUS.Instance.DeleteLoaiMon(id_loaimon))
+                        MessageBox.Show("Xóa loại môn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteLoaiMon != null)
                         {
-                            MessageBox.Show("Xóa loại môn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteLoaiMon != null)
-                            {
-                                deleteLoaiMon(this, new EventArgs());
-                            }
-                            LoaiMonBinding();
-                            LoadListLoaiMon();
+                            deleteLoaiMon(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        LoaiMonBinding();
+                        LoadListLoaiMon();
                     }
-                }    
-            }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                    {
+                        MessageBox.Show("Xóa tiêu chuẩn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
+        }
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();

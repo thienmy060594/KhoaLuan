@@ -20,8 +20,7 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMinhChung.DataSource = MinhChungList;
-            LoadListMinhChung();
-            AddButtonColumn();
+            LoadListMinhChung();           
             txtMaTaiLieu.Enabled = false;
             txtTenTaiLieu.Enabled = false;
             txtNgayKy.Enabled = false;
@@ -30,7 +29,10 @@ namespace KiemDinhChatLuongGUI
             txtTomTatNoiDung.Enabled = false;
             txtDuongLink.Enabled = false;
             txtGhiChu.Enabled = false;
-            btnLuuLai.Enabled = false;           
+            btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
         }
         private void LoadListMinhChung()
         {
@@ -57,30 +59,7 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMinhChung.AutoGenerateColumns = false;
         }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvMinhChung.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvMinhChung.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
-
+       
         void MinhChungBinding()
         {
             txtMaTaiLieu.DataBindings.Clear();
@@ -112,6 +91,9 @@ namespace KiemDinhChatLuongGUI
             txtDuongLink.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
         }
 
         private event EventHandler insertMinhChung;
@@ -223,13 +205,7 @@ namespace KiemDinhChatLuongGUI
             add { updateMinhChung += value; }
             remove { updateMinhChung -= value; }
         }
-             
-        private event EventHandler deleteMinhChung;
-        public event EventHandler DeleteMinhChung
-        {
-            add { deleteMinhChung += value; }
-            remove { deleteMinhChung -= value; }
-        }
+         
         private void dgvMinhChung_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -238,73 +214,7 @@ namespace KiemDinhChatLuongGUI
                 {
                     dgvMinhChung.CurrentRow.Selected = true;
                     string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
-                    int id_tailieu = Int32.Parse(input);
-                    if (MessageBox.Show("Bạn có muốn sửa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {                  
-                        string matailieu = txtMaTaiLieu.Text;
-                        string tentailieu = txtTenTaiLieu.Text;
-                        string ngayky = txtNgayKy.Text;
-                        string nguoiky = txtNguoiKy.Text;
-                        string sobanhanh = txtSoBanHanh.Text;
-                        string tomtatnoidung = txtTomTatNoiDung.Text;
-                        string duonglink = txtDuongLink.Text;
-                        string ghichu = txtGhiChu.Text;
-
-                        if (txtMaTaiLieu.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa mã tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaTaiLieu.Focus();
-                        }
-                        else if (txtTenTaiLieu.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenTaiLieu.Focus();
-                        }
-                        else if (txtNgayKy.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập ngày ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtNgayKy.Focus();
-                        }
-                        else if (txtNguoiKy.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập người ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtNguoiKy.Focus();
-                        }
-                        else if (txtSoBanHanh.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập số ban hành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtSoBanHanh.Focus();
-                        }
-                        else if (txtTomTatNoiDung.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tóm tắt nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTomTatNoiDung.Focus();
-                        }
-                        else if (txtDuongLink.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập đường link !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtDuongLink.Focus();
-                        }
-                        else
-                        {
-                            if (MinhChungBUS.Instance.UpdateMinhChung(id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu))
-                            {
-                                MessageBox.Show("Sửa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateMinhChung != null)
-                                {
-                                    updateMinhChung(this, new EventArgs());
-                                }
-                                MinhChungBinding();
-                                LoadListMinhChung();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                    
+                                        
                 }
                 if(dgvMinhChung.Columns[e.ColumnIndex].Name == "btnXoa")
                 {
@@ -312,29 +222,132 @@ namespace KiemDinhChatLuongGUI
                     string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
                     int id_tailieu = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        if (MinhChungBUS.Instance.DeleteMinhChung(id_tailieu))
-                        {
-                            MessageBox.Show("Xóa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteMinhChung != null)
-                            {
-                                deleteMinhChung(this, new EventArgs());
-                            }
-                            MinhChungBinding();
-                            LoadListMinhChung();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
+                    
                 }    
             }
             catch
             {
                 MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+        
+        private void btnSua_Click(object sender, EventArgs e)
+        {           
+            if (MessageBox.Show("Bạn có muốn sửa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {             
+                if (txtMaTaiLieu.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa mã tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTaiLieu.Focus();
+                }
+                else if (txtTenTaiLieu.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenTaiLieu.Focus();
+                }
+                else if (txtNgayKy.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập ngày ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNgayKy.Focus();
+                }
+                else if (txtNguoiKy.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập người ký !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNguoiKy.Focus();
+                }
+                else if (txtSoBanHanh.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập số ban hành !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoBanHanh.Focus();
+                }
+                else if (txtTomTatNoiDung.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tóm tắt nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTomTatNoiDung.Focus();
+                }
+                else if (txtDuongLink.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập đường link !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtDuongLink.Focus();
+                }
+                else
+                {
+                    string matailieu = txtMaTaiLieu.Text;
+                    string tentailieu = txtTenTaiLieu.Text;
+                    string ngayky = txtNgayKy.Text;
+                    string nguoiky = txtNguoiKy.Text;
+                    string sobanhanh = txtSoBanHanh.Text;
+                    string tomtatnoidung = txtTomTatNoiDung.Text;
+                    string duonglink = txtDuongLink.Text;
+                    string ghichu = txtGhiChu.Text;                   
+                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.TaiLieu TLieu WHERE TLieu.MaTaiLieu = N'{0}'", matailieu);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_tailieu = Int32.Parse(input);
+
+                    if (MinhChungBUS.Instance.UpdateMinhChung(id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu))
+                    {
+                        MessageBox.Show("Sửa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateMinhChung != null)
+                        {
+                            updateMinhChung(this, new EventArgs());
+                        }
+                        MinhChungBinding();
+                        LoadListMinhChung();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private event EventHandler deleteMinhChung;
+        public event EventHandler DeleteMinhChung
+        {
+            add { deleteMinhChung += value; }
+            remove { deleteMinhChung -= value; }
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn xóa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                if (txtMaTaiLieu.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa mã tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaTaiLieu.Focus();
+                }
+                else
+                {
+                    string matailieu = txtMaTaiLieu.Text;
+                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.TaiLieu TLieu WHERE TLieu.MaTaiLieu = N'{0}'", matailieu);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_tailieu = Int32.Parse(input);
+
+                    if (MinhChungBUS.Instance.DeleteMinhChung(id_tailieu))
+                    {
+                        MessageBox.Show("Xóa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteMinhChung != null)
+                        {
+                            deleteMinhChung(this, new EventArgs());
+                        }
+                        MinhChungBinding();
+                        LoadListMinhChung();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa minh chứng thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

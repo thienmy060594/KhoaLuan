@@ -46,6 +46,9 @@
             this.btnBatDau = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvLoaiTaiLieu = new System.Windows.Forms.DataGridView();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnSua = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -167,20 +170,23 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnHuy);
             this.groupBox3.Controls.Add(this.btnDong);
+            this.groupBox3.Controls.Add(this.btnXoa);
+            this.groupBox3.Controls.Add(this.btnSua);
             this.groupBox3.Controls.Add(this.btnLuuLai);
             this.groupBox3.Controls.Add(this.btnBatDau);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 494);
+            this.groupBox3.Location = new System.Drawing.Point(0, 488);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1032, 59);
+            this.groupBox3.Size = new System.Drawing.Size(1032, 65);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
             // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(863, 17);
+            this.btnDong.Location = new System.Drawing.Point(863, 23);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(83, 30);
             this.btnDong.TabIndex = 5;
@@ -190,7 +196,7 @@
             // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(281, 17);
+            this.btnLuuLai.Location = new System.Drawing.Point(226, 23);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
             this.btnLuuLai.TabIndex = 2;
@@ -200,7 +206,7 @@
             // 
             // btnBatDau
             // 
-            this.btnBatDau.Location = new System.Drawing.Point(121, 17);
+            this.btnBatDau.Location = new System.Drawing.Point(92, 23);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(102, 30);
             this.btnBatDau.TabIndex = 0;
@@ -214,7 +220,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Location = new System.Drawing.Point(0, 139);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1032, 349);
+            this.groupBox2.Size = new System.Drawing.Size(1032, 343);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông Tin Loại Tài Liệu";
@@ -227,9 +233,40 @@
             this.dgvLoaiTaiLieu.Name = "dgvLoaiTaiLieu";
             this.dgvLoaiTaiLieu.RowHeadersWidth = 51;
             this.dgvLoaiTaiLieu.RowTemplate.Height = 24;
-            this.dgvLoaiTaiLieu.Size = new System.Drawing.Size(1026, 319);
-            this.dgvLoaiTaiLieu.TabIndex = 0;
-            this.dgvLoaiTaiLieu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLoaiTaiLieu_CellContentClick);
+            this.dgvLoaiTaiLieu.Size = new System.Drawing.Size(1026, 313);
+            this.dgvLoaiTaiLieu.TabIndex = 0;            
+            this.dgvLoaiTaiLieu.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvLoaiTaiLieu_CellFormatting);
+            this.dgvLoaiTaiLieu.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvLoaiTaiLieu_CellPainting);
+            // 
+            // btnHuy
+            // 
+            this.btnHuy.Location = new System.Drawing.Point(748, 23);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(83, 30);
+            this.btnHuy.TabIndex = 23;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(458, 23);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(83, 30);
+            this.btnXoa.TabIndex = 22;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(337, 23);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(83, 30);
+            this.btnSua.TabIndex = 21;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // FormLoaiTaiLieu
             // 
@@ -272,5 +309,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtMaLoaiTaiLieu;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnSua;
     }
 }

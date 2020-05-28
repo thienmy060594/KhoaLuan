@@ -20,10 +20,49 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvMonHocNhomTuChon.DataSource = MonHoc_NhomTuChonList;
-            LoadListMonHoc_NhomTuChon();
-            AddButtonColumn();
+            LoadListMonHoc_NhomTuChon();            
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvMonHocNhomTuChon[column, row];
+            DataGridViewCell cell2 = dgvMonHocNhomTuChon[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvMonHocNhomTuChon_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvMonHocNhomTuChon.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvMonHocNhomTuChon_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListMonHoc_NhomTuChon()
@@ -46,30 +85,7 @@ namespace KiemDinhChatLuongGUI
             dgvMonHocNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMonHocNhomTuChon.AutoGenerateColumns = false;
         }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvMonHocNhomTuChon.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvMonHocNhomTuChon.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
-
+        
         void MonHoc_NhomTuChonBinding()
         {
             txtGhiChu.DataBindings.Clear();
@@ -80,6 +96,9 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
 
@@ -140,6 +159,35 @@ namespace KiemDinhChatLuongGUI
             add { updateMonHoc_NhomTuChon += value; }
             remove { updateMonHoc_NhomTuChon -= value; }
         }
+ 
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {
+                string ghichu = txtGhiChu.Text;
+                string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue); ;
+                int id_monhoc = Int32.Parse(input_1);
+                string input_2 = cbxNhomTuChon.GetItemText(cbxNhomTuChon.SelectedValue);
+                int id_nhomtuchon = Int32.Parse(input_2);
+
+                if (MonHoc_NhomTuChonBUS.Instance.UpdateMonHoc_NhomTuChon(id_monhoc, id_nhomtuchon, ghichu))
+                {
+                    MessageBox.Show("Sửa môn học - nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (updateMonHoc_NhomTuChon != null)
+                    {
+                        updateMonHoc_NhomTuChon(this, new EventArgs());
+                    }
+                    MonHoc_NhomTuChonBinding();
+                    LoadListMonHoc_NhomTuChon();
+                    ResetGiaTri();
+                }
+                else
+                {
+                    MessageBox.Show("Sửa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+        }
 
         private event EventHandler deleteMonHoc_NhomTuChon;
         public event EventHandler DeleteMonHoc_NhomTuChon
@@ -148,70 +196,35 @@ namespace KiemDinhChatLuongGUI
             remove { deleteMonHoc_NhomTuChon -= value; }
         }
 
-        private void dgvMonHocNhomTuChon_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dgvMonHocNhomTuChon.Columns[e.ColumnIndex].Name == "btnSua")
-                {
-                    dgvMonHocNhomTuChon.CurrentRow.Selected = true;
-                    string ghichu = txtGhiChu.Text;
-                    string input_1 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_1);
-                    string input_2 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_NhomTuChon"].FormattedValue.ToString();
-                    int id_nhomtuchon = Int32.Parse(input_2);
+            if (MessageBox.Show("Bạn có muốn xóa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {               
+                string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue); ;
+                int id_monhoc = Int32.Parse(input_1);
+                string input_2 = cbxNhomTuChon.GetItemText(cbxNhomTuChon.SelectedValue);
+                int id_nhomtuchon = Int32.Parse(input_2);
 
-                    if (MessageBox.Show("Bạn có muốn sửa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        if (MonHoc_NhomTuChonBUS.Instance.UpdateMonHoc_NhomTuChon(id_monhoc, id_nhomtuchon, ghichu))
-                        {
-                            MessageBox.Show("Sửa môn học - nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (updateMonHoc_NhomTuChon != null)
-                            {
-                                updateMonHoc_NhomTuChon(this, new EventArgs());
-                            }
-                            MonHoc_NhomTuChonBinding();
-                            LoadListMonHoc_NhomTuChon();
-                            ResetGiaTri();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sửa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                    }                    
-                }
-                if(dgvMonHocNhomTuChon.Columns[e.ColumnIndex].Name == "btnXoa")
+                if (MonHoc_NhomTuChonBUS.Instance.DeleteMonHoc_NhomTuChon(id_monhoc, id_nhomtuchon))
                 {
-                    dgvMonHocNhomTuChon.CurrentRow.Selected = true;                    
-                    string input_1 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_MonHoc"].FormattedValue.ToString();
-                    int id_monhoc = Int32.Parse(input_1);
-                    string input_2 = dgvMonHocNhomTuChon.Rows[e.RowIndex].Cells["ID_NhomTuChon"].FormattedValue.ToString();
-                    int id_nhomtuchon = Int32.Parse(input_2);
-
-                    if (MessageBox.Show("Bạn có muốn xóa môn học - nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    MessageBox.Show("Xóa môn học - nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (deleteMonHoc_NhomTuChon != null)
                     {
-                        if (MonHoc_NhomTuChonBUS.Instance.DeleteMonHoc_NhomTuChon(id_monhoc, id_nhomtuchon))
-                        {
-                            MessageBox.Show("Xóa môn học - nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteMonHoc_NhomTuChon != null)
-                            {
-                                deleteMonHoc_NhomTuChon(this, new EventArgs());
-                            }
-                            MonHoc_NhomTuChonBinding();
-                            LoadListMonHoc_NhomTuChon();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xóa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        deleteMonHoc_NhomTuChon(this, new EventArgs());
                     }
-                }    
+                    MonHoc_NhomTuChonBinding();
+                    LoadListMonHoc_NhomTuChon();
+                }
+                else
+                {
+                    MessageBox.Show("Xóa môn học - nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

@@ -20,13 +20,52 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvNhomTuChon.DataSource = NhomTuChonList;
-            LoadListNhomTuChon();
-            AddButtonColumn();
+            LoadListNhomTuChon();           
             txtMaNhomTuChon.Enabled = false;
             txtTenNhomTuChon.Enabled = false;
             txtSoTinChi.Enabled = false;
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
+            btnSua.Enabled = false;
+            btnXoa.Enabled = false;
+            btnHuy.Enabled = false;
+        }
+
+        bool IsTheSameCellValue(int column, int row)
+        {
+            DataGridViewCell cell1 = dgvNhomTuChon[column, row];
+            DataGridViewCell cell2 = dgvNhomTuChon[column, row - 1];
+            if (cell1.Value == null || cell2.Value == null)
+            {
+                return false;
+            }
+            return cell1.Value.ToString() == cell2.Value.ToString();
+        }
+
+        private void dgvNhomTuChon_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
+            if (e.RowIndex < 1 || e.ColumnIndex < 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
+            }
+            else
+            {
+                e.AdvancedBorderStyle.Top = dgvNhomTuChon.AdvancedCellBorderStyle.Top;
+            }
+        }
+
+        private void dgvNhomTuChon_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex == 0)
+                return;
+            if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
+            {
+                e.Value = "";
+                e.FormattingApplied = true;
+            }
         }
 
         private void LoadListNhomTuChon()
@@ -48,30 +87,7 @@ namespace KiemDinhChatLuongGUI
             dgvNhomTuChon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp         
             dgvNhomTuChon.AutoGenerateColumns = false;
-        }
-
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvNhomTuChon.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvNhomTuChon.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+        }        
 
         void NhomTuChonBinding()
         {
@@ -92,6 +108,9 @@ namespace KiemDinhChatLuongGUI
             txtSoTinChi.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
+            btnSua.Enabled = true;
+            btnXoa.Enabled = true;
+            btnHuy.Enabled = true;
             FillComBoBox();
         }
 
@@ -174,8 +193,61 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateNhomTuChon += value; }
             remove { updateNhomTuChon -= value; }
-        }
+        }     
 
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Bạn có muốn sửa nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+            {               
+                if (txtMaNhomTuChon.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập mã nhóm tự chọn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaNhomTuChon.Focus();
+                    return;
+                }
+                else if (txtTenNhomTuChon.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên nhóm tự chọn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenNhomTuChon.Focus();
+                    return;
+                }
+                else if (txtSoTinChi.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập số tín chỉ !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSoTinChi.Focus();
+                    return;
+                }
+                else
+                {
+                    string manhomtuchon = txtMaNhomTuChon.Text;
+                    string tennhomtuchon = txtTenNhomTuChon.Text;
+                    int sotinchi = Int32.Parse(txtSoTinChi.Text);
+                    string ghichu = txtGhiChu.Text;
+                    string sql = string.Format("SELECT ID_NhomTuChon FROM dbo.NhomTuChon NTChon WHERE NTChon.MaNhomTuChon = N'{0}'", manhomtuchon);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_nhomtuchon = Int32.Parse(input);
+                    string input_1 = cbxChuongTrinhDaoTao.GetItemText(cbxChuongTrinhDaoTao.SelectedValue);
+                    int id_chuongtrinhdaotao = Int32.Parse(input_1);
+
+                    if (NhomTuChonBUS.Instance.UpdateNhomTuChon(id_nhomtuchon, id_chuongtrinhdaotao, manhomtuchon, tennhomtuchon, sotinchi, ghichu))
+                    {
+                        MessageBox.Show("Sửa nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (updateNhomTuChon != null)
+                        {
+                            updateNhomTuChon(this, new EventArgs());
+                        }
+                        NhomTuChonBinding();
+                        LoadListNhomTuChon();
+                        ResetGiaTri();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sửa nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+        }
 
         private event EventHandler deleteNhomTuChon;
         public event EventHandler DeleteNhomTuChon
@@ -184,98 +256,49 @@ namespace KiemDinhChatLuongGUI
             remove { deleteNhomTuChon -= value; }
         }
 
-        private void dgvNhomTuChon_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void btnXoa_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Bạn có muốn xóa nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (dgvNhomTuChon.Columns[e.ColumnIndex].Name == "btnSua")
+                if (txtMaNhomTuChon.Text == "")
                 {
-                    dgvNhomTuChon.CurrentRow.Selected = true;
-                    string input = dgvNhomTuChon.Rows[e.RowIndex].Cells["ID_NhomTuChon"].FormattedValue.ToString();
-                    int id_nhomtuchon = Int32.Parse(input);
-                    string input_1 = cbxChuongTrinhDaoTao.GetItemText(cbxChuongTrinhDaoTao.SelectedValue);
-                    int id_chuongtrinhdaotao = Int32.Parse(input_1);
-
-                    if (MessageBox.Show("Bạn có muốn sửa nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        string manhomtuchon = txtMaNhomTuChon.Text;
-                        string tennhomtuchon = txtTenNhomTuChon.Text;
-                        int sotinchi = Int32.Parse(txtSoTinChi.Text);
-                        string ghichu = txtGhiChu.Text;
-
-                        if (txtMaNhomTuChon.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập mã nhóm tự chọn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtMaNhomTuChon.Focus();
-                            return;
-                        }
-                        else if (txtTenNhomTuChon.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập tên nhóm tự chọn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtTenNhomTuChon.Focus();
-                            return;
-                        }
-                        else if (txtSoTinChi.Text == "")
-                        {
-                            MessageBox.Show("Bạn chưa nhập số tín chỉ !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtSoTinChi.Focus();
-                            return;
-                        }
-                        else
-                        {
-                            if (NhomTuChonBUS.Instance.UpdateNhomTuChon( id_nhomtuchon, id_chuongtrinhdaotao, manhomtuchon, tennhomtuchon, sotinchi, ghichu))
-                            {
-                                MessageBox.Show("Sửa nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                if (updateNhomTuChon != null)
-                                {
-                                    updateNhomTuChon(this, new EventArgs());
-                                }
-                                NhomTuChonBinding();
-                                LoadListNhomTuChon();
-                                ResetGiaTri();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Sửa nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                        }
-                    }                   
+                    MessageBox.Show("Bạn chưa nhập mã nhóm tự chọn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMaNhomTuChon.Focus();
+                    return;
                 }
-                if(dgvNhomTuChon.Columns[e.ColumnIndex].Name == "btnXoa")
+                else
                 {
-                    dgvNhomTuChon.CurrentRow.Selected = true;
-                    string input = dgvNhomTuChon.Rows[e.RowIndex].Cells["ID_NhomTuChon"].FormattedValue.ToString();
-                    int id_nhomtuchon = Int32.Parse(input);                   
+                    string manhomtuchon = txtMaNhomTuChon.Text;
+                    string sql = string.Format("SELECT ID_NhomTuChon FROM dbo.NhomTuChon NTChon WHERE NTChon.MaNhomTuChon = N'{0}'", manhomtuchon);
+                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                    int id_nhomtuchon = Int32.Parse(input);
 
-                    if (MessageBox.Show("Bạn có muốn xóa nhóm tự chọn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                    if (NhomTuChonBUS.Instance.DeleteNhomTuChon(id_nhomtuchon))
                     {
-                        if (NhomTuChonBUS.Instance.DeleteNhomTuChon(id_nhomtuchon))
+                        MessageBox.Show("Xóa nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (deleteNhomTuChon != null)
                         {
-                            MessageBox.Show("Xóa nhóm tự chọn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            if (deleteNhomTuChon != null)
-                            {
-                                deleteNhomTuChon(this, new EventArgs());
-                            }
-                            NhomTuChonBinding();
-                            LoadListNhomTuChon();
+                            deleteNhomTuChon(this, new EventArgs());
                         }
-                        else
-                        {
-                            MessageBox.Show("Xóa nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        NhomTuChonBinding();
+                        LoadListNhomTuChon();
                     }
-                }    
+                    else
+                    {
+                        MessageBox.Show("Xóa nhóm tự chọn thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
+
+        private void btnHuy_Click(object sender, EventArgs e)
+        {
+            ResetGiaTri();
         }
 
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }        
+        }
     }
 }

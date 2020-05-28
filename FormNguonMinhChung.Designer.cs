@@ -41,6 +41,9 @@
             this.btnLuuLai = new System.Windows.Forms.Button();
             this.btnBatDau = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnHuy = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
+            this.btnSua = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvNguonMinhChung = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
@@ -139,7 +142,7 @@
             // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(947, 22);
+            this.btnDong.Location = new System.Drawing.Point(960, 24);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(83, 30);
             this.btnDong.TabIndex = 5;
@@ -149,7 +152,7 @@
             // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(273, 24);
+            this.btnLuuLai.Location = new System.Drawing.Point(229, 24);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
             this.btnLuuLai.TabIndex = 2;
@@ -159,7 +162,7 @@
             // 
             // btnBatDau
             // 
-            this.btnBatDau.Location = new System.Drawing.Point(122, 24);
+            this.btnBatDau.Location = new System.Drawing.Point(87, 24);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(102, 30);
             this.btnBatDau.TabIndex = 0;
@@ -169,7 +172,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnHuy);
             this.groupBox3.Controls.Add(this.btnDong);
+            this.groupBox3.Controls.Add(this.btnXoa);
+            this.groupBox3.Controls.Add(this.btnSua);
             this.groupBox3.Controls.Add(this.btnLuuLai);
             this.groupBox3.Controls.Add(this.btnBatDau);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -179,6 +185,36 @@
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
+            // 
+            // btnHuy
+            // 
+            this.btnHuy.Location = new System.Drawing.Point(829, 24);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(83, 30);
+            this.btnHuy.TabIndex = 14;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(473, 24);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(83, 30);
+            this.btnXoa.TabIndex = 13;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(354, 24);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(83, 30);
+            this.btnSua.TabIndex = 12;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // groupBox2
             // 
@@ -201,7 +237,6 @@
             this.dgvNguonMinhChung.RowTemplate.Height = 24;
             this.dgvNguonMinhChung.Size = new System.Drawing.Size(1126, 348);
             this.dgvNguonMinhChung.TabIndex = 0;
-            this.dgvNguonMinhChung.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNguonMinhChung_CellContentClick);
             // 
             // FormNguonMinhChung
             // 
@@ -241,5 +276,8 @@
         private System.Windows.Forms.DataGridView dgvNguonMinhChung;
         private System.Windows.Forms.TextBox txtMaNguonMinhChung;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnHuy;
+        private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Button btnSua;
     }
 }
