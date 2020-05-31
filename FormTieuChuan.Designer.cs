@@ -40,12 +40,12 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvTieuChuan = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnDong = new System.Windows.Forms.Button();
-            this.btnLuuLai = new System.Windows.Forms.Button();
-            this.btnBatDau = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
+            this.btnDong = new System.Windows.Forms.Button();
+            this.btnLuuLai = new System.Windows.Forms.Button();
+            this.btnBatDau = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTieuChuan)).BeginInit();
@@ -154,7 +154,7 @@
             this.dgvTieuChuan.RowHeadersWidth = 51;
             this.dgvTieuChuan.RowTemplate.Height = 24;
             this.dgvTieuChuan.Size = new System.Drawing.Size(1020, 322);
-            this.dgvTieuChuan.TabIndex = 0;            
+            this.dgvTieuChuan.TabIndex = 0;
             // 
             // groupBox3
             // 
@@ -172,39 +172,9 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
             // 
-            // btnDong
-            // 
-            this.btnDong.Location = new System.Drawing.Point(876, 24);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(83, 30);
-            this.btnDong.TabIndex = 11;
-            this.btnDong.Text = "Đóng";
-            this.btnDong.UseVisualStyleBackColor = true;
-            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
-            // 
-            // btnLuuLai
-            // 
-            this.btnLuuLai.Location = new System.Drawing.Point(221, 24);
-            this.btnLuuLai.Name = "btnLuuLai";
-            this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
-            this.btnLuuLai.TabIndex = 8;
-            this.btnLuuLai.Text = "Lưu Lại";
-            this.btnLuuLai.UseVisualStyleBackColor = true;
-            this.btnLuuLai.Click += new System.EventHandler(this.btnLuuLai_Click);
-            // 
-            // btnBatDau
-            // 
-            this.btnBatDau.Location = new System.Drawing.Point(86, 24);
-            this.btnBatDau.Name = "btnBatDau";
-            this.btnBatDau.Size = new System.Drawing.Size(102, 30);
-            this.btnBatDau.TabIndex = 6;
-            this.btnBatDau.Text = "Bắt Đầu";
-            this.btnBatDau.UseVisualStyleBackColor = true;
-            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click_1);
-            // 
             // btnHuy
             // 
-            this.btnHuy.Location = new System.Drawing.Point(757, 24);
+            this.btnHuy.Location = new System.Drawing.Point(467, 24);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(83, 30);
             this.btnHuy.TabIndex = 14;
@@ -214,7 +184,7 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(463, 24);
+            this.btnXoa.Location = new System.Drawing.Point(378, 24);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(83, 30);
             this.btnXoa.TabIndex = 13;
@@ -224,13 +194,43 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(341, 24);
+            this.btnSua.Location = new System.Drawing.Point(289, 24);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(83, 30);
             this.btnSua.TabIndex = 12;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
+            // btnDong
+            // 
+            this.btnDong.Location = new System.Drawing.Point(874, 24);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(83, 30);
+            this.btnDong.TabIndex = 11;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = true;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // btnLuuLai
+            // 
+            this.btnLuuLai.Location = new System.Drawing.Point(200, 24);
+            this.btnLuuLai.Name = "btnLuuLai";
+            this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
+            this.btnLuuLai.TabIndex = 8;
+            this.btnLuuLai.Text = "Lưu Lại";
+            this.btnLuuLai.UseVisualStyleBackColor = true;
+            this.btnLuuLai.Click += new System.EventHandler(this.btnLuuLai_Click);
+            // 
+            // btnBatDau
+            // 
+            this.btnBatDau.Location = new System.Drawing.Point(92, 24);
+            this.btnBatDau.Name = "btnBatDau";
+            this.btnBatDau.Size = new System.Drawing.Size(102, 30);
+            this.btnBatDau.TabIndex = 6;
+            this.btnBatDau.Text = "Bắt Đầu";
+            this.btnBatDau.UseVisualStyleBackColor = true;
+            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click_1);
             // 
             // FormTieuChuan
             // 

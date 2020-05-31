@@ -203,8 +203,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     ChuongTrinhDaoTaoBinding();
                     LoadListChuongTrinhDaoTao();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {

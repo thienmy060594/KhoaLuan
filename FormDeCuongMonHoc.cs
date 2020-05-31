@@ -23,7 +23,9 @@ namespace KiemDinhChatLuongGUI
             LoadListDeCuongMonHoc();            
             txtMaDeCuongMonHoc.Enabled = false;
             txtTenDeCuongMonHoc.Enabled = false;
-            txtNoiDung.Enabled = false;
+            txtMoTa.Enabled = false;
+            txtHinhThucDanhGia.Enabled = false;
+            txtGiaoTrinh.Enabled = false;
             txtGhiChu.Enabled = false;            
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
@@ -73,16 +75,18 @@ namespace KiemDinhChatLuongGUI
             dgvDeCuongMonHoc.DataSource = DeCuongMonHocBUS.Instance.GetListDeCuongMonHoc();
             dgvDeCuongMonHoc.Columns[0].Visible = false;
             dgvDeCuongMonHoc.Columns[1].Visible = false;
-            dgvDeCuongMonHoc.Columns[2].Visible = false;
-            dgvDeCuongMonHoc.Columns[3].HeaderText = "Mã Môn Học";
-            dgvDeCuongMonHoc.Columns[4].HeaderText = "Tên Môn Học";
-            dgvDeCuongMonHoc.Columns[5].HeaderText = "Mã Tài Liệu";
-            dgvDeCuongMonHoc.Columns[6].HeaderText = "Tên Tài Liệu";
-            dgvDeCuongMonHoc.Columns[7].HeaderText = "Mã Đề Cương Môn Học";
-            dgvDeCuongMonHoc.Columns[8].HeaderText = "Tên Đề Cương Môn Học";
-            dgvDeCuongMonHoc.Columns[9].HeaderText = "Nội Dung";
-            dgvDeCuongMonHoc.Columns[10].HeaderText = "Ghi Chú";
+            dgvDeCuongMonHoc.Columns[2].HeaderText = "Mã Môn Học";
+            dgvDeCuongMonHoc.Columns[3].HeaderText = "Tên Môn Học";
+            dgvDeCuongMonHoc.Columns[4].HeaderText = "Mã Tài Liệu";
+            dgvDeCuongMonHoc.Columns[5].HeaderText = "Tên Tài Liệu";
+            dgvDeCuongMonHoc.Columns[6].HeaderText = "Mã Đề Cương Môn Học";
+            dgvDeCuongMonHoc.Columns[7].HeaderText = "Tên Đề Cương Môn Học";
+            dgvDeCuongMonHoc.Columns[8].HeaderText = "Mô Tả";
+            dgvDeCuongMonHoc.Columns[9].HeaderText = "Hình Thức Đánh Giá";
+            dgvDeCuongMonHoc.Columns[10].HeaderText = "Giáo Trình";
+            dgvDeCuongMonHoc.Columns[11].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột          
+            dgvDeCuongMonHoc.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvDeCuongMonHoc.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvDeCuongMonHoc.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvDeCuongMonHoc.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -91,6 +95,7 @@ namespace KiemDinhChatLuongGUI
             dgvDeCuongMonHoc.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvDeCuongMonHoc.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvDeCuongMonHoc.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvDeCuongMonHoc.AllowUserToAddRows = false;
             dgvDeCuongMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
@@ -101,7 +106,9 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaDeCuongMonHoc.DataBindings.Clear();
             txtTenDeCuongMonHoc.DataBindings.Clear();            
-            txtNoiDung.DataBindings.Clear();
+            txtMoTa.DataBindings.Clear();
+            txtHinhThucDanhGia.DataBindings.Clear();
+            txtGiaoTrinh.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
         }
 
@@ -109,11 +116,15 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaDeCuongMonHoc.Text = "";
             txtTenDeCuongMonHoc.Text = "";            
-            txtNoiDung.Text = "";
+            txtMoTa.Text = "";
+            txtHinhThucDanhGia.Text = "";
+            txtGiaoTrinh.Text = "";
             txtGhiChu.Text = "";
             txtMaDeCuongMonHoc.Enabled = true;
             txtTenDeCuongMonHoc.Enabled = true;            
-            txtNoiDung.Enabled = true;
+            txtMoTa.Enabled = true;
+            txtHinhThucDanhGia.Enabled = true;
+            txtGiaoTrinh.Enabled = true;
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
@@ -143,7 +154,9 @@ namespace KiemDinhChatLuongGUI
         {
             string madecuongmonhoc = txtMaDeCuongMonHoc.Text;
             string tendecuongmonhoc = txtTenDeCuongMonHoc.Text;            
-            string noidung = txtNoiDung.Text;
+            string mota = txtMoTa.Text;
+            string hinhthucdanhgia = txtHinhThucDanhGia.Text;
+            string giaotrinh = txtGiaoTrinh.Text;
             string ghichu = txtGhiChu.Text;
             string input = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue);
             int id_monhoc = Int32.Parse(input);
@@ -162,10 +175,10 @@ namespace KiemDinhChatLuongGUI
                 txtTenDeCuongMonHoc.Focus();
                 return;
             }
-            else if (txtNoiDung.Text == "")
+            else if (txtMoTa.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNoiDung.Focus();
+                txtMoTa.Focus();
                 return;
             }           
             else if (txtMaDeCuongMonHoc.Text != "")
@@ -180,7 +193,7 @@ namespace KiemDinhChatLuongGUI
             }
             if (MessageBox.Show("Bạn có muốn thêm đề cương môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (DeCuongMonHocBUS.Instance.InsertDeCuongMonHoc(id_monhoc, id_tailieu, madecuongmonhoc, tendecuongmonhoc, noidung, ghichu))
+                if (DeCuongMonHocBUS.Instance.InsertDeCuongMonHoc(id_monhoc, id_tailieu, madecuongmonhoc, tendecuongmonhoc, mota, hinhthucdanhgia, giaotrinh, ghichu))
                 {
                     MessageBox.Show("Thêm đề cương môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertDeCuongMonHoc != null)
@@ -203,7 +216,9 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaDeCuongMonHoc.Text = "";
             txtTenDeCuongMonHoc.Text = "";            
-            txtNoiDung.Text = "";
+            txtMoTa.Text = "";
+            txtHinhThucDanhGia.Text = "";
+            txtGiaoTrinh.Text = "";
             txtGhiChu.Text = "";
         }
 
@@ -231,27 +246,26 @@ namespace KiemDinhChatLuongGUI
                     txtTenDeCuongMonHoc.Focus();
                     return;
                 }
-                else if (txtNoiDung.Text == "")
+                else if (txtMoTa.Text == "")
                 {
                     MessageBox.Show("Bạn chưa nhập nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNoiDung.Focus();
+                    txtMoTa.Focus();
                     return;
                 }
                 else
                 {
                     string madecuongmonhoc = txtMaDeCuongMonHoc.Text;
                     string tendecuongmonhoc = txtTenDeCuongMonHoc.Text;
-                    string noidung = txtNoiDung.Text;
-                    string ghichu = txtGhiChu.Text;
-                    string sql = string.Format("SELECT ID_DeCuongMonHoc FROM dbo.DeCuongMonHoc DCuongMHoc WHERE DCuongMHoc.MaDeCuongMonHoc = N'{0}'", madecuongmonhoc);
-                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_decuongmonhoc = Int32.Parse(input);
+                    string mota = txtMoTa.Text;
+                    string hinhthucdanhgia = txtHinhThucDanhGia.Text;
+                    string giaotrinh = txtGiaoTrinh.Text;
+                    string ghichu = txtGhiChu.Text;                   
                     string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue);
                     int id_monhoc = Int32.Parse(input_1);
                     string input_2 = cbxMinhChung.GetItemText(cbxMinhChung.SelectedValue);
                     int id_tailieu = Int32.Parse(input_2);
 
-                    if (DeCuongMonHocBUS.Instance.UpdateDeCuongMonHoc(id_decuongmonhoc, id_monhoc, id_tailieu, madecuongmonhoc, tendecuongmonhoc, noidung, ghichu))
+                    if (DeCuongMonHocBUS.Instance.UpdateDeCuongMonHoc(id_monhoc, id_tailieu, madecuongmonhoc, tendecuongmonhoc, mota, hinhthucdanhgia, giaotrinh, ghichu))
                     {
                         MessageBox.Show("Sửa đề cương môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (updateDeCuongMonHoc != null)
@@ -282,26 +296,16 @@ namespace KiemDinhChatLuongGUI
         {
             if (MessageBox.Show("Bạn có muốn xóa đề cương môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (txtMaDeCuongMonHoc.Text == "")
-                {
-                    MessageBox.Show("Bạn chưa nhập mã đề cương môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtMaDeCuongMonHoc.Focus();
-                    return;
-                }
-                else
-                {
-                    string madecuongmonhoc = txtMaDeCuongMonHoc.Text;
-                    string sql = string.Format("SELECT ID_DeCuongMonHoc FROM dbo.DeCuongMonHoc DCuongMHoc WHERE DCuongMHoc.MaDeCuongMonHoc = N'{0}'", madecuongmonhoc);
-                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_decuongmonhoc = Int32.Parse(input);
+                string input_1 = cbxMonHoc.GetItemText(cbxMonHoc.SelectedValue);
+                int id_monhoc = Int32.Parse(input_1);
 
-                    if (DeCuongMonHocBUS.Instance.DeleteDeCuongMonHoc(id_decuongmonhoc))
+                if (DeCuongMonHocBUS.Instance.DeleteDeCuongMonHoc(id_monhoc))
                     {
-                        MessageBox.Show("Xóa đề cương môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        if (deleteDeCuongMonHoc != null)
-                        {
-                            deleteDeCuongMonHoc(this, new EventArgs());
-                        }
+                    MessageBox.Show("Xóa đề cương môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (deleteDeCuongMonHoc != null)
+                    {
+                        deleteDeCuongMonHoc(this, new EventArgs());
+                    }
                         DeCuongMonHocBinding();
                         LoadListDeCuongMonHoc();
                         ResetGiaTri();
@@ -310,9 +314,8 @@ namespace KiemDinhChatLuongGUI
                     {
                         MessageBox.Show("Xóa đề cương môn học thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                }
             }
-        }       
+        }             
 
         private void btnHuy_Click(object sender, EventArgs e)
         {

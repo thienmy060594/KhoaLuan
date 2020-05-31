@@ -23,6 +23,7 @@ namespace KiemDinhChatLuongGUI
             LoadListMonHoc();            
             txtMaMonHoc.Enabled = false;
             txtTenMonHoc.Enabled = false;
+            txtTenTiengAnh.Enabled = false;
             txtSoTinChi.Enabled = false;
             txtSoTietLyThuyet.Enabled = false;
             txtSoTietThucHanh.Enabled = false;
@@ -39,10 +40,11 @@ namespace KiemDinhChatLuongGUI
             dgvMonHoc.Columns[0].Visible = false;
             dgvMonHoc.Columns[1].HeaderText = "Mã Môn Học";
             dgvMonHoc.Columns[2].HeaderText = "Tên Môn Học";
-            dgvMonHoc.Columns[3].HeaderText = "Số Tín Chỉ";
-            dgvMonHoc.Columns[4].HeaderText = "Số Tiết Lý Thuyết";
-            dgvMonHoc.Columns[5].HeaderText = "Số Tiết Thực Hành";
-            dgvMonHoc.Columns[6].HeaderText = "Ghi Chú";
+            dgvMonHoc.Columns[3].HeaderText = "Tên Tiếng Anh";
+            dgvMonHoc.Columns[4].HeaderText = "Số Tín Chỉ";
+            dgvMonHoc.Columns[5].HeaderText = "Số Tiết Lý Thuyết";
+            dgvMonHoc.Columns[6].HeaderText = "Số Tiết Thực Hành";
+            dgvMonHoc.Columns[7].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
             dgvMonHoc.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHoc.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -50,6 +52,7 @@ namespace KiemDinhChatLuongGUI
             dgvMonHoc.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHoc.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHoc.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMonHoc.AutoGenerateColumns = false;
@@ -59,6 +62,7 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaMonHoc.DataBindings.Clear();
             txtTenMonHoc.DataBindings.Clear();
+            txtTenTiengAnh.DataBindings.Clear();
             txtSoTinChi.DataBindings.Clear();
             txtSoTietLyThuyet.DataBindings.Clear();
             txtSoTietThucHanh.DataBindings.Clear();            
@@ -69,6 +73,7 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaMonHoc.Text = "";
             txtTenMonHoc.Text = "";
+            txtTenTiengAnh.Text = "";
             txtSoTinChi.Text = "";
             txtSoTietLyThuyet.Text = "";
             txtSoTietThucHanh.Text = "";
@@ -96,6 +101,7 @@ namespace KiemDinhChatLuongGUI
         {
             string mamonhoc = txtMaMonHoc.Text;
             string tenmonhoc = txtTenMonHoc.Text;
+            string tentienganh = txtTenTiengAnh.Text;
             int sotinchi = Int32.Parse(txtSoTinChi.Text);
             int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
             int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
@@ -111,6 +117,12 @@ namespace KiemDinhChatLuongGUI
             {
                 MessageBox.Show("Bạn chưa nhập tên môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTenMonHoc.Focus();
+                return;
+            }
+            else if (txtTenTiengAnh.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nhập tên tiếng anh !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenTiengAnh.Focus();
                 return;
             }
             else if (txtSoTinChi.Text == "")
@@ -143,7 +155,7 @@ namespace KiemDinhChatLuongGUI
             }
             if (MessageBox.Show("Bạn có muốn thêm môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (MonHocBUS.Instance.InsertMonHoc(mamonhoc, tenmonhoc, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
+                if (MonHocBUS.Instance.InsertMonHoc(mamonhoc, tenmonhoc, tentienganh, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
                 {
                     MessageBox.Show("Thêm môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertMonHoc != null)
@@ -166,6 +178,7 @@ namespace KiemDinhChatLuongGUI
         {
             txtMaMonHoc.Text = "";
             txtTenMonHoc.Text = "";
+            txtTenTiengAnh.Text = "";
             txtSoTinChi.Text = "";
             txtSoTietLyThuyet.Text = "";
             txtSoTietThucHanh.Text = "";
@@ -195,6 +208,12 @@ namespace KiemDinhChatLuongGUI
                     txtTenMonHoc.Focus();
                     return;
                 }
+                else if (txtTenTiengAnh.Text == "")
+                {
+                    MessageBox.Show("Bạn chưa nhập tên tiếng anh !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenTiengAnh.Focus();
+                    return;
+                }
                 else if (txtSoTinChi.Text == "")
                 {
                     MessageBox.Show("Bạn chưa nhập số tín chỉ !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -217,6 +236,7 @@ namespace KiemDinhChatLuongGUI
                 {
                     string mamonhoc = txtMaMonHoc.Text;
                     string tenmonhoc = txtTenMonHoc.Text;
+                    string tentienganh = txtTenTiengAnh.Text;
                     int sotinchi = Int32.Parse(txtSoTinChi.Text);
                     int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
                     int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
@@ -225,7 +245,7 @@ namespace KiemDinhChatLuongGUI
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_monhoc = Int32.Parse(input);
 
-                    if (MonHocBUS.Instance.UpdateMonHoc(id_monhoc, mamonhoc, tenmonhoc, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
+                    if (MonHocBUS.Instance.UpdateMonHoc(id_monhoc, mamonhoc, tenmonhoc, tentienganh, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
                     {
                         MessageBox.Show("Sửa minh chứng  thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (updateMonHoc != null)

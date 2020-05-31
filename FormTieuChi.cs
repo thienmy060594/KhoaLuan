@@ -47,7 +47,7 @@ namespace KiemDinhChatLuongGUI
         {
             e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
             if (e.RowIndex < 1 || e.ColumnIndex < 0)
-                return;
+            {  return; }
             if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
             {
                 e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
@@ -61,10 +61,10 @@ namespace KiemDinhChatLuongGUI
         private void dgvTieuChi_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex == 0)
-                return;
+            { return; }
             if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
             {
-                e.Value = "";
+                e.Value = string.Empty;
                 e.FormattingApplied = true;
             }
         }

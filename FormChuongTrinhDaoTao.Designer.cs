@@ -46,12 +46,12 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvChuongTrinhDaoTao = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnDong = new System.Windows.Forms.Button();
-            this.btnLuuLai = new System.Windows.Forms.Button();
-            this.btnBatDau = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
+            this.btnDong = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
+            this.btnLuuLai = new System.Windows.Forms.Button();
+            this.btnBatDau = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChuongTrinhDaoTao)).BeginInit();
@@ -218,7 +218,7 @@
             this.dgvChuongTrinhDaoTao.RowHeadersWidth = 51;
             this.dgvChuongTrinhDaoTao.RowTemplate.Height = 24;
             this.dgvChuongTrinhDaoTao.Size = new System.Drawing.Size(1026, 336);
-            this.dgvChuongTrinhDaoTao.TabIndex = 0;          
+            this.dgvChuongTrinhDaoTao.TabIndex = 0;
             this.dgvChuongTrinhDaoTao.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvChuongTrinhDaoTao_CellFormatting);
             this.dgvChuongTrinhDaoTao.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvChuongTrinhDaoTao_CellPainting);
             // 
@@ -238,6 +238,26 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Chức Năng";
             // 
+            // btnHuy
+            // 
+            this.btnHuy.Location = new System.Drawing.Point(469, 27);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(83, 30);
+            this.btnHuy.TabIndex = 32;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(380, 27);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(83, 30);
+            this.btnXoa.TabIndex = 31;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
+            // 
             // btnDong
             // 
             this.btnDong.Location = new System.Drawing.Point(872, 27);
@@ -248,9 +268,19 @@
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(291, 27);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(83, 30);
+            this.btnSua.TabIndex = 30;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(237, 27);
+            this.btnLuuLai.Location = new System.Drawing.Point(202, 27);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
             this.btnLuuLai.TabIndex = 7;
@@ -267,36 +297,6 @@
             this.btnBatDau.Text = "Bắt Đầu";
             this.btnBatDau.UseVisualStyleBackColor = true;
             this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
-            // 
-            // btnHuy
-            // 
-            this.btnHuy.Location = new System.Drawing.Point(763, 27);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(83, 30);
-            this.btnHuy.TabIndex = 32;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
-            // 
-            // btnXoa
-            // 
-            this.btnXoa.Location = new System.Drawing.Point(477, 27);
-            this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(83, 30);
-            this.btnXoa.TabIndex = 31;
-            this.btnXoa.Text = "Xóa";
-            this.btnXoa.UseVisualStyleBackColor = true;
-            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
-            // 
-            // btnSua
-            // 
-            this.btnSua.Location = new System.Drawing.Point(355, 27);
-            this.btnSua.Name = "btnSua";
-            this.btnSua.Size = new System.Drawing.Size(83, 30);
-            this.btnSua.TabIndex = 30;
-            this.btnSua.Text = "Sửa";
-            this.btnSua.UseVisualStyleBackColor = true;
-            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // FormChuongTrinhDaoTao
             // 

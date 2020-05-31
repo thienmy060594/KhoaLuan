@@ -138,7 +138,7 @@
             this.dgvTieuChiNguonMinhChung.RowHeadersWidth = 51;
             this.dgvTieuChiNguonMinhChung.RowTemplate.Height = 24;
             this.dgvTieuChiNguonMinhChung.Size = new System.Drawing.Size(1026, 307);
-            this.dgvTieuChiNguonMinhChung.TabIndex = 0; 
+            this.dgvTieuChiNguonMinhChung.TabIndex = 0;
             this.dgvTieuChiNguonMinhChung.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvTieuChiNguonMinhChung_CellFormatting);
             this.dgvTieuChiNguonMinhChung.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvTieuChiNguonMinhChung_CellPainting);
             // 
@@ -160,7 +160,7 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.Location = new System.Drawing.Point(770, 23);
+            this.btnHuy.Location = new System.Drawing.Point(451, 23);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(83, 30);
             this.btnHuy.TabIndex = 17;
@@ -180,7 +180,7 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(449, 23);
+            this.btnXoa.Location = new System.Drawing.Point(362, 24);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(83, 30);
             this.btnXoa.TabIndex = 16;
@@ -190,7 +190,7 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(325, 23);
+            this.btnSua.Location = new System.Drawing.Point(273, 23);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(83, 30);
             this.btnSua.TabIndex = 15;
@@ -200,7 +200,7 @@
             // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(207, 24);
+            this.btnLuuLai.Location = new System.Drawing.Point(183, 24);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(84, 29);
             this.btnLuuLai.TabIndex = 8;

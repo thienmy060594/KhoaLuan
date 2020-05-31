@@ -1,0 +1,159 @@
+﻿namespace KiemDinhChatLuongGUI
+{
+    partial class FormLuuTaiLieu
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLuuTaiLieu));
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnLuu = new System.Windows.Forms.Button();
+            this.btnDoc = new System.Windows.Forms.Button();
+            this.btnDong = new System.Windows.Forms.Button();
+            this.btnBatDau = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.PDFLuuTaiLieu = new AxAcroPDFLib.AxAcroPDF();
+            this.btnLuuMinhChung = new System.Windows.Forms.Button();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PDFLuuTaiLieu)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnLuuMinhChung);
+            this.groupBox2.Controls.Add(this.btnLuu);
+            this.groupBox2.Controls.Add(this.btnDoc);
+            this.groupBox2.Controls.Add(this.btnDong);
+            this.groupBox2.Controls.Add(this.btnBatDau);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox2.Location = new System.Drawing.Point(0, 488);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1032, 65);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Chức Năng";
+            // 
+            // btnLuu
+            // 
+            this.btnLuu.Location = new System.Drawing.Point(291, 27);
+            this.btnLuu.Name = "btnLuu";
+            this.btnLuu.Size = new System.Drawing.Size(127, 30);
+            this.btnLuu.TabIndex = 9;
+            this.btnLuu.Text = "Lưu Tài Liệu";
+            this.btnLuu.UseVisualStyleBackColor = true;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
+            // 
+            // btnDoc
+            // 
+            this.btnDoc.Location = new System.Drawing.Point(202, 27);
+            this.btnDoc.Name = "btnDoc";
+            this.btnDoc.Size = new System.Drawing.Size(83, 30);
+            this.btnDoc.TabIndex = 8;
+            this.btnDoc.Text = "Đọc";
+            this.btnDoc.UseVisualStyleBackColor = true;
+            this.btnDoc.Click += new System.EventHandler(this.btnDoc_Click);
+            // 
+            // btnDong
+            // 
+            this.btnDong.Location = new System.Drawing.Point(835, 27);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(83, 30);
+            this.btnDong.TabIndex = 7;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = true;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // btnBatDau
+            // 
+            this.btnBatDau.Location = new System.Drawing.Point(94, 27);
+            this.btnBatDau.Name = "btnBatDau";
+            this.btnBatDau.Size = new System.Drawing.Size(102, 30);
+            this.btnBatDau.TabIndex = 6;
+            this.btnBatDau.Text = "Bắt Đầu";
+            this.btnBatDau.UseVisualStyleBackColor = true;
+            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PDFLuuTaiLieu);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1032, 482);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Tài Liệu";
+            // 
+            // PDFLuuTaiLieu
+            // 
+            this.PDFLuuTaiLieu.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PDFLuuTaiLieu.Enabled = true;
+            this.PDFLuuTaiLieu.Location = new System.Drawing.Point(3, 24);
+            this.PDFLuuTaiLieu.Name = "PDFLuuTaiLieu";
+            this.PDFLuuTaiLieu.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("PDFLuuTaiLieu.OcxState")));
+            this.PDFLuuTaiLieu.Size = new System.Drawing.Size(1026, 452);
+            this.PDFLuuTaiLieu.TabIndex = 0;
+            // 
+            // btnLuuMinhChung
+            // 
+            this.btnLuuMinhChung.Location = new System.Drawing.Point(424, 27);
+            this.btnLuuMinhChung.Name = "btnLuuMinhChung";
+            this.btnLuuMinhChung.Size = new System.Drawing.Size(149, 30);
+            this.btnLuuMinhChung.TabIndex = 10;
+            this.btnLuuMinhChung.Text = "Lưu Minh Chứng";
+            this.btnLuuMinhChung.UseVisualStyleBackColor = true;
+            this.btnLuuMinhChung.Click += new System.EventHandler(this.btnLuuMinhChung_Click);
+            // 
+            // FormLuuTaiLieu
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1032, 553);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox2);
+            this.Font = new System.Drawing.Font("Times New Roman", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "FormLuuTaiLieu";
+            this.Text = "Lưu Tài Liệu";
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PDFLuuTaiLieu)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Button btnBatDau;
+        private System.Windows.Forms.Button btnLuu;
+        private System.Windows.Forms.Button btnDoc;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private AxAcroPDFLib.AxAcroPDF PDFLuuTaiLieu;
+        private System.Windows.Forms.Button btnLuuMinhChung;
+    }
+}

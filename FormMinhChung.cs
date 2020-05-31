@@ -26,13 +26,13 @@ namespace KiemDinhChatLuongGUI
             txtNgayKy.Enabled = false;
             txtNguoiKy.Enabled = false;
             txtSoBanHanh.Enabled = false;
-            txtTomTatNoiDung.Enabled = false;
-            txtDuongLink.Enabled = false;
+            txtTomTatNoiDung.Enabled = false;           
             txtGhiChu.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnHuy.Enabled = false;
+            btnHuy.Enabled = false;           
+            btnLuuTaiLieu.Enabled = false;
         }
         private void LoadListMinhChung()
         {
@@ -43,18 +43,16 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[3].HeaderText = "Ngày Ký";
             dgvMinhChung.Columns[4].HeaderText = "Người Ký";
             dgvMinhChung.Columns[5].HeaderText = "Số Ban Hành";
-            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";
-            dgvMinhChung.Columns[7].HeaderText = "Đường Link";
-            dgvMinhChung.Columns[8].HeaderText = "Ghi Chú";
+            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";           
+            dgvMinhChung.Columns[7].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
             dgvMinhChung.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;            
             dgvMinhChung.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMinhChung.AutoGenerateColumns = false;
@@ -67,33 +65,30 @@ namespace KiemDinhChatLuongGUI
             txtNgayKy.DataBindings.Clear();
             txtNguoiKy.DataBindings.Clear();
             txtSoBanHanh.DataBindings.Clear();
-            txtTomTatNoiDung.DataBindings.Clear();
-            txtDuongLink.DataBindings.Clear();
+            txtTomTatNoiDung.DataBindings.Clear();            
             txtGhiChu.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
-        {
-            txtDuongLink.Text = "";
+        {            
             txtTenTaiLieu.Text = "";
             txtNgayKy.Text = "";
             txtNguoiKy.Text = "";
             txtSoBanHanh.Text = "";
-            txtTomTatNoiDung.Text = "";
-            txtDuongLink.Text = "";
+            txtTomTatNoiDung.Text = "";            
             txtGhiChu.Text = "";
             txtMaTaiLieu.Enabled = true;
             txtTenTaiLieu.Enabled = true;
             txtNgayKy.Enabled = true;
             txtNguoiKy.Enabled = true;
             txtSoBanHanh.Enabled = true;
-            txtTomTatNoiDung.Enabled = true;
-            txtDuongLink.Enabled = true;
+            txtTomTatNoiDung.Enabled = true;           
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
-            btnHuy.Enabled = true;
+            btnHuy.Enabled = true;            
+            btnLuuTaiLieu.Enabled = true;
         }
 
         private event EventHandler insertMinhChung;
@@ -110,8 +105,7 @@ namespace KiemDinhChatLuongGUI
             string ngayky = txtNgayKy.Text;
             string nguoiky = txtNguoiKy.Text;
             string sobanhanh = txtSoBanHanh.Text;
-            string tomtatnoidung = txtTomTatNoiDung.Text;
-            string duonglink = txtDuongLink.Text;
+            string tomtatnoidung = txtTomTatNoiDung.Text;           
             string ghichu = txtGhiChu.Text;
 
             if (txtMaTaiLieu.Text == "")
@@ -149,13 +143,7 @@ namespace KiemDinhChatLuongGUI
                 MessageBox.Show("Bạn chưa nhập tóm tắt nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTomTatNoiDung.Focus();
                 return;
-            }
-            else if (txtDuongLink.Text == "")
-            {
-                MessageBox.Show("Bạn chưa nhập đường link !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtDuongLink.Focus();
-                return;
-            }
+            }            
             else if (txtMaTaiLieu.Text != "")
             {
                 string sql = string.Format("SELECT * FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
@@ -168,7 +156,7 @@ namespace KiemDinhChatLuongGUI
             }
             if (MessageBox.Show("Bạn có muốn thêm minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (MinhChungBUS.Instance.InsertMinhChung(matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu))
+                if (MinhChungBUS.Instance.InsertMinhChung(matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, ghichu))
                 {
                     MessageBox.Show("Thêm minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertMinhChung != null)
@@ -194,8 +182,7 @@ namespace KiemDinhChatLuongGUI
             txtNgayKy.Text = "";
             txtNguoiKy.Text = "";
             txtSoBanHanh.Text = "";
-            txtTomTatNoiDung.Text = "";
-            txtDuongLink.Text = "";
+            txtTomTatNoiDung.Text = "";            
             txtGhiChu.Text = "";
         }
 
@@ -204,33 +191,8 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateMinhChung += value; }
             remove { updateMinhChung -= value; }
-        }
-         
-        private void dgvMinhChung_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            try
-            {
-                if (dgvMinhChung.Columns[e.ColumnIndex].Name == "btnSua")
-                {
-                    dgvMinhChung.CurrentRow.Selected = true;
-                    string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
-                                        
-                }
-                if(dgvMinhChung.Columns[e.ColumnIndex].Name == "btnXoa")
-                {
-                    dgvMinhChung.CurrentRow.Selected = true;
-                    string input = dgvMinhChung.Rows[e.RowIndex].Cells["ID_TaiLieu"].FormattedValue.ToString();
-                    int id_tailieu = Int32.Parse(input);
-
-                    
-                }    
-            }
-            catch
-            {
-                MessageBox.Show("Không có dữ liệu để thao tác !", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-        
+        }       
+              
         private void btnSua_Click(object sender, EventArgs e)
         {           
             if (MessageBox.Show("Bạn có muốn sửa minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
@@ -264,12 +226,7 @@ namespace KiemDinhChatLuongGUI
                 {
                     MessageBox.Show("Bạn chưa nhập tóm tắt nội dung !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtTomTatNoiDung.Focus();
-                }
-                else if (txtDuongLink.Text == "")
-                {
-                    MessageBox.Show("Bạn chưa nhập đường link !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtDuongLink.Focus();
-                }
+                }                
                 else
                 {
                     string matailieu = txtMaTaiLieu.Text;
@@ -277,14 +234,13 @@ namespace KiemDinhChatLuongGUI
                     string ngayky = txtNgayKy.Text;
                     string nguoiky = txtNguoiKy.Text;
                     string sobanhanh = txtSoBanHanh.Text;
-                    string tomtatnoidung = txtTomTatNoiDung.Text;
-                    string duonglink = txtDuongLink.Text;
+                    string tomtatnoidung = txtTomTatNoiDung.Text;                    
                     string ghichu = txtGhiChu.Text;                   
-                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.TaiLieu TLieu WHERE TLieu.MaTaiLieu = N'{0}'", matailieu);
+                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_tailieu = Int32.Parse(input);
 
-                    if (MinhChungBUS.Instance.UpdateMinhChung(id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu))
+                    if (MinhChungBUS.Instance.UpdateMinhChung(id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, ghichu))
                     {
                         MessageBox.Show("Sửa minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (updateMinhChung != null)
@@ -323,7 +279,7 @@ namespace KiemDinhChatLuongGUI
                 else
                 {
                     string matailieu = txtMaTaiLieu.Text;
-                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.TaiLieu TLieu WHERE TLieu.MaTaiLieu = N'{0}'", matailieu);
+                    string sql = string.Format("SELECT ID_TaiLieu FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                     int id_tailieu = Int32.Parse(input);
 
@@ -344,6 +300,15 @@ namespace KiemDinhChatLuongGUI
                     }
                 }
             }
+        }       
+
+        private void btnLuuTaiLieu_Click(object sender, EventArgs e)
+        {
+            FormLuuTaiLieu FrLuuTaiLieu = new FormLuuTaiLieu(); //Khởi tạo đối tượng
+            this.Hide();
+            FrLuuTaiLieu.ShowDialog(); //Hiển thị
+            this.Show();
+            this.Close();
         }
 
         private void btnHuy_Click(object sender, EventArgs e)
@@ -354,6 +319,6 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }        
     }
 }

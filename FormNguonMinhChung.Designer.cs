@@ -142,7 +142,7 @@
             // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(960, 24);
+            this.btnDong.Location = new System.Drawing.Point(965, 24);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(83, 30);
             this.btnDong.TabIndex = 5;
@@ -152,7 +152,7 @@
             // 
             // btnLuuLai
             // 
-            this.btnLuuLai.Location = new System.Drawing.Point(229, 24);
+            this.btnLuuLai.Location = new System.Drawing.Point(199, 24);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(83, 30);
             this.btnLuuLai.TabIndex = 2;
@@ -162,7 +162,7 @@
             // 
             // btnBatDau
             // 
-            this.btnBatDau.Location = new System.Drawing.Point(87, 24);
+            this.btnBatDau.Location = new System.Drawing.Point(93, 24);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(102, 30);
             this.btnBatDau.TabIndex = 0;
@@ -188,7 +188,7 @@
             // 
             // btnHuy
             // 
-            this.btnHuy.Location = new System.Drawing.Point(829, 24);
+            this.btnHuy.Location = new System.Drawing.Point(466, 24);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(83, 30);
             this.btnHuy.TabIndex = 14;
@@ -198,7 +198,7 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(473, 24);
+            this.btnXoa.Location = new System.Drawing.Point(377, 24);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(83, 30);
             this.btnXoa.TabIndex = 13;
@@ -208,7 +208,7 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(354, 24);
+            this.btnSua.Location = new System.Drawing.Point(288, 24);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(83, 30);
             this.btnSua.TabIndex = 12;
