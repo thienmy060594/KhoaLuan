@@ -24,7 +24,8 @@ namespace KiemDinhChatLuongBUS
         public List<MinhChungDTO> GetListMinhChung()
         {
             List<MinhChungDTO> List = new List<MinhChungDTO>();
-            string query = "SELECT * FROM dbo.MinhChung";
+            string query = "SELECT MChung.ID_TaiLieu, MChung.MaTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu " +
+                            "FROM dbo.MinhChung MChung";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -33,16 +34,16 @@ namespace KiemDinhChatLuongBUS
             }
             return List;
         }
-        public bool InsertMinhChung(string matailieu, string tentailieu, string ngayky, string nguoiky, string sobanhanh, string tomtatnoidung, string duonglink, string ghichu)
+        public bool InsertMinhChung(string matailieu, string tentailieu, string ngayky, string nguoiky, string sobanhanh, string tomtatnoidung, string ghichu)
         {
-            string query = string.Format("INSERT dbo.MinhChung (MaTaiLieu, TenTaiLieu, NgayKy, NguoiKy, SoBanHanh, TomTatNoiDung, DuongLink, GhiChu) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}', N'{6}', N'{7}')", matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu);
+            string query = string.Format("INSERT dbo.MinhChung (MaTaiLieu, TenTaiLieu, NgayKy, NguoiKy, SoBanHanh, TomTatNoiDung, GhiChu) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}', N'{6}')", matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
 
-        public bool UpdateMinhChung(int id_tailieu, string matailieu, string tentailieu, string ngayky, string nguoiky, string sobanhanh, string tomtatnoidung, string duonglink, string ghichu)
+        public bool UpdateMinhChung(int id_tailieu, string matailieu, string tentailieu, string ngayky, string nguoiky, string sobanhanh, string tomtatnoidung, string ghichu)
         {
-            string query = string.Format("UPDATE dbo.MinhChung SET MaTaiLieu = N'{1}', TenTaiLieu = N'{2}', NgayKy = N'{3}', NguoiKy = N'{4}', SoBanHanh = N'{5}', TomTatNoiDung = N'{6}', DuongLink = N'{7}', GhiChu = N'{8}'  WHERE ID_TaiLieu = N'{0}'",id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, duonglink, ghichu);
+            string query = string.Format("UPDATE dbo.MinhChung SET MaTaiLieu = N'{1}', TenTaiLieu = N'{2}', NgayKy = N'{3}', NguoiKy = N'{4}', SoBanHanh = N'{5}', TomTatNoiDung = N'{6}', GhiChu = N'{7}'  WHERE ID_TaiLieu = N'{0}'",id_tailieu, matailieu, tentailieu, ngayky, nguoiky, sobanhanh, tomtatnoidung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
@@ -52,6 +53,13 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.MinhChung WHERE ID_TaiLieu = N'{0}'", id_tailieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }        
+        }
+
+        public bool UpdateLinkMinhChung(int id_tailieu, string duonglink)
+        {
+            string query = string.Format("UPDATE dbo.MinhChung SET DuongLink= N'{1}' WHERE ID_TaiLieu = N'{0}'", id_tailieu, duonglink);
+            int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
+            return result > 0;
+        }
     }
 }

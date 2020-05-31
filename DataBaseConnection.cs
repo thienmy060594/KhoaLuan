@@ -110,9 +110,9 @@ namespace KiemDinhChatLuongDAL
         {
             connection = new SqlConnection();   // Khởi tạo đối tượng
             connection.ConnectionString = @"Data Source=PHUC-PC\MYSQL;Initial Catalog=QuanLyTieuChuanDanhGia;Integrated Security=True";
-            connection.Open();  //Mở kết nối 
-            
-        }// kiểm tra connect
+            connection.Open();  //Mở kết nối             
+        }
+                
         public static void Disconnect()
         {
             if (connection.State == ConnectionState.Open)
@@ -182,16 +182,17 @@ namespace KiemDinhChatLuongDAL
             sqlCommand.Dispose();
             sqlCommand = null;
         }
-        public static string GetFieldValues(string sql)
+        public static string GetFieldValuesId(string sql)
         {
-            string ma = "";
+            DataBaseConnection.Connect();
+            string ID = "";
             SqlCommand sqlCommand = new SqlCommand(sql, connection);
             SqlDataReader sqlDataReader;
             sqlDataReader = sqlCommand.ExecuteReader();
             while (sqlDataReader.Read())
-                ma = sqlDataReader.GetValue(0).ToString();
+                ID = sqlDataReader.GetValue(0).ToString();
             sqlDataReader.Close();
-            return ma;
+            return ID;
         }
     }
 }
