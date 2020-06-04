@@ -109,9 +109,9 @@ namespace KiemDinhChatLuongGUI
             {
                 string sql = string.Format("SELECT MChung.DuongLink FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
                 string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                if (input != "")
+                if (input == "")
                 {
-                    MessageBox.Show("Đã tồn tại tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Mã tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
                 {
