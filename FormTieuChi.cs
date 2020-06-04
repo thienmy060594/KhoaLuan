@@ -21,7 +21,7 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvTieuChi.DataSource = TieuChiList;
-            LoadListTieuChi();            
+            LoadListTieuChi();
             txtMaTieuChi.Enabled = false;
             txtTenTieuChi.Enabled = false;
             txtNoiDungTieuChi.Enabled = false;
@@ -29,7 +29,7 @@ namespace KiemDinhChatLuongGUI
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnHuy.Enabled = false;           
+            btnHuy.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -47,7 +47,7 @@ namespace KiemDinhChatLuongGUI
         {
             e.AdvancedBorderStyle.Bottom = DataGridViewAdvancedCellBorderStyle.None;
             if (e.RowIndex < 1 || e.ColumnIndex < 0)
-            {  return; }
+            { return; }
             if (IsTheSameCellValue(e.ColumnIndex, e.RowIndex))
             {
                 e.AdvancedBorderStyle.Top = DataGridViewAdvancedCellBorderStyle.None;
@@ -90,8 +90,11 @@ namespace KiemDinhChatLuongGUI
             //Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChi.AllowUserToAddRows = false;
             dgvTieuChi.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp     
-            dgvTieuChi.AutoGenerateColumns = false;           
-        }        
+            dgvTieuChi.AutoGenerateColumns = false;
+
+            dgvTieuChi.EnableHeadersVisualStyles = false;
+            dgvTieuChi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+        }
 
         void TieuChiBinding()
         {
@@ -101,7 +104,7 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.DataBindings.Clear();
         }
 
-        private void btnBatDau_Click(object sender, EventArgs e)
+        private void btnBatDau_Click_1(object sender, EventArgs e)
         {
             txtMaTieuChi.Text = "";
             txtTenTieuChi.Text = "";
@@ -113,7 +116,7 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
-            btnXoa.Enabled = true; 
+            btnXoa.Enabled = true;
             btnHuy.Enabled = true;
             FillComBoBox();
         }
@@ -132,7 +135,7 @@ namespace KiemDinhChatLuongGUI
             remove { insertTieuChuan -= value; }
         }
 
-        private void btnLuuLai_Click(object sender, EventArgs e)
+        private void btnLuuLai_Click_1(object sender, EventArgs e)
         {
             string matieuchi = txtMaTieuChi.Text;
             string tentieuchi = txtTenTieuChi.Text;
@@ -203,12 +206,13 @@ namespace KiemDinhChatLuongGUI
         {
             add { updateTieuChi += value; }
             remove { updateTieuChi -= value; }
-        }           
-           
-        private void btnSua_Click(object sender, EventArgs e)
-        {            
+        }
+
+        private void btnSua_Click_1(object sender, EventArgs e)
+        {
+
             if (MessageBox.Show("Bạn có muốn sửa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
-            {                
+            {
                 if (txtMaTieuChi.Text == "")
                 {
                     MessageBox.Show("Bạn chưa nhập mã tiêu chí !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -238,7 +242,7 @@ namespace KiemDinhChatLuongGUI
                     int id_tieuchuan = Int32.Parse(input_1);
                     string sql = string.Format("SELECT ID_TieuChi FROM dbo.TieuChi TChi WHERE TChi.MaTieuChi = N'{0}'", matieuchi);
                     string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_tieuchi = Int32.Parse(input);                   
+                    int id_tieuchi = Int32.Parse(input);
 
                     if (TieuChiBUS.Instance.UpdateTieuChi(id_tieuchi, id_tieuchuan, matieuchi, tentieuchi, noidungtieuchi, ghichu))
                     {
@@ -268,7 +272,7 @@ namespace KiemDinhChatLuongGUI
             remove { deleteTieuChi -= value; }
         }
 
-        private void btnXoa_Click(object sender, EventArgs e)
+        private void btnXoa_Click_1(object sender, EventArgs e)
         {
             if (MessageBox.Show("Bạn có muốn xóa tiêu chí này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
@@ -301,18 +305,19 @@ namespace KiemDinhChatLuongGUI
                         MessageBox.Show("Xóa tiêu chí thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-            }         
-        }        
+            }
+        }
 
-        private void btnHuy_Click(object sender, EventArgs e)
+        private void btnHuy_Click_1(object sender, EventArgs e)
         {
             ResetGiaTri();
         }
 
-        private void btnDong_Click(object sender, EventArgs e)
+        private void btnDong_Click_1(object sender, EventArgs e)
         {
             this.Close();
-        }
+        }                
     }
 }
 
+        

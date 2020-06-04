@@ -56,6 +56,9 @@ namespace KiemDinhChatLuongGUI
             dgvMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMonHoc.AutoGenerateColumns = false;
+
+            dgvMonHoc.EnableHeadersVisualStyles = false;
+            dgvMonHoc.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }                
 
         void MonHocBinding()
@@ -80,6 +83,7 @@ namespace KiemDinhChatLuongGUI
             txtGhiChu.Text = "";
             txtMaMonHoc.Enabled = true;
             txtTenMonHoc.Enabled = true;
+            txtTenTiengAnh.Enabled = true;
             txtSoTinChi.Enabled = true;
             txtSoTietLyThuyet.Enabled = true;
             txtSoTietThucHanh.Enabled = true;

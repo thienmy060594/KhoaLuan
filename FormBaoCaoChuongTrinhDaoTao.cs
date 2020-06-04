@@ -10,19 +10,21 @@ using System.Windows.Forms;
 
 namespace KiemDinhChatLuongGUI
 {
-    public partial class FormBaoCaoKiemDinhChatLuong : Form
+    public partial class FormBaoCaoChuongTrinhDaoTao : Form
     {
-        public FormBaoCaoKiemDinhChatLuong()
+        public FormBaoCaoChuongTrinhDaoTao()
         {
             InitializeComponent();
         }
 
-        private void FormBaoCaoKiemDinhChatLuong_Load(object sender, EventArgs e)
+        private void FormBaoCaoChuongTrinhDaoTao_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'QuanLyTieuChuanDanhGiaDataSet.BaoCaoChuongTrinhDaoTao' table. You can move, or remove it, as needed.
+            this.BaoCaoChuongTrinhDaoTaoTableAdapter.Fill(this.QuanLyTieuChuanDanhGiaDataSet.BaoCaoChuongTrinhDaoTao);
             // TODO: This line of code loads data into the 'QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong' table. You can move, or remove it, as needed.
             this.KiemDinhChatLuongTableAdapter.Fill(this.QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong);
 
-            this.rvBaoCaoKiemDinhChatLuong.RefreshReport();
+            this.rvBaoCaoChuongTrinhDaoTao.RefreshReport();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

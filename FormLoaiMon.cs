@@ -44,6 +44,9 @@ namespace KiemDinhChatLuongGUI
             dgvLoaiMon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvLoaiMon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
             dgvLoaiMon.AutoGenerateColumns = false;
+
+            dgvLoaiMon.EnableHeadersVisualStyles = false;
+            dgvLoaiMon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }       
 
         void LoaiMonBinding()

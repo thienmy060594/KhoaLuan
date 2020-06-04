@@ -20,7 +20,8 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             btnDoc.Enabled = false;
-            btnLuu.Enabled = false;           
+            btnLuu.Enabled = false;
+            btnLuuMinhChung.Enabled = false;
         }
 
         private void LoadLuuTaiLieu()
@@ -41,7 +42,8 @@ namespace KiemDinhChatLuongGUI
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             btnDoc.Enabled = true;
-            btnLuu.Enabled = true;            
+            btnLuu.Enabled = true;
+            btnLuuMinhChung.Enabled = true;
         }
 
         private void btnDoc_Click(object sender, EventArgs e)
@@ -72,8 +74,9 @@ namespace KiemDinhChatLuongGUI
 
             //save file
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = "D:\\KiemDinhChatLuong\\TaiLieuMinhChung";
             string filename = Path.GetFileName(file_1);
-            saveFileDialog.FileName = filename;
+            saveFileDialog.FileName = filename;            
             dialogResult = saveFileDialog.ShowDialog();
 
             if(dialogResult == DialogResult.OK)
@@ -86,16 +89,8 @@ namespace KiemDinhChatLuongGUI
                 return;
             }
             File.Copy(file_1, file_2);
-        }
+        }                
 
-        private void btnDong_Click(object sender, EventArgs e)
-        {
-            FormMinhChung FrMinhChung = new FormMinhChung(); //Khởi tạo đối tượng
-            this.Hide();
-            FrMinhChung.ShowDialog(); //Hiển thị
-            this.Show();
-            this.Close();
-        }
         private event EventHandler updateLuuDuongLink;
         public event EventHandler UpdateLuuDuongLink
         {
@@ -104,7 +99,7 @@ namespace KiemDinhChatLuongGUI
         }
 
         private void btnLuuMinhChung_Click(object sender, EventArgs e)
-        {
+        {            
             string matailieu = Interaction.InputBox("Nhập mã tài liệu", "Thông báo", "", -1, -1);
             if (matailieu == "")
             {
@@ -121,20 +116,21 @@ namespace KiemDinhChatLuongGUI
                 else
                 {
                     OpenFileDialog openFileDialog = new OpenFileDialog();
+                    openFileDialog.InitialDirectory = "D:\\KiemDinhChatLuong\\TaiLieuMinhChung";                   
                     string filename = "";
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        filename = openFileDialog.FileName;                        
+                       filename = openFileDialog.FileName;                        
                     }
                     else
                     {
                         MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                    string duonglink = Path.GetFileName(filename);
 
+                    string duonglink = filename;
                     string sql1 = string.Format("SELECT ID_TaiLieu FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
                     string input_1 = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql1);
-                    int id_tailieu = Int32.Parse(input_1);                    
+                    int id_tailieu = Int32.Parse(input_1);
 
                     if (MinhChungBUS.Instance.UpdateLinkMinhChung(id_tailieu, duonglink))
                     {
@@ -147,9 +143,18 @@ namespace KiemDinhChatLuongGUI
                     else
                     {
                         MessageBox.Show("Cập nhật tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }    
+                    }
                 }
             }            
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            FormMinhChung FrMinhChung = new FormMinhChung(); //Khởi tạo đối tượng
+            this.Hide();
+            FrMinhChung.ShowDialog(); //Hiển thị
+            this.Show();
+            this.Close();
         }
     }
 }

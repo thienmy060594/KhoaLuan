@@ -84,6 +84,9 @@ namespace KiemDinhChatLuongGUI
             dgvYeuCauMocThamChieu.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvYeuCauMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
             dgvYeuCauMocThamChieu.AutoGenerateColumns = false;
+
+            dgvYeuCauMocThamChieu.EnableHeadersVisualStyles = false;
+            dgvYeuCauMocThamChieu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }        
 
         void YeuCau_MocThamChieuBinding()

@@ -99,6 +99,9 @@ namespace KiemDinhChatLuongGUI
             dgvChuongTrinhDaoTao.AllowUserToAddRows = false;
             dgvChuongTrinhDaoTao.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvChuongTrinhDaoTao.AutoGenerateColumns = false;
+
+            dgvChuongTrinhDaoTao.EnableHeadersVisualStyles = false;
+            dgvChuongTrinhDaoTao.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }       
 
         void ChuongTrinhDaoTaoBinding()

@@ -48,6 +48,9 @@ namespace KiemDinhChatLuongGUI
             dgvYeuCau.AllowUserToAddRows = false;
             dgvYeuCau.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp     
             dgvYeuCau.AutoGenerateColumns = false;
+
+            dgvYeuCau.EnableHeadersVisualStyles = false;
+            dgvYeuCau.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }                
 
         void YeuCauBinding()

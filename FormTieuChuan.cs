@@ -47,7 +47,10 @@ namespace KiemDinhChatLuongGUI
             dgvTieuChuan.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;           
             dgvTieuChuan.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChuan.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
-            dgvTieuChuan.AutoGenerateColumns = false;         
+            dgvTieuChuan.AutoGenerateColumns = false;                             
+         
+            dgvTieuChuan.EnableHeadersVisualStyles = false;
+            dgvTieuChuan.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;         
         }      
 
         void TieuChuanBinding()

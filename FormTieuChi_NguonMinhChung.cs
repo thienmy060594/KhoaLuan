@@ -85,6 +85,9 @@ namespace KiemDinhChatLuongGUI
             dgvTieuChiNguonMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvTieuChiNguonMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
             dgvTieuChiNguonMinhChung.AutoGenerateColumns = false;
+
+            dgvTieuChiNguonMinhChung.EnableHeadersVisualStyles = false;
+            dgvTieuChiNguonMinhChung.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }      
 
         void TieuChi_NguonMinhChungBinding()
@@ -130,7 +133,7 @@ namespace KiemDinhChatLuongGUI
 
             if (MessageBox.Show("Bạn có muốn thêm tiêu chí - nguồn minh chứng này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                if (TieuChi_YeuCauBUS.Instance.InsertTieuChi_YeuCau(id_tieuchi, id_nguonminhchung, ghichu))
+                if (TieuChi_NguonMinhChungBUS.Instance.InsertTieuChi_NguonMinhChung(id_tieuchi, id_nguonminhchung, ghichu))
                 {
                     MessageBox.Show("Thêm tiêu chí - nguồn minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertTieuChi_NguonMinhChung != null)
@@ -206,7 +209,7 @@ namespace KiemDinhChatLuongGUI
                 string input_2 = cbxNguonMinhChung.GetItemText(cbxNguonMinhChung.SelectedValue); ;
                 int id_nguonminhchung = Int32.Parse(input_2);
 
-                if (TieuChi_YeuCauBUS.Instance.DeleteTieuChi_YeuCau(id_tieuchi, id_nguonminhchung))
+                if (TieuChi_NguonMinhChungBUS.Instance.DeleteTieuChi_NguonMinhChung(id_tieuchi, id_nguonminhchung))
                 {
                     MessageBox.Show("Xóa tiêu chí - nguồn minh chứng thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (deleteTieuChi_NguonMinhChung != null)

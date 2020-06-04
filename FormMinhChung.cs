@@ -43,19 +43,25 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[3].HeaderText = "Ngày Ký";
             dgvMinhChung.Columns[4].HeaderText = "Người Ký";
             dgvMinhChung.Columns[5].HeaderText = "Số Ban Hành";
-            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";           
-            dgvMinhChung.Columns[7].HeaderText = "Ghi Chú";
+            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";
+            dgvMinhChung.Columns[7].HeaderText = "Đường Link";
+            dgvMinhChung.Columns[8].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
             dgvMinhChung.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;            
+            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
             dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
             dgvMinhChung.AutoGenerateColumns = false;
+
+            dgvMinhChung.EnableHeadersVisualStyles = false;
+            dgvMinhChung.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }
        
         void MinhChungBinding()

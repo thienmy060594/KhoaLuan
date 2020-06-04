@@ -22,8 +22,7 @@ namespace KiemDinhChatLuongGUI
         {
             InitializeComponent();
             dgvKhoa.DataSource = KhoaList;
-            LoadListKhoa();
-            AddButtonColumn();
+            LoadListKhoa();           
             txtMaKhoa.Enabled = false;
             txtTenKhoa.Enabled = false;            
             txtGhiChu.Enabled = false;
@@ -47,30 +46,10 @@ namespace KiemDinhChatLuongGUI
             dgvKhoa.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvKhoa.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
             dgvKhoa.AutoGenerateColumns = false;
-        }
 
-        private void AddButtonColumn()
-        {
-            DataGridViewButtonColumn btnSua = new DataGridViewButtonColumn();// Nút sửa
-            {
-                btnSua.HeaderText = "Nút Sửa";
-                btnSua.Name = "btnSua";
-                btnSua.Text = "Sửa";
-                btnSua.UseColumnTextForButtonValue = true;
-                dgvKhoa.Columns.Add(btnSua);
-                btnSua.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-
-            DataGridViewButtonColumn btnXoa = new DataGridViewButtonColumn();// Nút xóa
-            {
-                btnXoa.HeaderText = "Nút Xóa";
-                btnXoa.Name = "btnXoa";
-                btnXoa.Text = "Xóa";
-                btnXoa.UseColumnTextForButtonValue = true;
-                dgvKhoa.Columns.Add(btnXoa);
-                btnXoa.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            }
-        }
+            dgvKhoa.EnableHeadersVisualStyles = false;
+            dgvKhoa.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+        }               
 
         void KhoaBinding()
         {

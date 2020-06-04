@@ -86,6 +86,9 @@ namespace KiemDinhChatLuongGUI
             dgvNganh.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvNganh.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
             dgvNganh.AutoGenerateColumns = false;
+
+            dgvNganh.EnableHeadersVisualStyles = false;
+            dgvNganh.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }
       
         void NganhBinding()
@@ -158,7 +161,7 @@ namespace KiemDinhChatLuongGUI
             {
                 if (NganhBUS.Instance.InsertNganh(id_khoa, manganh, tennganh, ghichu))
                 {
-                    MessageBox.Show("Thêm tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Thêm ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (insertNganh != null)
                     {
                         insertNganh(this, new EventArgs());

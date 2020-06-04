@@ -189,5 +189,26 @@ namespace KiemDinhChatLuongGUI
             FrMonTienQuyet.ShowDialog(); //Hiển thị
             this.Show();
         }
+
+        private void mnuBaoCaoKiemDinhChatLuong_Click(object sender, EventArgs e)
+        {
+            FormBaoCaoKiemDinhChatLuong FrBaoCaoKiemDinhChatLuong = new FormBaoCaoKiemDinhChatLuong(); //Khởi tạo đối tượng
+            this.Hide();
+            FrBaoCaoKiemDinhChatLuong.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuBaoCaoChuongTrinhDaoTao_Click(object sender, EventArgs e)
+        {
+            FormBaoCaoChuongTrinhDaoTao FrBaoCaoChuongTrinhDaoTao = new FormBaoCaoChuongTrinhDaoTao(); //Khởi tạo đối tượng
+            this.Hide();
+            FrBaoCaoChuongTrinhDaoTao.ShowDialog(); //Hiển thị
+            this.Show();
+        }
+
+        private void mnuDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

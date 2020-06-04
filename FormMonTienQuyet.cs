@@ -84,6 +84,9 @@ namespace KiemDinhChatLuongGUI
             dgvMonTienQuyet.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMonTienQuyet.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
             dgvMonTienQuyet.AutoGenerateColumns = false;
+
+            dgvMonTienQuyet.EnableHeadersVisualStyles = false;
+            dgvMonTienQuyet.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
         }       
 
         void MonTienQuyetBinding()
