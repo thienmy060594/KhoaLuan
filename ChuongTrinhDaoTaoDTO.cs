@@ -21,6 +21,7 @@ namespace KiemDinhChatLuongDTO
         private string namapdung;
         private string tomtatnoidung;
         private string ghichu;
+
         public int Id_ChuongTrinhDaoTao { get => id_chuongtrinhdaotao; set => id_chuongtrinhdaotao = value; }        
         public int Id_Nganh { get => id_nganh; set => id_nganh = value; }
         public int Id_TaiLieu { get => id_tailieu; set => id_tailieu = value; }

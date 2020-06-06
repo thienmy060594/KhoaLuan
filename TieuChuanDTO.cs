@@ -22,12 +22,12 @@ namespace KiemDinhChatLuongDTO
         public string NoiDungTieuChuan { get => noidungtieuchuan; set => noidungtieuchuan = value; }
         public string GhiChu { get => ghichu; set => ghichu = value; }
 
-        public TieuChuanDTO(int id_tieuchuan, string matieuchuan, string tentieuchuan, string noidungTieuChuan, string ghichu)
+        public TieuChuanDTO(int id_tieuchuan, string matieuchuan, string tentieuchuan, string noidungtieuchuan, string ghichu)
         {
             this.Id_TieuChuan = id_tieuchuan;
             this.MaTieuChuan = matieuchuan;
             this.TenTieuChuan = tentieuchuan;
-            this.NoiDungTieuChuan = noidungTieuChuan;
+            this.NoiDungTieuChuan = noidungtieuchuan;
             this.GhiChu = ghichu;
         }      
 
