@@ -53,5 +53,18 @@ namespace KiemDinhChatLuongBUS
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
+
+        public List<KhoaDTO> SearchListKhoa(string valueToSearch)
+        {
+            List<KhoaDTO> List = new List<KhoaDTO>();
+            string query = string.Format("SELECT * FROM dbo.Khoa WHERE CONCAT(MaKhoa, TenKhoa, GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                KhoaDTO khoa = new KhoaDTO(dataRow);
+                List.Add(khoa);
+            }
+            return List;
+        }
     }
 }

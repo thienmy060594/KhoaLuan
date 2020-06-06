@@ -26,7 +26,7 @@ namespace KiemDinhChatLuongBUS
             List<TieuChi_NguonMinhChungDTO> List = new List<TieuChi_NguonMinhChungDTO>();
             string query = "SELECT TChiNMChung.ID_TieuChi, TChiNMChung.ID_NguonMinhChung, TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu " +
                             "FROM dbo.TieuChi_NguonMinhChung TChiNMChung, dbo.TieuChi TChi, dbo.NguonMinhChung NMChung " +
-                            "WHERE TChi.ID_TieuChi = NMChung.ID_NguonMinhChung";
+                            "WHERE TChiNMChung.ID_TieuChi = TChi.ID_TieuChi AND TChiNMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -54,6 +54,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.TieuChi_NguonMinhChung WHERE ID_TieuChi = N'{0}' AND ID_NguonMinhChung = N'{1}'", id_tieuchi, id_nguonminhchung);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
+        }
+
+        public List<TieuChi_NguonMinhChungDTO> SearchListTieuChi_NguonMinhChung(string valueToSearch)
+        {
+            List<TieuChi_NguonMinhChungDTO> List = new List<TieuChi_NguonMinhChungDTO>();
+            string query = string.Format("SELECT TChiNMChung.ID_TieuChi, TChiNMChung.ID_NguonMinhChung, TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu " +
+                "FROM dbo.TieuChi_NguonMinhChung TChiNMChung, dbo.TieuChi TChi, dbo.NguonMinhChung NMChung " +
+                "WHERE TChiNMChung.ID_TieuChi = TChi.ID_TieuChi AND TChiNMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                TieuChi_NguonMinhChungDTO tieuChi_NguonMinhChung = new TieuChi_NguonMinhChungDTO(dataRow);
+                List.Add(tieuChi_NguonMinhChung);
+            }
+            return List;
         }
     }
 }

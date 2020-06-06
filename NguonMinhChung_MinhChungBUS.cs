@@ -26,7 +26,7 @@ namespace KiemDinhChatLuongBUS
             List<NguonMinhChung_MinhChungDTO> List = new List<NguonMinhChung_MinhChungDTO>();
             string query = "SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
                            "FROM dbo.NguonMinhChung_MinhChung NMChungMChung, dbo.NguonMinhChung NMChung, dbo.MinhChung MChung " +
-                           "WHERE NMChung.ID_NguonMinhChung = MChung.ID_TaiLieu";
+                           "WHERE NMChungMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND NMChungMChung.ID_TaiLieu = MChung.ID_TaiLieu";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -54,6 +54,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.NguonMinhChung_MinhChung WHERE ID_NguonMinhChung = N'{0}' AND ID_TaiLieu = N'{1}'", id_nguonminhchung, id_tailieu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
+        }
+
+        public List<NguonMinhChung_MinhChungDTO> SearchListNguonMinhChung_MinhChung(string valueToSearch)
+        {
+            List<NguonMinhChung_MinhChungDTO> List = new List<NguonMinhChung_MinhChungDTO>();
+            string query = string.Format("SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
+                "FROM dbo.NguonMinhChung_MinhChung NMChungMChung, dbo.NguonMinhChung NMChung, dbo.MinhChung MChung " +
+                "WHERE NMChungMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND NMChungMChung.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                NguonMinhChung_MinhChungDTO nguonMinhChung_MinhChung = new NguonMinhChung_MinhChungDTO(dataRow);
+                List.Add(nguonMinhChung_MinhChung);
+            }
+            return List;
         }
     }
 }

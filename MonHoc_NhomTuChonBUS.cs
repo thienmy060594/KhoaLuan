@@ -26,7 +26,7 @@ namespace KiemDinhChatLuongBUS
             List<MonHoc_NhomTuChonDTO> List = new List<MonHoc_NhomTuChonDTO>();
             string query = "SELECT MHocMTChon.ID_MonHoc, MHocMTChon.ID_NhomTuChon, MHoc.MaMonHoc, MHoc.TenMonHoc, NTChon.MaNhomTuChon, NTChon.TenNhomTuChon, MHocMTChon.GhiChu " +
                            "FROM dbo.MonHoc_NhomTuChon MHocMTChon, dbo.MonHoc MHoc, dbo.NhomTuChon NTChon " +
-                           "WHERE MHoc.ID_MonHoc = NTChon.ID_NhomTuChon";
+                           "WHERE MHocMTChon.ID_MonHoc = MHoc.ID_MonHoc AND MHocMTChon.ID_NhomTuChon = NTChon.ID_NhomTuChon";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -54,6 +54,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.MonHoc_NhomTuChon WHERE ID_MonHoc = N'{0}' AND ID_NhomTuChon = N'{1}'", id_monhoc, id_nhomtuchon);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
+        }
+
+        public List<MonHoc_NhomTuChonDTO> SearchListMonHoc_NhomTuChon(string valueToSearch)
+        {
+            List<MonHoc_NhomTuChonDTO> List = new List<MonHoc_NhomTuChonDTO>();
+            string query = string.Format("SELECT MHocMTChon.ID_MonHoc, MHocMTChon.ID_NhomTuChon, MHoc.MaMonHoc, MHoc.TenMonHoc, NTChon.MaNhomTuChon, NTChon.TenNhomTuChon, MHocMTChon.GhiChu " +
+                "FROM dbo.MonHoc_NhomTuChon MHocMTChon, dbo.MonHoc MHoc, dbo.NhomTuChon NTChon " +
+                "WHERE MHocMTChon.ID_MonHoc = MHoc.ID_MonHoc AND MHocMTChon.ID_NhomTuChon = NTChon.ID_NhomTuChon AND CONCAT(MHoc.MaMonHoc, MHoc.TenMonHoc, NTChon.MaNhomTuChon, NTChon.TenNhomTuChon, MHocMTChon.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                MonHoc_NhomTuChonDTO monHoc_NhomTuChon = new MonHoc_NhomTuChonDTO(dataRow);
+                List.Add(monHoc_NhomTuChon);
+            }
+            return List;
         }
     }
 }

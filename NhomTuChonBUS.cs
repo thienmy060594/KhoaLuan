@@ -55,5 +55,20 @@ namespace KiemDinhChatLuongBUS
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
+
+        public List<NhomTuChonDTO> SearchListNhomTuChon(string valueToSearch)
+        {
+            List<NhomTuChonDTO> List = new List<NhomTuChonDTO>();
+            string query = string.Format("SELECT NTChon.ID_NhomTuChon, NTChon.ID_ChuongTrinhDaoTao, CTrinhDTao.MaChuongTrinhDaoTao, NTChon.MaNhomTuChon, NTChon.TenNhomTuChon, NTChon.SoTinChi, NTChon.GhiChu " +
+                "FROM dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.NhomTuChon NTChon " +
+                "WHERE CTrinhDTao.ID_ChuongTrinhDaoTao = NTChon.ID_ChuongTrinhDaoTao AND CONCAT(NTChon.MaNhomTuChon, NTChon.TenNhomTuChon, NTChon.SoTinChi, NTChon.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                NhomTuChonDTO nhomTuChon = new NhomTuChonDTO(dataRow);
+                List.Add(nhomTuChon);
+            }
+            return List;
+        }
     }
 }

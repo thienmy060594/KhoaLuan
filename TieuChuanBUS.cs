@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using KiemDinhChatLuongDAL;
 using KiemDinhChatLuongDTO;
-//using System.Form;
 
 namespace KiemDinhChatLuongBUS
 {
@@ -53,6 +52,19 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.TieuChuan WHERE ID_TieuChuan = N'{0}'", id_tieuchuan);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }       
+        }
+        
+        public List<TieuChuanDTO> SearchListTieuChuan(string valueToSearch)
+        {
+            List<TieuChuanDTO> List = new List<TieuChuanDTO>();
+            string query = string.Format("SELECT * FROM dbo.TieuChuan WHERE CONCAT(MaTieuChuan, TenTieuChuan, NoiDungTieuChuan, GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                TieuChuanDTO tieuChuan = new TieuChuanDTO(dataRow);
+                List.Add(tieuChuan);
+            }
+            return List;
+        }
     }
 }

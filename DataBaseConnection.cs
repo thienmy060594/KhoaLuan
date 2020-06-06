@@ -166,22 +166,7 @@ namespace KiemDinhChatLuongDAL
             sqlCommand.Dispose();//Giải phóng bộ nhớ
             sqlCommand = null;
         }
-        public static void RunSqlDel(string sql)
-        {
-            SqlCommand sqlCommand = new SqlCommand();
-            sqlCommand.Connection = DataBaseConnection.connection;
-            sqlCommand.CommandText = sql;
-            try
-            {
-                sqlCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                
-            }
-            sqlCommand.Dispose();
-            sqlCommand = null;
-        }
+        
         public static string GetFieldValuesId(string sql)
         {
             DataBaseConnection.Connect();

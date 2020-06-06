@@ -52,6 +52,19 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.NguonMinhChung WHERE ID_NguonMinhChung = N'{0}'", id_nguonminhchung);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }        
+        }
+
+        public List<NguonMinhChungDTO> SearchListNguonMinhChung(string valueToSearch)
+        {
+            List<NguonMinhChungDTO> List = new List<NguonMinhChungDTO>();
+            string query = string.Format("SELECT * FROM dbo.NguonMinhChung WHERE CONCAT(MaNguonMinhChung, TenNguonMinhChung, NoiDungNguonMinhChung, GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                NguonMinhChungDTO nguonMinhChung = new NguonMinhChungDTO(dataRow);
+                List.Add(nguonMinhChung);
+            }
+            return List;
+        }
     }
 }

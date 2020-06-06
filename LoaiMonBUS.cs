@@ -53,5 +53,18 @@ namespace KiemDinhChatLuongBUS
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
+
+        public List<LoaiMonDTO> SearchListLoaiMon(string valueToSearch)
+        {
+            List<LoaiMonDTO> List = new List<LoaiMonDTO>();
+            string query = string.Format("SELECT * FROM dbo.LoaiMon WHERE CONCAT(MaLoaiMon, TenLoaiMon, GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                LoaiMonDTO loaiMon = new LoaiMonDTO(dataRow);
+                List.Add(loaiMon);
+            }
+            return List;
+        }
     }
 }

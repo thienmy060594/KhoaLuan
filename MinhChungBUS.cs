@@ -24,7 +24,7 @@ namespace KiemDinhChatLuongBUS
         public List<MinhChungDTO> GetListMinhChung()
         {
             List<MinhChungDTO> List = new List<MinhChungDTO>();
-            string query = "SELECT MChung.ID_TaiLieu, MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.DuongLink, MChung.GhiChu " +
+            string query = "SELECT MChung.ID_TaiLieu, MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu " +
                             "FROM dbo.MinhChung MChung";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
@@ -61,5 +61,19 @@ namespace KiemDinhChatLuongBUS
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
+
+        public List<MinhChungDTO> SearchListMinhChung(string valueToSearch)
+        {
+            List<MinhChungDTO> List = new List<MinhChungDTO>();
+            string query = string.Format("SELECT MChung.ID_TaiLieu, MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu " +
+                "FROM dbo.MinhChung MChung WHERE CONCAT(MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                MinhChungDTO minhChung = new MinhChungDTO(dataRow);
+                List.Add(minhChung);
+            }
+            return List;
+        }              
     }
 }

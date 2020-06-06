@@ -52,6 +52,19 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.YeuCau WHERE ID_YeuCau = N'{0}'", id_yeucau);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }        
+        }
+
+        public List<YeuCauDTO> SearchListYeuCau(string valueToSearch)
+        {
+            List<YeuCauDTO> List = new List<YeuCauDTO>();
+            string query = string.Format("SELECT * FROM dbo.YeuCau WHERE CONCAT(MaYeuCau, TenYeuCau, NoiDungYeuCau, GhiChu) LIKE '%"+valueToSearch+"%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                YeuCauDTO yeuCau = new YeuCauDTO(dataRow);
+                List.Add(yeuCau);
+            }
+            return List;
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace KiemDinhChatLuongBUS
             List<ChuongTrinhDaoTao_MonHocDTO> List = new List<ChuongTrinhDaoTao_MonHocDTO>();
             string query = "SELECT CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao, CTrinhDTao_MHoc.ID_MonHoc, CTrinhDTao_MHoc.ID_LoaiMon, CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu " +
                            "FROM dbo.ChuongTrinhDaoTao_MonHoc CTrinhDTao_MHoc, dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.MonHoc MHoc, dbo.LoaiMon LMon " +
-                           "WHERE CTrinhDTao.ID_ChuongTrinhDaoTao = MHoc.ID_MonHoc AND CTrinhDTao.ID_ChuongTrinhDaoTao = LMon.ID_LoaiMon";
+                           "WHERE CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao = CTrinhDTao.ID_ChuongTrinhDaoTao AND CTrinhDTao_MHoc.ID_MonHoc = MHoc.ID_MonHoc AND CTrinhDTao_MHoc.ID_LoaiMon = LMon.ID_LoaiMon";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
@@ -54,6 +54,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.ChuongTrinhDaoTao_MonHoc WHERE ID_ChuongTrinhDaoTao = N'{0}' AND ID_MonHoc = N'{1}' AND ID_LoaiMon = N'{2}'", id_chuongtrinhdaotao, id_monhoc, id_loaimon);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
+        }
+
+        public List<ChuongTrinhDaoTao_MonHocDTO> SearchListChuongTrinhDaoTao_MonHoc(string valueToSearch)
+        {
+            List<ChuongTrinhDaoTao_MonHocDTO> List = new List<ChuongTrinhDaoTao_MonHocDTO>();
+            string query = string.Format("SELECT CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao, CTrinhDTao_MHoc.ID_MonHoc, CTrinhDTao_MHoc.ID_LoaiMon, CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu " +
+                "FROM dbo.ChuongTrinhDaoTao_MonHoc CTrinhDTao_MHoc, dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.MonHoc MHoc, dbo.LoaiMon LMon " +
+                "WHERE CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao = CTrinhDTao.ID_ChuongTrinhDaoTao AND CTrinhDTao_MHoc.ID_MonHoc = MHoc.ID_MonHoc AND CTrinhDTao_MHoc.ID_LoaiMon = LMon.ID_LoaiMon AND CONCAT(CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                ChuongTrinhDaoTao_MonHocDTO chuongTrinhDaoTao_MonHoc = new ChuongTrinhDaoTao_MonHocDTO(dataRow);
+                List.Add(chuongTrinhDaoTao_MonHoc);
+            }
+            return List;
         }
     }
 }

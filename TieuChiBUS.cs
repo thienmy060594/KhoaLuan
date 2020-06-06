@@ -54,6 +54,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.TieuChi WHERE ID_TieuChi = N'{0}'", id_tieuchi);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
-        }        
+        }
+
+        public List<TieuChiDTO> SearchListTieuChi(string valueToSearch)
+        {
+            List<TieuChiDTO> List = new List<TieuChiDTO>();
+            string query = string.Format("SELECT TChi.ID_TieuChi, TChuan.ID_TieuChuan, TChuan.MaTieuChuan, TChuan.TenTieuChuan, TChi.MaTieuChi, TChi.TenTieuChi, TChi.NoiDungTieuChi, TChi.GhiChu " +
+                "FROM dbo.TieuChuan TChuan, dbo.TieuChi TChi " +
+                "WHERE TChuan.ID_TieuChuan = TChi.ID_TieuChuan AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, TChi.NoiDungTieuChi, TChi.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                TieuChiDTO tieuChi = new TieuChiDTO(dataRow);
+                List.Add(tieuChi);
+            }
+            return List;
+        }
     }
 }

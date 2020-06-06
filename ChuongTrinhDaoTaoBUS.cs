@@ -31,14 +31,14 @@ namespace KiemDinhChatLuongBUS
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
-                ChuongTrinhDaoTaoDTO nganh = new ChuongTrinhDaoTaoDTO(dataRow);
-                List.Add(nganh);
+                ChuongTrinhDaoTaoDTO chuongTrinhDaoTaoDTO = new ChuongTrinhDaoTaoDTO(dataRow);
+                List.Add(chuongTrinhDaoTaoDTO);
             }
             return List;
         }
         public bool InsertChuongTrinhDaoTao(int id_nganh, int id_tailieu, string machuongtrinhdaotao, string namky, string namapdung, string tomtatnoidung, string ghichu)
         {
-            string query = string.Format("INSERT dbo.ChuongTrinhDaoTao (ID_Nganh, ID_TaiLieu, MaChuongTrinhDaoTao, NamKy, NamApDung, TomTatNoiDung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}, N'{6}')", id_nganh, id_tailieu, machuongtrinhdaotao, tomtatnoidung, namky, namapdung, tomtatnoidung, ghichu);
+            string query = string.Format("INSERT dbo.ChuongTrinhDaoTao (ID_Nganh, ID_TaiLieu, MaChuongTrinhDaoTao, NamKy, NamApDung, TomTatNoiDung, GhiChu ) VALUES (N'{0}', N'{1}', N'{2}', N'{3}', N'{4}', N'{5}', N'{6}')", id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
         }
@@ -55,6 +55,21 @@ namespace KiemDinhChatLuongBUS
             string query = string.Format("DELETE dbo.ChuongTrinhDaoTao WHERE ID_ChuongTrinhDaoTao = N'{0}'", id_chuongtrinhdaotao);
             int result = DataBaseConnection.Instance.ExcuteNonQuery(query);
             return result > 0;
+        }
+
+        public List<ChuongTrinhDaoTaoDTO> SearchListChuongTrinhDaoTao(string valueToSearch)
+        {
+            List<ChuongTrinhDaoTaoDTO> List = new List<ChuongTrinhDaoTaoDTO>();
+            string query = string.Format("SELECT CTrinhDTao.ID_ChuongTrinhDaoTao, CTrinhDTao.ID_Nganh, CTrinhDTao.ID_TaiLieu, N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu " +
+                "FROM dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.Nganh N, dbo.MinhChung MChung " +
+                "WHERE CTrinhDTao.ID_Nganh = N.ID_Nganh AND CTrinhDTao.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu) LIKE '%" + valueToSearch + "%'");
+            DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
+            foreach (DataRow dataRow in dataTable.Rows)
+            {
+                ChuongTrinhDaoTaoDTO chuongTrinhDaoTao = new ChuongTrinhDaoTaoDTO(dataRow);
+                List.Add(chuongTrinhDaoTao);
+            }
+            return List;
         }
     }
 }
