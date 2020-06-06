@@ -19,8 +19,7 @@ namespace KiemDinhChatLuongGUI
         public FormMinhChung()
         {
             InitializeComponent();
-            dgvMinhChung.DataSource = MinhChungList;
-            LoadListMinhChung();           
+            dgvMinhChung.DataSource = MinhChungList;                    
             txtMaTaiLieu.Enabled = false;
             txtTenTaiLieu.Enabled = false;
             txtNgayKy.Enabled = false;
@@ -28,11 +27,13 @@ namespace KiemDinhChatLuongGUI
             txtSoBanHanh.Enabled = false;
             txtTomTatNoiDung.Enabled = false;           
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;           
             btnLuuTaiLieu.Enabled = false;
+            btnTimKiem.Enabled = false;            
         }
         private void LoadListMinhChung()
         {
@@ -43,18 +44,16 @@ namespace KiemDinhChatLuongGUI
             dgvMinhChung.Columns[3].HeaderText = "Ngày Ký";
             dgvMinhChung.Columns[4].HeaderText = "Người Ký";
             dgvMinhChung.Columns[5].HeaderText = "Số Ban Hành";
-            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";
-            dgvMinhChung.Columns[7].HeaderText = "Đường Link";
-            dgvMinhChung.Columns[8].HeaderText = "Ghi Chú";
+            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";           
+            dgvMinhChung.Columns[7].HeaderText = "Ghi Chú";
             // Tự động chỉnh lại kích thước cột
             dgvMinhChung.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;            
             dgvMinhChung.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvMinhChung.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
             dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
             dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
@@ -73,6 +72,7 @@ namespace KiemDinhChatLuongGUI
             txtSoBanHanh.DataBindings.Clear();
             txtTomTatNoiDung.DataBindings.Clear();            
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -83,6 +83,7 @@ namespace KiemDinhChatLuongGUI
             txtSoBanHanh.Text = "";
             txtTomTatNoiDung.Text = "";            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaTaiLieu.Enabled = true;
             txtTenTaiLieu.Enabled = true;
             txtNgayKy.Enabled = true;
@@ -90,11 +91,14 @@ namespace KiemDinhChatLuongGUI
             txtSoBanHanh.Enabled = true;
             txtTomTatNoiDung.Enabled = true;           
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;            
             btnLuuTaiLieu.Enabled = true;
+            btnTimKiem.Enabled = true;            
+            LoadListMinhChung();
         }
 
         private event EventHandler insertMinhChung;
@@ -171,8 +175,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     MinhChungBinding();
                     LoadListMinhChung();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;                    
+                    ResetGiaTri();                                        
                 }
                 else
                 {
@@ -310,8 +313,7 @@ namespace KiemDinhChatLuongGUI
 
         private void btnLuuTaiLieu_Click(object sender, EventArgs e)
         {
-            FormLuuTaiLieu FrLuuTaiLieu = new FormLuuTaiLieu(); //Khởi tạo đối tượng
-            this.Hide();
+            FormLuuTaiLieu FrLuuTaiLieu = new FormLuuTaiLieu(); //Khởi tạo đối tượng            
             FrLuuTaiLieu.ShowDialog(); //Hiển thị
             this.Show();
             this.Close();
@@ -325,6 +327,45 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvMinhChung.DataSource = MinhChungBUS.Instance.SearchListMinhChung(timkiem);
+            dgvMinhChung.Columns[0].Visible = false;
+            dgvMinhChung.Columns[1].HeaderText = "Mã Tài Liệu";
+            dgvMinhChung.Columns[2].HeaderText = "Tên Tài Liệu";
+            dgvMinhChung.Columns[3].HeaderText = "Ngày Ký";
+            dgvMinhChung.Columns[4].HeaderText = "Người Ký";
+            dgvMinhChung.Columns[5].HeaderText = "Số Ban Hành";
+            dgvMinhChung.Columns[6].HeaderText = "Tóm Tắt Nội Dung";
+            dgvMinhChung.Columns[7].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột
+            dgvMinhChung.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMinhChung.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            dgvMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+            dgvMinhChung.AutoGenerateColumns = false;
+
+            dgvMinhChung.EnableHeadersVisualStyles = false;
+            dgvMinhChung.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            MinhChungBinding();
+            ResetGiaTri();
         }        
     }
 }

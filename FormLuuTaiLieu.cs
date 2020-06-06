@@ -22,6 +22,7 @@ namespace KiemDinhChatLuongGUI
             btnDoc.Enabled = false;
             btnLuu.Enabled = false;
             btnLuuMinhChung.Enabled = false;
+            btnKiemTraLuu.Enabled = false;            
         }
 
         private void LoadLuuTaiLieu()
@@ -44,6 +45,7 @@ namespace KiemDinhChatLuongGUI
             btnDoc.Enabled = true;
             btnLuu.Enabled = true;
             btnLuuMinhChung.Enabled = true;
+            btnKiemTraLuu.Enabled = true;           
         }
 
         private void btnDoc_Click(object sender, EventArgs e)
@@ -146,7 +148,31 @@ namespace KiemDinhChatLuongGUI
                     }
                 }
             }            
-        }
+        }               
+
+        private void btnKiemTraLuu_Click(object sender, EventArgs e)
+        {
+            string matailieu = Interaction.InputBox("Nhập mã tài liệu", "Thông báo", "", -1, -1);
+            if (matailieu == "")
+            {
+                MessageBox.Show("Nhập mã tài liệu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                string sql = string.Format("SELECT MChung.DuongLink FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
+                string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+                if (input == "")
+                {
+                    MessageBox.Show("Mã tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                string sql1 = string.Format("SELECT DuongLink FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
+                string input_1 = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql1);
+                string duonglink = input_1;
+                //kiểm tra đọc
+                PDFLuuTaiLieu.LoadFile(duonglink);             
+            }    
+        }        
 
         private void btnDong_Click(object sender, EventArgs e)
         {

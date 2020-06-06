@@ -20,16 +20,17 @@ namespace KiemDinhChatLuongGUI
         public FormYeuCau()
         {
             InitializeComponent();
-            dgvYeuCau.DataSource = YeuCauList;
-            LoadListYeuCau();           
+            dgvYeuCau.DataSource = YeuCauList;                   
             txtMaYeuCau.Enabled = false;
             txtNoiDungYeuCau.Enabled = false;
             txtTenYeuCau.Enabled = false;
-            txtGhiChu.Enabled = false; 
+            txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
         private void LoadListYeuCau()
         {
@@ -59,6 +60,7 @@ namespace KiemDinhChatLuongGUI
             txtTenYeuCau.DataBindings.Clear();
             txtNoiDungYeuCau.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -67,14 +69,18 @@ namespace KiemDinhChatLuongGUI
             txtTenYeuCau.Text = "";
             txtNoiDungYeuCau.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaYeuCau.Enabled = true;
             txtTenYeuCau.Enabled = true;
             txtNoiDungYeuCau.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListYeuCau();
         }
 
         private event EventHandler insertYeuCau;
@@ -130,8 +136,7 @@ namespace KiemDinhChatLuongGUI
                     }                   
                     YeuCauBinding();
                     LoadListYeuCau();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;                    
+                    ResetGiaTri();                                     
                 }
                 else
                 {
@@ -146,6 +151,7 @@ namespace KiemDinhChatLuongGUI
             txtTenYeuCau.Text = "";
             txtNoiDungYeuCau.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }  
         
         private event EventHandler updateYeuCau;
@@ -258,6 +264,39 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvYeuCau.DataSource = YeuCauBUS.Instance.SearchListYeuCau(timkiem);
+            dgvYeuCau.Columns[0].Visible = false;
+            dgvYeuCau.Columns[1].HeaderText = "Mã Yêu Cầu";
+            dgvYeuCau.Columns[2].HeaderText = "Tên Yêu Cầu";
+            dgvYeuCau.Columns[3].HeaderText = "Nội Dung Yêu Cầu";
+            dgvYeuCau.Columns[4].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột
+            dgvYeuCau.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCau.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCau.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCau.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //Không cho người dùng thêm dữ liệu trực tiếp
+            dgvYeuCau.AllowUserToAddRows = false;
+            dgvYeuCau.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp     
+            dgvYeuCau.AutoGenerateColumns = false;
+
+            dgvYeuCau.EnableHeadersVisualStyles = false;
+            dgvYeuCau.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            YeuCauBinding();
+            ResetGiaTri();
         }
     }
 }

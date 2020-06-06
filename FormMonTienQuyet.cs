@@ -19,13 +19,14 @@ namespace KiemDinhChatLuongGUI
         public FormMonTienQuyet()
         {
             InitializeComponent();
-            dgvMonTienQuyet.DataSource = MonTienQuyetList;
-            LoadListMonTienQuyet();            
+            dgvMonTienQuyet.DataSource = MonTienQuyetList;                     
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -92,16 +93,21 @@ namespace KiemDinhChatLuongGUI
         void MonTienQuyetBinding()
         {
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListMonTienQuyet();
             FillComBoBox();
         }
         private void FillComBoBox()
@@ -140,8 +146,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     MonTienQuyetBinding();
                     LoadListMonTienQuyet();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {
@@ -153,6 +158,7 @@ namespace KiemDinhChatLuongGUI
         void ResetGiaTri()
         {
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateMonTienQuyet;
@@ -233,6 +239,41 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvMonTienQuyet.DataSource = MonTienQuyetBUS.Instance.SearchListMonTienQuyet(timkiem);
+            dgvMonTienQuyet.Columns[0].Visible = false;
+            dgvMonTienQuyet.Columns[1].Visible = false;
+            dgvMonTienQuyet.Columns[2].HeaderText = "Mã Môn Học";
+            dgvMonTienQuyet.Columns[3].HeaderText = "Tên Môn Học";
+            dgvMonTienQuyet.Columns[4].HeaderText = "Mã Môn Tiên Quyết";
+            dgvMonTienQuyet.Columns[5].HeaderText = "Tên Môn Tiên Quyết";
+            dgvMonTienQuyet.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvMonTienQuyet.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonTienQuyet.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonTienQuyet.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonTienQuyet.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonTienQuyet.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonTienQuyet.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvMonTienQuyet.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
+            dgvMonTienQuyet.AutoGenerateColumns = false;
+
+            dgvMonTienQuyet.EnableHeadersVisualStyles = false;
+            dgvMonTienQuyet.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            MonTienQuyetBinding();
+            ResetGiaTri();
         }
     }
 }

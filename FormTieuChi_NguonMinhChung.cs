@@ -20,13 +20,14 @@ namespace KiemDinhChatLuongGUI
         public FormTieuChi_NguonMinhChung()
         {
             InitializeComponent();
-            dgvTieuChiNguonMinhChung.DataSource = TieuChi_NguonMinhChungList;
-            LoadListTieuChi_NguonMinhChung();            
+            dgvTieuChiNguonMinhChung.DataSource = TieuChi_NguonMinhChungList;                      
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -93,16 +94,21 @@ namespace KiemDinhChatLuongGUI
         void TieuChi_NguonMinhChungBinding()
         {
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListTieuChi_NguonMinhChung();
             FillComBoBox();
         }
 
@@ -142,8 +148,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     TieuChi_NguonMinhChungBinding();
                     LoadListTieuChi_NguonMinhChung();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                   
                 }
                 else
                 {
@@ -155,6 +160,7 @@ namespace KiemDinhChatLuongGUI
         void ResetGiaTri()
         {
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateTieuChi_NguonMinhChung;
@@ -235,6 +241,41 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvTieuChiNguonMinhChung.DataSource = TieuChi_NguonMinhChungBUS.Instance.SearchListTieuChi_NguonMinhChung(timkiem);
+            dgvTieuChiNguonMinhChung.Columns[0].Visible = false;
+            dgvTieuChiNguonMinhChung.Columns[1].Visible = false;
+            dgvTieuChiNguonMinhChung.Columns[2].HeaderText = "Mã Tiêu Chí";
+            dgvTieuChiNguonMinhChung.Columns[3].HeaderText = "Tên Tiêu Chí";
+            dgvTieuChiNguonMinhChung.Columns[4].HeaderText = "Mã Nguồn Minh Chứng";
+            dgvTieuChiNguonMinhChung.Columns[5].HeaderText = "Tên Nguồn Minh Chứng";
+            dgvTieuChiNguonMinhChung.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvTieuChiNguonMinhChung.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiNguonMinhChung.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiNguonMinhChung.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiNguonMinhChung.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiNguonMinhChung.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiNguonMinhChung.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvTieuChiNguonMinhChung.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
+            dgvTieuChiNguonMinhChung.AutoGenerateColumns = false;
+
+            dgvTieuChiNguonMinhChung.EnableHeadersVisualStyles = false;
+            dgvTieuChiNguonMinhChung.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            TieuChi_NguonMinhChungBinding();
+            ResetGiaTri();
         }
     }
 }

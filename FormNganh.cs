@@ -19,15 +19,16 @@ namespace KiemDinhChatLuongGUI
         public FormNganh()
         {
             InitializeComponent();
-            dgvNganh.DataSource = NganhList;
-            LoadListNganh();            
+            dgvNganh.DataSource = NganhList;                       
             txtMaNganh.Enabled = false;
             txtTenNganh.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -96,6 +97,7 @@ namespace KiemDinhChatLuongGUI
             txtMaNganh.DataBindings.Clear();
             txtTenNganh.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -103,13 +105,17 @@ namespace KiemDinhChatLuongGUI
             txtMaNganh.Text = "";
             txtTenNganh.Text = "";            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaNganh.Enabled = true;
             txtTenNganh.Enabled = true;            
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListNganh();
             FillComBoBox();
         }
 
@@ -168,8 +174,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     NganhBinding();
                     LoadListNganh();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {
@@ -183,6 +188,7 @@ namespace KiemDinhChatLuongGUI
             txtMaNganh.Text = "";
             txtTenNganh.Text = "";            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateNganh;
@@ -290,6 +296,41 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }       
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvNganh.DataSource = NganhBUS.Instance.SearchListNganh(timkiem);
+            dgvNganh.Columns[0].Visible = false;
+            dgvNganh.Columns[1].Visible = false;
+            dgvNganh.Columns[2].HeaderText = "Mã Khoa";
+            dgvNganh.Columns[3].HeaderText = "Tên Khoa";
+            dgvNganh.Columns[4].HeaderText = "Mã Ngành";
+            dgvNganh.Columns[5].HeaderText = "Tên Ngành";
+            dgvNganh.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvNganh.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNganh.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNganh.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNganh.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNganh.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNganh.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvNganh.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+            dgvNganh.AutoGenerateColumns = false;
+
+            dgvNganh.EnableHeadersVisualStyles = false;
+            dgvNganh.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            NganhBinding();
+            ResetGiaTri();
+        }
     }
 }

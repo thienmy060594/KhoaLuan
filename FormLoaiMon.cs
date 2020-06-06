@@ -19,15 +19,16 @@ namespace KiemDinhChatLuongGUI
         public FormLoaiMon()
         {
             InitializeComponent();
-            dgvLoaiMon.DataSource = LoaiMonList;
-            LoadListLoaiMon();           
+            dgvLoaiMon.DataSource = LoaiMonList;                    
             txtMaLoaiMon.Enabled = false;
             txtTenLoaiMon.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         private void LoadListLoaiMon()
@@ -54,6 +55,7 @@ namespace KiemDinhChatLuongGUI
             txtMaLoaiMon.DataBindings.Clear();
             txtTenLoaiMon.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -61,13 +63,17 @@ namespace KiemDinhChatLuongGUI
             txtMaLoaiMon.Text = "";
             txtTenLoaiMon.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaLoaiMon.Enabled = true;
             txtTenLoaiMon.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListLoaiMon();
         }
 
         private event EventHandler insertLoaiMon;
@@ -116,8 +122,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     LoaiMonBinding();
                     LoadListLoaiMon();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {
@@ -236,6 +241,36 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvLoaiMon.DataSource = LoaiMonBUS.Instance.SearchListLoaiMon(timkiem);
+            dgvLoaiMon.Columns[0].Visible = false;
+            dgvLoaiMon.Columns[1].HeaderText = "Mã Loại Môn";
+            dgvLoaiMon.Columns[2].HeaderText = "Tên Loại Môn";
+            dgvLoaiMon.Columns[3].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvLoaiMon.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiMon.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiMon.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiMon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvLoaiMon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+            dgvLoaiMon.AutoGenerateColumns = false;
+
+            dgvLoaiMon.EnableHeadersVisualStyles = false;
+            dgvLoaiMon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            LoaiMonBinding();
+            ResetGiaTri();
         }
     }
 }

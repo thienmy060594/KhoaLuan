@@ -29,10 +29,16 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnHuy = new System.Windows.Forms.Button();
             this.txtTenTiengAnh = new System.Windows.Forms.TextBox();
+            this.btnDong = new System.Windows.Forms.Button();
+            this.btnXoa = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
+            this.btnSua = new System.Windows.Forms.Button();
             this.txtGhiChu = new System.Windows.Forms.TextBox();
+            this.btnLuuLai = new System.Windows.Forms.Button();
             this.txtSoTietLyThuyet = new System.Windows.Forms.TextBox();
+            this.btnBatDau = new System.Windows.Forms.Button();
             this.txtSoTietThucHanh = new System.Windows.Forms.TextBox();
             this.txtSoTinChi = new System.Windows.Forms.TextBox();
             this.txtTenMonHoc = new System.Windows.Forms.TextBox();
@@ -45,12 +51,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvMonHoc = new System.Windows.Forms.DataGridView();
-            this.btnHuy = new System.Windows.Forms.Button();
-            this.btnDong = new System.Windows.Forms.Button();
-            this.btnXoa = new System.Windows.Forms.Button();
-            this.btnSua = new System.Windows.Forms.Button();
-            this.btnLuuLai = new System.Windows.Forms.Button();
-            this.btnBatDau = new System.Windows.Forms.Button();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
+            this.btnTimKiem = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMonHoc)).BeginInit();
@@ -58,7 +60,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtTimKiem);
             this.groupBox1.Controls.Add(this.btnHuy);
+            this.groupBox1.Controls.Add(this.btnTimKiem);
             this.groupBox1.Controls.Add(this.txtTenTiengAnh);
             this.groupBox1.Controls.Add(this.btnDong);
             this.groupBox1.Controls.Add(this.btnXoa);
@@ -86,12 +90,42 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi Tiết Môn Học";
             // 
+            // btnHuy
+            // 
+            this.btnHuy.Location = new System.Drawing.Point(1187, 25);
+            this.btnHuy.Name = "btnHuy";
+            this.btnHuy.Size = new System.Drawing.Size(85, 30);
+            this.btnHuy.TabIndex = 10;
+            this.btnHuy.Text = "Hủy";
+            this.btnHuy.UseVisualStyleBackColor = true;
+            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            // 
             // txtTenTiengAnh
             // 
             this.txtTenTiengAnh.Location = new System.Drawing.Point(205, 61);
             this.txtTenTiengAnh.Name = "txtTenTiengAnh";
             this.txtTenTiengAnh.Size = new System.Drawing.Size(306, 28);
             this.txtTenTiengAnh.TabIndex = 3;
+            // 
+            // btnDong
+            // 
+            this.btnDong.Location = new System.Drawing.Point(1187, 61);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(85, 30);
+            this.btnDong.TabIndex = 13;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = true;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // btnXoa
+            // 
+            this.btnXoa.Location = new System.Drawing.Point(1096, 61);
+            this.btnXoa.Name = "btnXoa";
+            this.btnXoa.Size = new System.Drawing.Size(85, 30);
+            this.btnXoa.TabIndex = 12;
+            this.btnXoa.Text = "Xóa";
+            this.btnXoa.UseVisualStyleBackColor = true;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // label7
             // 
@@ -102,6 +136,16 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "Tên Tiếng Anh";
             // 
+            // btnSua
+            // 
+            this.btnSua.Location = new System.Drawing.Point(1005, 61);
+            this.btnSua.Name = "btnSua";
+            this.btnSua.Size = new System.Drawing.Size(85, 30);
+            this.btnSua.TabIndex = 11;
+            this.btnSua.Text = "Sửa";
+            this.btnSua.UseVisualStyleBackColor = true;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
             // txtGhiChu
             // 
             this.txtGhiChu.Location = new System.Drawing.Point(205, 129);
@@ -109,12 +153,32 @@
             this.txtGhiChu.Size = new System.Drawing.Size(306, 28);
             this.txtGhiChu.TabIndex = 7;
             // 
+            // btnLuuLai
+            // 
+            this.btnLuuLai.Location = new System.Drawing.Point(1096, 25);
+            this.btnLuuLai.Name = "btnLuuLai";
+            this.btnLuuLai.Size = new System.Drawing.Size(85, 30);
+            this.btnLuuLai.TabIndex = 9;
+            this.btnLuuLai.Text = "Lưu Lại";
+            this.btnLuuLai.UseVisualStyleBackColor = true;
+            this.btnLuuLai.Click += new System.EventHandler(this.btnLuuLai_Click);
+            // 
             // txtSoTietLyThuyet
             // 
             this.txtSoTietLyThuyet.Location = new System.Drawing.Point(205, 95);
             this.txtSoTietLyThuyet.Name = "txtSoTietLyThuyet";
             this.txtSoTietLyThuyet.Size = new System.Drawing.Size(306, 28);
             this.txtSoTietLyThuyet.TabIndex = 5;
+            // 
+            // btnBatDau
+            // 
+            this.btnBatDau.Location = new System.Drawing.Point(1005, 25);
+            this.btnBatDau.Name = "btnBatDau";
+            this.btnBatDau.Size = new System.Drawing.Size(85, 30);
+            this.btnBatDau.TabIndex = 8;
+            this.btnBatDau.Text = "Bắt Đầu";
+            this.btnBatDau.UseVisualStyleBackColor = true;
+            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
             // 
             // txtSoTietThucHanh
             // 
@@ -220,65 +284,22 @@
             this.dgvMonHoc.Size = new System.Drawing.Size(1326, 393);
             this.dgvMonHoc.TabIndex = 0;
             // 
-            // btnHuy
+            // txtTimKiem
             // 
-            this.btnHuy.Location = new System.Drawing.Point(1187, 25);
-            this.btnHuy.Name = "btnHuy";
-            this.btnHuy.Size = new System.Drawing.Size(85, 30);
-            this.btnHuy.TabIndex = 17;
-            this.btnHuy.Text = "Hủy";
-            this.btnHuy.UseVisualStyleBackColor = true;
-            this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
+            this.txtTimKiem.Location = new System.Drawing.Point(1005, 97);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(165, 28);
+            this.txtTimKiem.TabIndex = 14;
             // 
-            // btnDong
+            // btnTimKiem
             // 
-            this.btnDong.Location = new System.Drawing.Point(1187, 61);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(85, 30);
-            this.btnDong.TabIndex = 9;
-            this.btnDong.Text = "Đóng";
-            this.btnDong.UseVisualStyleBackColor = true;
-            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
-            // 
-            // btnXoa
-            // 
-            this.btnXoa.Location = new System.Drawing.Point(1096, 61);
-            this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(85, 30);
-            this.btnXoa.TabIndex = 16;
-            this.btnXoa.Text = "Xóa";
-            this.btnXoa.UseVisualStyleBackColor = true;
-            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
-            // 
-            // btnSua
-            // 
-            this.btnSua.Location = new System.Drawing.Point(1005, 61);
-            this.btnSua.Name = "btnSua";
-            this.btnSua.Size = new System.Drawing.Size(85, 30);
-            this.btnSua.TabIndex = 15;
-            this.btnSua.Text = "Sửa";
-            this.btnSua.UseVisualStyleBackColor = true;
-            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
-            // 
-            // btnLuuLai
-            // 
-            this.btnLuuLai.Location = new System.Drawing.Point(1096, 25);
-            this.btnLuuLai.Name = "btnLuuLai";
-            this.btnLuuLai.Size = new System.Drawing.Size(85, 30);
-            this.btnLuuLai.TabIndex = 8;
-            this.btnLuuLai.Text = "Lưu Lại";
-            this.btnLuuLai.UseVisualStyleBackColor = true;
-            this.btnLuuLai.Click += new System.EventHandler(this.btnLuuLai_Click);
-            // 
-            // btnBatDau
-            // 
-            this.btnBatDau.Location = new System.Drawing.Point(1005, 25);
-            this.btnBatDau.Name = "btnBatDau";
-            this.btnBatDau.Size = new System.Drawing.Size(85, 30);
-            this.btnBatDau.TabIndex = 7;
-            this.btnBatDau.Text = "Bắt Đầu";
-            this.btnBatDau.UseVisualStyleBackColor = true;
-            this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
+            this.btnTimKiem.Location = new System.Drawing.Point(1176, 97);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(96, 30);
+            this.btnTimKiem.TabIndex = 15;
+            this.btnTimKiem.Text = "Tìm Kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // FormMonHoc
             // 
@@ -325,5 +346,7 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtTenTiengAnh;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button btnTimKiem;
     }
 }

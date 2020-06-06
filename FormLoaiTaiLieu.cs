@@ -19,15 +19,16 @@ namespace KiemDinhChatLuongGUI
         public FormLoaiTaiLieu()
         {
             InitializeComponent();
-            dgvLoaiTaiLieu.DataSource = LoaiTaiLieuList;
-            LoadListLoaiTaiLieu();
+            dgvLoaiTaiLieu.DataSource = LoaiTaiLieuList;            
             txtMaLoaiTaiLieu.Enabled = false;
             txtTenLoaiTaiLieu.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -102,19 +103,25 @@ namespace KiemDinhChatLuongGUI
             txtMaLoaiTaiLieu.DataBindings.Clear();
             txtTenLoaiTaiLieu.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             txtMaLoaiTaiLieu.Text = "";
             txtTenLoaiTaiLieu.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
+            txtTimKiem.Text = "";
             txtMaLoaiTaiLieu.Enabled = true;
             txtTenLoaiTaiLieu.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListLoaiTaiLieu();
             FillComBoBox();
         }
 
@@ -192,6 +199,7 @@ namespace KiemDinhChatLuongGUI
             txtMaLoaiTaiLieu.Text = "";
             txtTenLoaiTaiLieu.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateLoaiTaiLieu;
@@ -298,6 +306,47 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvLoaiTaiLieu.DataSource = LoaiTaiLieuBUS.Instance.SearchListLoaiTaiLieu(timkiem);
+            dgvLoaiTaiLieu.Columns[0].Visible = false;
+            dgvLoaiTaiLieu.Columns[1].Visible = false;
+            dgvLoaiTaiLieu.Columns[2].Visible = false;
+            dgvLoaiTaiLieu.Columns[3].HeaderText = "Mã Tài Liệu";
+            dgvLoaiTaiLieu.Columns[4].HeaderText = "Tên Tài Liệu";
+            dgvLoaiTaiLieu.Columns[5].HeaderText = "Mã Nguồn Minh Chứng";
+            dgvLoaiTaiLieu.Columns[6].HeaderText = "Tên Nguồn Minh Chứng";
+            dgvLoaiTaiLieu.Columns[7].HeaderText = "Mã Loại Tài Liệu";
+            dgvLoaiTaiLieu.Columns[8].HeaderText = "Tên Loại Tài Liệu";
+            dgvLoaiTaiLieu.Columns[9].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột
+            dgvLoaiTaiLieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvLoaiTaiLieu.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //Không cho người dùng thêm dữ liệu trực tiếp
+            dgvLoaiTaiLieu.AllowUserToAddRows = false;
+            dgvLoaiTaiLieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp   
+            dgvLoaiTaiLieu.AutoGenerateColumns = false;
+
+            dgvLoaiTaiLieu.EnableHeadersVisualStyles = false;
+            dgvLoaiTaiLieu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            LoaiTaiLieuBinding();
+            ResetGiaTri();
         }
     }
 }

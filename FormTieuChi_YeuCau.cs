@@ -19,13 +19,14 @@ namespace KiemDinhChatLuongGUI
         public FormTieuChi_YeuCau()
         {
             InitializeComponent();
-            dgvTieuChiYeuCau.DataSource = TieuChi_YeuCauList;
-            LoadListTieuChi_YeuCau();           
+            dgvTieuChiYeuCau.DataSource = TieuChi_YeuCauList;                   
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -92,16 +93,21 @@ namespace KiemDinhChatLuongGUI
         void TieuChi_YeuCauBinding()
         {            
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
         {
-            txtGhiChu.Text = "";           
+            txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListTieuChi_YeuCau();
             FillComBoBox();
         }
 
@@ -141,8 +147,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     TieuChi_YeuCauBinding();
                     LoadListTieuChi_YeuCau();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                   
                 }
                 else
                 {
@@ -155,6 +160,7 @@ namespace KiemDinhChatLuongGUI
         void ResetGiaTri()
         {            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateTieuChi_YeuCau;
@@ -234,6 +240,41 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
-        }       
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvTieuChiYeuCau.DataSource = TieuChi_YeuCauBUS.Instance.SearchListTieuChi_YeuCau(timkiem);
+            dgvTieuChiYeuCau.Columns[0].Visible = false;
+            dgvTieuChiYeuCau.Columns[1].Visible = false;
+            dgvTieuChiYeuCau.Columns[2].HeaderText = "Mã Tiêu Chí";
+            dgvTieuChiYeuCau.Columns[3].HeaderText = "Tên Tiêu Chí";
+            dgvTieuChiYeuCau.Columns[4].HeaderText = "Mã Yêu Cầu";
+            dgvTieuChiYeuCau.Columns[5].HeaderText = "Tên Yêu Cầu";
+            dgvTieuChiYeuCau.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvTieuChiYeuCau.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiYeuCau.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiYeuCau.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiYeuCau.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiYeuCau.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvTieuChiYeuCau.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvTieuChiYeuCau.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp    
+            dgvTieuChiYeuCau.AutoGenerateColumns = false;
+
+            dgvTieuChiYeuCau.EnableHeadersVisualStyles = false;
+            dgvTieuChiYeuCau.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            TieuChi_YeuCauBinding();
+            ResetGiaTri();
+        }
     }
 }

@@ -37,6 +37,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.PDFLuuTaiLieu = new AxAcroPDFLib.AxAcroPDF();
+            this.btnKiemTraLuu = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PDFLuuTaiLieu)).BeginInit();
@@ -47,7 +48,7 @@
             this.btnLuuMinhChung.Location = new System.Drawing.Point(432, 21);
             this.btnLuuMinhChung.Name = "btnLuuMinhChung";
             this.btnLuuMinhChung.Size = new System.Drawing.Size(149, 30);
-            this.btnLuuMinhChung.TabIndex = 10;
+            this.btnLuuMinhChung.TabIndex = 4;
             this.btnLuuMinhChung.Text = "Lưu Minh Chứng";
             this.btnLuuMinhChung.UseVisualStyleBackColor = true;
             this.btnLuuMinhChung.Click += new System.EventHandler(this.btnLuuMinhChung_Click);
@@ -57,7 +58,7 @@
             this.btnLuu.Location = new System.Drawing.Point(299, 21);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(127, 30);
-            this.btnLuu.TabIndex = 9;
+            this.btnLuu.TabIndex = 3;
             this.btnLuu.Text = "Lưu Tài Liệu";
             this.btnLuu.UseVisualStyleBackColor = true;
             this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
@@ -67,17 +68,17 @@
             this.btnDoc.Location = new System.Drawing.Point(210, 21);
             this.btnDoc.Name = "btnDoc";
             this.btnDoc.Size = new System.Drawing.Size(83, 30);
-            this.btnDoc.TabIndex = 8;
+            this.btnDoc.TabIndex = 2;
             this.btnDoc.Text = "Đọc";
             this.btnDoc.UseVisualStyleBackColor = true;
             this.btnDoc.Click += new System.EventHandler(this.btnDoc_Click);
             // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(587, 21);
+            this.btnDong.Location = new System.Drawing.Point(720, 21);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(83, 30);
-            this.btnDong.TabIndex = 7;
+            this.btnDong.TabIndex = 6;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
@@ -87,13 +88,14 @@
             this.btnBatDau.Location = new System.Drawing.Point(102, 21);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(102, 30);
-            this.btnBatDau.TabIndex = 6;
+            this.btnBatDau.TabIndex = 1;
             this.btnBatDau.Text = "Bắt Đầu";
             this.btnBatDau.UseVisualStyleBackColor = true;
             this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnKiemTraLuu);
             this.groupBox1.Controls.Add(this.btnLuuMinhChung);
             this.groupBox1.Controls.Add(this.btnLuu);
             this.groupBox1.Controls.Add(this.btnBatDau);
@@ -128,6 +130,16 @@
             this.PDFLuuTaiLieu.Size = new System.Drawing.Size(1296, 554);
             this.PDFLuuTaiLieu.TabIndex = 1;
             // 
+            // btnKiemTraLuu
+            // 
+            this.btnKiemTraLuu.Location = new System.Drawing.Point(587, 21);
+            this.btnKiemTraLuu.Name = "btnKiemTraLuu";
+            this.btnKiemTraLuu.Size = new System.Drawing.Size(127, 30);
+            this.btnKiemTraLuu.TabIndex = 5;
+            this.btnKiemTraLuu.Text = "Kiểm Tra Lưu";
+            this.btnKiemTraLuu.UseVisualStyleBackColor = true;
+            this.btnKiemTraLuu.Click += new System.EventHandler(this.btnKiemTraLuu_Click);
+            // 
             // FormLuuTaiLieu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -156,5 +168,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private AxAcroPDFLib.AxAcroPDF PDFLuuTaiLieu;
+        private System.Windows.Forms.Button btnKiemTraLuu;
     }
 }

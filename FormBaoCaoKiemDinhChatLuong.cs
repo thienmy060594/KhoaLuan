@@ -20,9 +20,8 @@ namespace KiemDinhChatLuongGUI
         private void FormBaoCaoKiemDinhChatLuong_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong' table. You can move, or remove it, as needed.
-            this.KiemDinhChatLuongTableAdapter.Fill(this.QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong);
-
-            this.rvBaoCaoKiemDinhChatLuong.RefreshReport();
+            this.KiemDinhChatLuongTableAdapter.Fill(this.QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong);           
+            this.rvKiemDinhChatLuong.RefreshReport();
         }
 
         private void btnDong_Click(object sender, EventArgs e)

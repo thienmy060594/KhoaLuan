@@ -19,16 +19,17 @@ namespace KiemDinhChatLuongGUI
         public FormMocThamChieu()
         {
             InitializeComponent();
-            dgvMocThamChieu.DataSource = MocThamChieuList;
-            LoadListMocThamChieu();            
+            dgvMocThamChieu.DataSource = MocThamChieuList;                      
             txtMaMocThamChieu.Enabled = false;
             txtNoiDungMocThamChieu.Enabled = false;
             txtTenMocThamChieu.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         private void LoadListMocThamChieu()
@@ -59,6 +60,7 @@ namespace KiemDinhChatLuongGUI
             txtNoiDungMocThamChieu.DataBindings.Clear();
             txtTenMocThamChieu.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -67,14 +69,18 @@ namespace KiemDinhChatLuongGUI
             txtTenMocThamChieu.Text = "";
             txtNoiDungMocThamChieu.Text = "";            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaMocThamChieu.Enabled = true;            
             txtTenMocThamChieu.Enabled = true;
             txtNoiDungMocThamChieu.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListMocThamChieu();
         }
 
         private event EventHandler insertMocThamChieu;
@@ -130,8 +136,7 @@ namespace KiemDinhChatLuongGUI
                     }                    
                     MocThamChieuBinding();
                     LoadListMocThamChieu();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;                    
+                    ResetGiaTri();                                        
                 }
                 else
                 {
@@ -146,6 +151,7 @@ namespace KiemDinhChatLuongGUI
             txtNoiDungMocThamChieu.Text = "";
             txtTenMocThamChieu.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateMocThamChieu;
@@ -258,6 +264,39 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvMocThamChieu.DataSource = MocThamChieuBUS.Instance.SearchListMocThamChieu(timkiem);
+            dgvMocThamChieu.Columns[0].Visible = false;
+            dgvMocThamChieu.Columns[1].HeaderText = "Mã Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[2].HeaderText = "Tên Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[3].HeaderText = "Nội Dung Mốc Tham Chiếu";
+            dgvMocThamChieu.Columns[4].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột
+            dgvMocThamChieu.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMocThamChieu.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMocThamChieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMocThamChieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //Không cho người dùng thêm dữ liệu trực tiếp
+            dgvMocThamChieu.AllowUserToAddRows = false;
+            dgvMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp      
+            dgvMocThamChieu.AutoGenerateColumns = false;
+
+            dgvMocThamChieu.EnableHeadersVisualStyles = false;
+            dgvMocThamChieu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            MocThamChieuBinding();
+            ResetGiaTri();
         }
     }
 }

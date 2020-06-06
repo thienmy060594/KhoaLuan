@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtTimKiem = new System.Windows.Forms.TextBox();
             this.btnDong = new System.Windows.Forms.Button();
+            this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnHuy = new System.Windows.Forms.Button();
             this.cbxChuongTrinhDaoTao = new System.Windows.Forms.ComboBox();
             this.txtGhiChu = new System.Windows.Forms.TextBox();
@@ -54,7 +56,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtTimKiem);
             this.groupBox1.Controls.Add(this.btnDong);
+            this.groupBox1.Controls.Add(this.btnTimKiem);
             this.groupBox1.Controls.Add(this.btnHuy);
             this.groupBox1.Controls.Add(this.cbxChuongTrinhDaoTao);
             this.groupBox1.Controls.Add(this.txtGhiChu);
@@ -75,27 +79,44 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(1302, 128);
+            this.groupBox1.Size = new System.Drawing.Size(1302, 130);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chi Tiết Nhóm Tự Chọn";
+            // 
+            // txtTimKiem
+            // 
+            this.txtTimKiem.Location = new System.Drawing.Point(1006, 92);
+            this.txtTimKiem.Name = "txtTimKiem";
+            this.txtTimKiem.Size = new System.Drawing.Size(165, 28);
+            this.txtTimKiem.TabIndex = 12;
             // 
             // btnDong
             // 
             this.btnDong.Location = new System.Drawing.Point(1188, 56);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(85, 30);
-            this.btnDong.TabIndex = 15;
+            this.btnDong.TabIndex = 11;
             this.btnDong.Text = "Đóng";
             this.btnDong.UseVisualStyleBackColor = true;
             this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
+            // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(1177, 92);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(96, 30);
+            this.btnTimKiem.TabIndex = 13;
+            this.btnTimKiem.Text = "Tìm Kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // btnHuy
             // 
             this.btnHuy.Location = new System.Drawing.Point(1188, 20);
             this.btnHuy.Name = "btnHuy";
             this.btnHuy.Size = new System.Drawing.Size(85, 30);
-            this.btnHuy.TabIndex = 11;
+            this.btnHuy.TabIndex = 8;
             this.btnHuy.Text = "Hủy";
             this.btnHuy.UseVisualStyleBackColor = true;
             this.btnHuy.Click += new System.EventHandler(this.btnHuy_Click);
@@ -155,7 +176,7 @@
             this.btnLuuLai.Location = new System.Drawing.Point(1097, 19);
             this.btnLuuLai.Name = "btnLuuLai";
             this.btnLuuLai.Size = new System.Drawing.Size(85, 30);
-            this.btnLuuLai.TabIndex = 14;
+            this.btnLuuLai.TabIndex = 7;
             this.btnLuuLai.Text = "Lưu Lại";
             this.btnLuuLai.UseVisualStyleBackColor = true;
             this.btnLuuLai.Click += new System.EventHandler(this.btnLuuLai_Click);
@@ -172,7 +193,7 @@
             this.btnBatDau.Location = new System.Drawing.Point(1006, 20);
             this.btnBatDau.Name = "btnBatDau";
             this.btnBatDau.Size = new System.Drawing.Size(85, 30);
-            this.btnBatDau.TabIndex = 13;
+            this.btnBatDau.TabIndex = 6;
             this.btnBatDau.Text = "Bắt Đầu";
             this.btnBatDau.UseVisualStyleBackColor = true;
             this.btnBatDau.Click += new System.EventHandler(this.btnBatDau_Click);
@@ -226,9 +247,9 @@
             // 
             this.groupBox2.Controls.Add(this.dgvNhomTuChon);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 128);
+            this.groupBox2.Location = new System.Drawing.Point(0, 130);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1302, 413);
+            this.groupBox2.Size = new System.Drawing.Size(1302, 411);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Thông Tin Nhóm Tự Chọn";
@@ -241,7 +262,7 @@
             this.dgvNhomTuChon.Name = "dgvNhomTuChon";
             this.dgvNhomTuChon.RowHeadersWidth = 51;
             this.dgvNhomTuChon.RowTemplate.Height = 24;
-            this.dgvNhomTuChon.Size = new System.Drawing.Size(1296, 383);
+            this.dgvNhomTuChon.Size = new System.Drawing.Size(1296, 381);
             this.dgvNhomTuChon.TabIndex = 0;
             this.dgvNhomTuChon.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvNhomTuChon_CellFormatting);
             this.dgvNhomTuChon.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvNhomTuChon_CellPainting);
@@ -287,5 +308,7 @@
         private System.Windows.Forms.Button btnHuy;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnSua;
+        private System.Windows.Forms.TextBox txtTimKiem;
+        private System.Windows.Forms.Button btnTimKiem;
     }
 }

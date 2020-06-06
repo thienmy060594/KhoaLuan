@@ -19,13 +19,14 @@ namespace KiemDinhChatLuongGUI
         public FormYeuCau_MocThamChieu()
         {
             InitializeComponent();
-            dgvYeuCauMocThamChieu.DataSource = YeuCau_MocThamChieuList;
-            LoadListYeuCau_MocThamChieu();           
+            dgvYeuCauMocThamChieu.DataSource = YeuCau_MocThamChieuList;                      
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -92,16 +93,21 @@ namespace KiemDinhChatLuongGUI
         void YeuCau_MocThamChieuBinding()
         {
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
         {
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListYeuCau_MocThamChieu();
             FillComBoBox();
         }
 
@@ -154,6 +160,7 @@ namespace KiemDinhChatLuongGUI
         void ResetGiaTri()
         {            
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateYeuCau_MocThamChieu;
@@ -235,5 +242,40 @@ namespace KiemDinhChatLuongGUI
         {
             this.Close();
         }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvYeuCauMocThamChieu.DataSource = YeuCau_MocThamChieuBUS.Instance.SearchListYeuCau_MocThamChieu(timkiem);
+            dgvYeuCauMocThamChieu.Columns[0].Visible = false;
+            dgvYeuCauMocThamChieu.Columns[1].Visible = false;
+            dgvYeuCauMocThamChieu.Columns[2].HeaderText = "Mã Yêu Cầu";
+            dgvYeuCauMocThamChieu.Columns[3].HeaderText = "Tên Yêu Cầu";
+            dgvYeuCauMocThamChieu.Columns[4].HeaderText = "Mã Mốc Tham Chiếu";
+            dgvYeuCauMocThamChieu.Columns[5].HeaderText = "Tên Mốc Tham Chiếu";
+            dgvYeuCauMocThamChieu.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvYeuCauMocThamChieu.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCauMocThamChieu.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCauMocThamChieu.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCauMocThamChieu.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCauMocThamChieu.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvYeuCauMocThamChieu.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvYeuCauMocThamChieu.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
+            dgvYeuCauMocThamChieu.AutoGenerateColumns = false;
+
+            dgvYeuCauMocThamChieu.EnableHeadersVisualStyles = false;
+            dgvYeuCauMocThamChieu.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            YeuCau_MocThamChieuBinding();
+            ResetGiaTri();
+        }       
     }
 }

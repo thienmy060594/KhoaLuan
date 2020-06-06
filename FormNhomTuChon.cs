@@ -19,16 +19,17 @@ namespace KiemDinhChatLuongGUI
         public FormNhomTuChon()
         {
             InitializeComponent();
-            dgvNhomTuChon.DataSource = NhomTuChonList;
-            LoadListNhomTuChon();           
+            dgvNhomTuChon.DataSource = NhomTuChonList;                       
             txtMaNhomTuChon.Enabled = false;
             txtTenNhomTuChon.Enabled = false;
             txtSoTinChi.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -98,6 +99,7 @@ namespace KiemDinhChatLuongGUI
             txtTenNhomTuChon.DataBindings.Clear();
             txtSoTinChi.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -106,14 +108,18 @@ namespace KiemDinhChatLuongGUI
             txtTenNhomTuChon.Text = "";
             txtSoTinChi.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaNhomTuChon.Enabled = true;
             txtTenNhomTuChon.Enabled = true;
             txtSoTinChi.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListNhomTuChon();
             FillComBoBox();
         }
 
@@ -121,7 +127,7 @@ namespace KiemDinhChatLuongGUI
         {
             cbxChuongTrinhDaoTao.DataSource = ChuongTrinhDaoTaoBUS.Instance.GetListChuongTrinhDaoTao();
             cbxChuongTrinhDaoTao.ValueMember = "ID_ChuongTrinhDaoTao";
-            cbxChuongTrinhDaoTao.DisplayMember = "TenChuongTrinhDaoTao";
+            cbxChuongTrinhDaoTao.DisplayMember = "MaChuongTrinhDaoTao";
         }
 
         private event EventHandler insertNhomTuChon;
@@ -173,8 +179,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     NhomTuChonBinding();
                     LoadListNhomTuChon();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {
@@ -189,6 +194,7 @@ namespace KiemDinhChatLuongGUI
             txtTenNhomTuChon.Text = "";
             txtSoTinChi.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateNhomTuChon;
@@ -303,6 +309,41 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvNhomTuChon.DataSource = NhomTuChonBUS.Instance.SearchListNhomTuChon(timkiem);
+            dgvNhomTuChon.Columns[0].Visible = false;
+            dgvNhomTuChon.Columns[1].Visible = false;
+            dgvNhomTuChon.Columns[2].HeaderText = "Mã Chương Trình Đào Tạo";
+            dgvNhomTuChon.Columns[3].HeaderText = "Mã Nhóm Tự Chọn";
+            dgvNhomTuChon.Columns[4].HeaderText = "Tên Nhóm Tự Chọn";
+            dgvNhomTuChon.Columns[5].HeaderText = "Số Tín Chỉ";
+            dgvNhomTuChon.Columns[6].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột     
+            dgvNhomTuChon.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNhomTuChon.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNhomTuChon.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNhomTuChon.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNhomTuChon.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvNhomTuChon.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvNhomTuChon.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp         
+            dgvNhomTuChon.AutoGenerateColumns = false;
+
+            dgvNhomTuChon.EnableHeadersVisualStyles = false;
+            dgvNhomTuChon.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            NhomTuChonBinding();
+            ResetGiaTri();
         }
     }
 }

@@ -19,18 +19,19 @@ namespace KiemDinhChatLuongGUI
         public FormDeCuongMonHoc()
         {
             InitializeComponent();
-            dgvDeCuongMonHoc.DataSource = DeCuongMonHocList;
-            LoadListDeCuongMonHoc();            
+            dgvDeCuongMonHoc.DataSource = DeCuongMonHocList;                        
             txtMaDeCuongMonHoc.Enabled = false;
             txtTenDeCuongMonHoc.Enabled = false;
             txtMoTa.Enabled = false;
             txtHinhThucDanhGia.Enabled = false;
             txtGiaoTrinh.Enabled = false;
-            txtGhiChu.Enabled = false;            
+            txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         bool IsTheSameCellValue(int column, int row)
@@ -113,6 +114,7 @@ namespace KiemDinhChatLuongGUI
             txtHinhThucDanhGia.DataBindings.Clear();
             txtGiaoTrinh.DataBindings.Clear();
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -123,16 +125,20 @@ namespace KiemDinhChatLuongGUI
             txtHinhThucDanhGia.Text = "";
             txtGiaoTrinh.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaDeCuongMonHoc.Enabled = true;
             txtTenDeCuongMonHoc.Enabled = true;            
             txtMoTa.Enabled = true;
             txtHinhThucDanhGia.Enabled = true;
             txtGiaoTrinh.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListDeCuongMonHoc();
             FillComBoBox();
         }
 
@@ -205,8 +211,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     DeCuongMonHocBinding();
                     LoadListDeCuongMonHoc();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                    
                 }
                 else
                 {
@@ -223,6 +228,7 @@ namespace KiemDinhChatLuongGUI
             txtHinhThucDanhGia.Text = "";
             txtGiaoTrinh.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateDeCuongMonHoc;
@@ -328,6 +334,52 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvDeCuongMonHoc.DataSource = DeCuongMonHocBUS.Instance.SearchListDeCuongMonHoc(timkiem);
+            dgvDeCuongMonHoc.Columns[0].Visible = false;
+            dgvDeCuongMonHoc.Columns[1].Visible = false;
+            dgvDeCuongMonHoc.Columns[2].HeaderText = "Mã Môn Học";
+            dgvDeCuongMonHoc.Columns[3].HeaderText = "Tên Môn Học";
+            dgvDeCuongMonHoc.Columns[4].HeaderText = "Mã Tài Liệu";
+            dgvDeCuongMonHoc.Columns[5].HeaderText = "Tên Tài Liệu";
+            dgvDeCuongMonHoc.Columns[6].HeaderText = "Mã Đề Cương Môn Học";
+            dgvDeCuongMonHoc.Columns[7].HeaderText = "Tên Đề Cương Môn Học";
+            dgvDeCuongMonHoc.Columns[8].HeaderText = "Mô Tả";
+            dgvDeCuongMonHoc.Columns[9].HeaderText = "Hình Thức Đánh Giá";
+            dgvDeCuongMonHoc.Columns[10].HeaderText = "Giáo Trình";
+            dgvDeCuongMonHoc.Columns[11].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột          
+            dgvDeCuongMonHoc.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[10].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvDeCuongMonHoc.Columns[11].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //Không cho người dùng thêm dữ liệu trực tiếp
+            dgvDeCuongMonHoc.AllowUserToAddRows = false;
+            dgvDeCuongMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp       
+            dgvDeCuongMonHoc.AutoGenerateColumns = false;
+
+            dgvDeCuongMonHoc.EnableHeadersVisualStyles = false;
+            dgvDeCuongMonHoc.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            DeCuongMonHocBinding();
+            ResetGiaTri();
         }
     }
 }

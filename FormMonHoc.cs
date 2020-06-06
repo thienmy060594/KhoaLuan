@@ -19,8 +19,7 @@ namespace KiemDinhChatLuongGUI
         public FormMonHoc()
         {
             InitializeComponent();
-            dgvMonHoc.DataSource = MonHocList;
-            LoadListMonHoc();            
+            dgvMonHoc.DataSource = MonHocList;                       
             txtMaMonHoc.Enabled = false;
             txtTenMonHoc.Enabled = false;
             txtTenTiengAnh.Enabled = false;
@@ -28,10 +27,12 @@ namespace KiemDinhChatLuongGUI
             txtSoTietLyThuyet.Enabled = false;
             txtSoTietThucHanh.Enabled = false;
             txtGhiChu.Enabled = false;
+            txtTimKiem.Enabled = false;
             btnLuuLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
             btnHuy.Enabled = false;
+            btnTimKiem.Enabled = false;
         }
 
         private void LoadListMonHoc()
@@ -70,6 +71,7 @@ namespace KiemDinhChatLuongGUI
             txtSoTietLyThuyet.DataBindings.Clear();
             txtSoTietThucHanh.DataBindings.Clear();            
             txtGhiChu.DataBindings.Clear();
+            txtTimKiem.DataBindings.Clear();
         }
 
         private void btnBatDau_Click(object sender, EventArgs e)
@@ -81,6 +83,7 @@ namespace KiemDinhChatLuongGUI
             txtSoTietLyThuyet.Text = "";
             txtSoTietThucHanh.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
             txtMaMonHoc.Enabled = true;
             txtTenMonHoc.Enabled = true;
             txtTenTiengAnh.Enabled = true;
@@ -88,10 +91,13 @@ namespace KiemDinhChatLuongGUI
             txtSoTietLyThuyet.Enabled = true;
             txtSoTietThucHanh.Enabled = true;
             txtGhiChu.Enabled = true;
+            txtTimKiem.Enabled = true;
             btnLuuLai.Enabled = true;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
             btnHuy.Enabled = true;
+            btnTimKiem.Enabled = true;
+            LoadListMonHoc();
         }
 
         private event EventHandler insertMonHoc;
@@ -102,15 +108,7 @@ namespace KiemDinhChatLuongGUI
         }
 
         private void btnLuuLai_Click(object sender, EventArgs e)
-        {
-            string mamonhoc = txtMaMonHoc.Text;
-            string tenmonhoc = txtTenMonHoc.Text;
-            string tentienganh = txtTenTiengAnh.Text;
-            int sotinchi = Int32.Parse(txtSoTinChi.Text);
-            int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
-            int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
-            string ghichu = txtGhiChu.Text;
-
+        {           
             if (txtMaMonHoc.Text == "")
             {
                 MessageBox.Show("Bạn chưa nhập mã môn học !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -149,6 +147,7 @@ namespace KiemDinhChatLuongGUI
             }           
             else if (txtMaMonHoc.Text != "")
             {
+                string mamonhoc = txtMaMonHoc.Text;
                 string sql = string.Format("SELECT * FROM dbo.MonHoc MHoc WHERE MHoc.MaMonHoc = N'{0}'", mamonhoc);
                 if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql))
                 {
@@ -159,6 +158,14 @@ namespace KiemDinhChatLuongGUI
             }
             if (MessageBox.Show("Bạn có muốn thêm môn học này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
+                string mamonhoc = txtMaMonHoc.Text;
+                string tenmonhoc = txtTenMonHoc.Text;
+                string tentienganh = txtTenTiengAnh.Text;
+                string ghichu = txtGhiChu.Text;
+                int sotinchi = Int32.Parse(txtSoTinChi.Text);
+                int sotietlythuyet = Int32.Parse(txtSoTietLyThuyet.Text);
+                int sotietthuchanh = Int32.Parse(txtSoTietThucHanh.Text);
+
                 if (MonHocBUS.Instance.InsertMonHoc(mamonhoc, tenmonhoc, tentienganh, sotinchi, sotietlythuyet, sotietthuchanh, ghichu))
                 {
                     MessageBox.Show("Thêm môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -168,8 +175,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     MonHocBinding();
                     LoadListMonHoc();
-                    ResetGiaTri();
-                    btnDong.Enabled = true;
+                    ResetGiaTri();                   
                 }
                 else
                 {
@@ -187,6 +193,7 @@ namespace KiemDinhChatLuongGUI
             txtSoTietLyThuyet.Text = "";
             txtSoTietThucHanh.Text = "";
             txtGhiChu.Text = "";
+            txtTimKiem.Text = "";
         }
 
         private event EventHandler updateMonHoc;
@@ -295,7 +302,7 @@ namespace KiemDinhChatLuongGUI
 
                     if (MonHocBUS.Instance.DeleteMonHoc(id_monhoc))
                     {
-                        MessageBox.Show("Xóa minh môn học công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Xóa môn học thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (deleteMonHoc != null)
                         {
                             deleteMonHoc(this, new EventArgs());
@@ -320,6 +327,44 @@ namespace KiemDinhChatLuongGUI
         private void btnDong_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            string timkiem = txtTimKiem.Text;
+            if (txtTimKiem.Text == "")
+            {
+                MessageBox.Show("Bạn chưa nội dung tìm kiếm !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTimKiem.Focus();
+                return;
+            }
+
+            dgvMonHoc.DataSource = MonHocBUS.Instance.SearchListMonHoc(timkiem);
+            dgvMonHoc.Columns[0].Visible = false;
+            dgvMonHoc.Columns[1].HeaderText = "Mã Môn Học";
+            dgvMonHoc.Columns[2].HeaderText = "Tên Môn Học";
+            dgvMonHoc.Columns[3].HeaderText = "Tên Tiếng Anh";
+            dgvMonHoc.Columns[4].HeaderText = "Số Tín Chỉ";
+            dgvMonHoc.Columns[5].HeaderText = "Số Tiết Lý Thuyết";
+            dgvMonHoc.Columns[6].HeaderText = "Số Tiết Thực Hành";
+            dgvMonHoc.Columns[7].HeaderText = "Ghi Chú";
+            // Tự động chỉnh lại kích thước cột
+            dgvMonHoc.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvMonHoc.AllowUserToAddRows = false;//Không cho người dùng thêm dữ liệu trực tiếp
+            dgvMonHoc.EditMode = DataGridViewEditMode.EditProgrammatically; //Không cho sửa dữ liệu trực tiếp  
+            dgvMonHoc.AutoGenerateColumns = false;
+
+            dgvMonHoc.EnableHeadersVisualStyles = false;
+            dgvMonHoc.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Raised;
+
+            MonHocBinding();
+            ResetGiaTri();
         }
     }
 }
