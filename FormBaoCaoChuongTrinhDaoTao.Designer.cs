@@ -28,41 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.KiemDinhChatLuongBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.QuanLyTieuChuanDanhGiaDataSet = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSet();
-            this.BaoCaoChuongTrinhDaoTaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.KiemDinhChatLuongTableAdapter = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSetTableAdapters.KiemDinhChatLuongTableAdapter();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.rvChuongTrinhDaoTao = new Microsoft.Reporting.WinForms.ReportViewer();
             this.btnDong = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.KiemDinhChatLuongBindingSource)).BeginInit();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rvChuongTrinhDaoTao = new Microsoft.Reporting.WinForms.ReportViewer();
             ((System.ComponentModel.ISupportInitialize)(this.QuanLyTieuChuanDanhGiaDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // KiemDinhChatLuongBindingSource
-            // 
-            this.KiemDinhChatLuongBindingSource.DataMember = "KiemDinhChatLuong";
-            this.KiemDinhChatLuongBindingSource.DataSource = this.QuanLyTieuChuanDanhGiaDataSet;
             // 
             // QuanLyTieuChuanDanhGiaDataSet
             // 
             this.QuanLyTieuChuanDanhGiaDataSet.DataSetName = "QuanLyTieuChuanDanhGiaDataSet";
             this.QuanLyTieuChuanDanhGiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // BaoCaoChuongTrinhDaoTaoBindingSource
-            // 
-            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataMember = "BaoCaoChuongTrinhDaoTao";
-            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataSource = this.QuanLyTieuChuanDanhGiaDataSet;
-            // 
-            // KiemDinhChatLuongTableAdapter
-            // 
-            this.KiemDinhChatLuongTableAdapter.ClearBeforeFill = true;
             // 
             // groupBox1
             // 
@@ -74,6 +53,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức Năng";
+            // 
+            // btnDong
+            // 
+            this.btnDong.Location = new System.Drawing.Point(108, 23);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(85, 30);
+            this.btnDong.TabIndex = 1;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = true;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // groupBox2
             // 
@@ -95,15 +84,6 @@
             this.rvChuongTrinhDaoTao.Size = new System.Drawing.Size(1226, 652);
             this.rvChuongTrinhDaoTao.TabIndex = 0;
             // 
-            // btnDong
-            // 
-            this.btnDong.Location = new System.Drawing.Point(102, 20);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(81, 33);
-            this.btnDong.TabIndex = 1;
-            this.btnDong.Text = "Đóng";
-            this.btnDong.UseVisualStyleBackColor = true;
-            // 
             // FormBaoCaoChuongTrinhDaoTao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -117,9 +97,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Báo Cáo Chương Trình Đào Tạo";
             this.Load += new System.EventHandler(this.FormBaoCaoChuongTrinhDaoTao_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.KiemDinhChatLuongBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.QuanLyTieuChuanDanhGiaDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -127,13 +105,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.BindingSource KiemDinhChatLuongBindingSource;
         private QuanLyTieuChuanDanhGiaDataSet QuanLyTieuChuanDanhGiaDataSet;
-        private QuanLyTieuChuanDanhGiaDataSetTableAdapters.KiemDinhChatLuongTableAdapter KiemDinhChatLuongTableAdapter;
-        private System.Windows.Forms.BindingSource BaoCaoChuongTrinhDaoTaoBindingSource;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private Microsoft.Reporting.WinForms.ReportViewer rvChuongTrinhDaoTao;
         private System.Windows.Forms.Button btnDong;
     }

@@ -69,7 +69,7 @@ namespace KiemDinhChatLuongGUI
                 }
                 else
                 {
-                    MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }    
             }
@@ -87,7 +87,7 @@ namespace KiemDinhChatLuongGUI
             }    
             else
             {
-                MessageBox.Show("Lỗi khi lưu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Lỗi khi lưu !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             File.Copy(file_1, file_2);
@@ -126,7 +126,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     else
                     {
-                        MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     string duonglink = filename;
@@ -144,7 +144,7 @@ namespace KiemDinhChatLuongGUI
                     }
                     else
                     {
-                        MessageBox.Show("Cập nhật tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Cập nhật tài liệu thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }            
@@ -163,16 +163,30 @@ namespace KiemDinhChatLuongGUI
                 string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
                 if (input == "")
                 {
-                    MessageBox.Show("Mã tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Mã tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 string sql1 = string.Format("SELECT DuongLink FROM dbo.MinhChung MChung WHERE MChung.MaTaiLieu = N'{0}'", matailieu);
                 string input_1 = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql1);
                 string duonglink = input_1;
-                //kiểm tra đọc
-                PDFLuuTaiLieu.LoadFile(duonglink);             
+                if (duonglink == "")
+                {
+                    MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    try 
+                    {
+                        PDFLuuTaiLieu.LoadFile(duonglink);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Tài liệu không tồn tại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                } 
             }    
-        }        
+        }                                 
+            
 
         private void btnDong_Click(object sender, EventArgs e)
         {

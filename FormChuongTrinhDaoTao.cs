@@ -201,6 +201,15 @@ namespace KiemDinhChatLuongGUI
                     return;
                 }
             }
+            if(id_tailieu != 0)
+            {
+                string sql_1 = string.Format("SELECT * FROM dbo.ChuongTrinhDaoTao CTDTao WHERE CTDTao.ID_TaiLieu = N'{0}'", id_tailieu);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql_1))
+                {
+                    MessageBox.Show("Chương trình đào tạo đã tồn tại minh chứng !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);                    
+                    return;
+                }
+            }    
             if (MessageBox.Show("Bạn có muốn thêm chương trình đào tạo này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (ChuongTrinhDaoTaoBUS.Instance.InsertChuongTrinhDaoTao(id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
@@ -212,12 +221,13 @@ namespace KiemDinhChatLuongGUI
                     }
                     ChuongTrinhDaoTaoBinding();
                     LoadListChuongTrinhDaoTao();
-                    ResetGiaTri();                    
+                    ResetGiaTri();
                 }
                 else
                 {
                     MessageBox.Show("Thêm chương trình đào tạo thất bại !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                }  
+                
             }
         }
 
@@ -283,14 +293,14 @@ namespace KiemDinhChatLuongGUI
 
                     if (ChuongTrinhDaoTaoBUS.Instance.UpdateChuongTrinhDaoTao(id_chuongtrinhdaotao, id_nganh, id_tailieu, machuongtrinhdaotao, namky, namapdung, tomtatnoidung, ghichu))
                     {
-                        MessageBox.Show("Sửa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Sửa chương trình đào tạo thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (updateChuongTrinhDaoTao != null)
                         {
                             updateChuongTrinhDaoTao(this, new EventArgs());
                         }
                         ChuongTrinhDaoTaoBinding();
                         LoadListChuongTrinhDaoTao();
-                        ResetGiaTri();
+                        ResetGiaTri();                        
                     }
                     else
                     {
@@ -328,14 +338,14 @@ namespace KiemDinhChatLuongGUI
 
                     if (ChuongTrinhDaoTaoBUS.Instance.DeleteChuongTrinhDaoTao(id_chuongtrinhdaotao))
                     {
-                        MessageBox.Show("Xóa tiêu chí thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Xóa chương trình đào tạo thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (deleteChuongTrinhDaoTao != null)
                         {
                             deleteChuongTrinhDaoTao(this, new EventArgs());
                         }
                         ChuongTrinhDaoTaoBinding();
                         LoadListChuongTrinhDaoTao();
-                        ResetGiaTri();
+                        ResetGiaTri();                       
                     }
                     else
                     {
@@ -399,6 +409,6 @@ namespace KiemDinhChatLuongGUI
 
             ChuongTrinhDaoTaoBinding();
             ResetGiaTri();
-        }
+        }        
     }
 }

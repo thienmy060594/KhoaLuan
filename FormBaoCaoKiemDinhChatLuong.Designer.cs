@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource2 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.KiemDinhChatLuongBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.QuanLyTieuChuanDanhGiaDataSet = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSet();
             this.KiemDinhChatLuongTableAdapter = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSetTableAdapters.KiemDinhChatLuongTableAdapter();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDong = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rvKiemDinhChatLuong = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.btnDong = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.KiemDinhChatLuongBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QuanLyTieuChuanDanhGiaDataSet)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -63,18 +63,28 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1232, 64);
+            this.groupBox1.Size = new System.Drawing.Size(1232, 58);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức Năng";
+            // 
+            // btnDong
+            // 
+            this.btnDong.Location = new System.Drawing.Point(96, 22);
+            this.btnDong.Name = "btnDong";
+            this.btnDong.Size = new System.Drawing.Size(85, 30);
+            this.btnDong.TabIndex = 0;
+            this.btnDong.Text = "Đóng";
+            this.btnDong.UseVisualStyleBackColor = true;
+            this.btnDong.Click += new System.EventHandler(this.btnDong_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rvKiemDinhChatLuong);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 64);
+            this.groupBox2.Location = new System.Drawing.Point(0, 58);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1232, 677);
+            this.groupBox2.Size = new System.Drawing.Size(1232, 683);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Báo Cáo";
@@ -82,24 +92,15 @@
             // rvKiemDinhChatLuong
             // 
             this.rvKiemDinhChatLuong.Dock = System.Windows.Forms.DockStyle.Top;
-            reportDataSource2.Name = "DataSetKiemDinhChatLuong";
-            reportDataSource2.Value = this.KiemDinhChatLuongBindingSource;
-            this.rvKiemDinhChatLuong.LocalReport.DataSources.Add(reportDataSource2);
+            reportDataSource1.Name = "DataSetKiemDinhChatLuong";
+            reportDataSource1.Value = this.KiemDinhChatLuongBindingSource;
+            this.rvKiemDinhChatLuong.LocalReport.DataSources.Add(reportDataSource1);
             this.rvKiemDinhChatLuong.LocalReport.ReportEmbeddedResource = "KiemDinhChatLuongGUI.BaoCaoKiemDinhChatLuong.rdlc";
             this.rvKiemDinhChatLuong.Location = new System.Drawing.Point(3, 24);
             this.rvKiemDinhChatLuong.Name = "rvKiemDinhChatLuong";
             this.rvKiemDinhChatLuong.ServerReport.BearerToken = null;
-            this.rvKiemDinhChatLuong.Size = new System.Drawing.Size(1226, 647);
+            this.rvKiemDinhChatLuong.Size = new System.Drawing.Size(1226, 653);
             this.rvKiemDinhChatLuong.TabIndex = 0;
-            // 
-            // btnDong
-            // 
-            this.btnDong.Location = new System.Drawing.Point(1000, 27);
-            this.btnDong.Name = "btnDong";
-            this.btnDong.Size = new System.Drawing.Size(85, 30);
-            this.btnDong.TabIndex = 0;
-            this.btnDong.Text = "Đóng";
-            this.btnDong.UseVisualStyleBackColor = true;
             // 
             // FormBaoCaoKiemDinhChatLuong
             // 

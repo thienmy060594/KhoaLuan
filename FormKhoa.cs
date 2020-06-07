@@ -202,6 +202,11 @@ namespace KiemDinhChatLuongGUI
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            string makhoa = txtMaKhoa.Text;
+            string sql = string.Format("SELECT ID_Khoa FROM dbo.Khoa K WHERE K.MaKhoa = N'{0}'", makhoa);
+            string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+            int id_khoa = Int32.Parse(input);
+
             if (MessageBox.Show("Bạn có muốn xóa khoa này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (txtMaKhoa.Text == "")
@@ -210,13 +215,14 @@ namespace KiemDinhChatLuongGUI
                     txtMaKhoa.Focus();
                     return;
                 }
-                else
-                {
-                    string makhoa = txtMaKhoa.Text;
-                    string sql = string.Format("SELECT ID_Khoa FROM dbo.Khoa K WHERE K.MaKhoa = N'{0}'", makhoa);
-                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_khoa = Int32.Parse(input);
 
+                string sql_1 = string.Format("SELECT * FROM dbo.Nganh N WHERE N.ID_Khoa = N'{0}'", id_khoa);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql_1))
+                {
+                    MessageBox.Show("Đang tồn tại Ngành liên kết với Khoa !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                { 
                     if (KhoaBUS.Instance.DeleteKhoa(id_khoa))
                     {
                         MessageBox.Show("Xóa khoa thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

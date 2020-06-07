@@ -254,6 +254,11 @@ namespace KiemDinhChatLuongGUI
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            string manganh = txtMaNganh.Text;
+            string sql = string.Format("SELECT ID_Nganh FROM dbo.Nganh N WHERE N.MaNganh = N'{0}'", manganh);
+            string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+            int id_nganh = Int32.Parse(input);
+
             if (MessageBox.Show("Bạn có muốn xóa ngành này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 if (txtMaNganh.Text == "")
@@ -262,13 +267,14 @@ namespace KiemDinhChatLuongGUI
                     txtMaNganh.Focus();
                     return;
                 }
+
+                string sql_1 = string.Format("SELECT * FROM dbo.ChuongTrinhDaoTao CTrinhDTao WHERE CTrinhDTao.ID_Nganh = N'{0}'", id_nganh);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql_1))
+                {
+                    MessageBox.Show("Đang tồn tại Ngành liên kết với Chương trình đào tạo !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
-                    string manganh = txtMaNganh.Text;
-                    string sql = string.Format("SELECT ID_Nganh FROM dbo.Nganh N WHERE N.MaNganh = N'{0}'", manganh);
-                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_nganh = Int32.Parse(input);
-
                     if (NganhBUS.Instance.DeleteNganh(id_nganh))
                     {
                         MessageBox.Show("Xóa ngành thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

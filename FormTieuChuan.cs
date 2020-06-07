@@ -224,7 +224,11 @@ namespace KiemDinhChatLuongGUI
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
-        {            
+        {
+            string matieuchuan = txtMaTieuChuan.Text;
+            string sql = string.Format("SELECT ID_TieuChuan FROM dbo.TieuChuan TChuan WHERE TChuan.MaTieuChuan = N'{0}'", matieuchuan);
+            string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
+            int id_tieuchuan = Int32.Parse(input);
 
             if (MessageBox.Show("Bạn có muốn xóa tiêu chuẩn này ?", "Thông Báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
@@ -234,13 +238,14 @@ namespace KiemDinhChatLuongGUI
                     txtMaTieuChuan.Focus();
                     return;
                 }
+
+                string sql_1 = string.Format("SELECT * FROM dbo.TieuChi TChi WHERE TChi.ID_TieuChuan = N'{0}'", id_tieuchuan);
+                if (KiemDinhChatLuongDAL.DataBaseConnection.CheckKey(sql_1))
+                {
+                    MessageBox.Show("Đang tồn tại Tiêu chí liên kết với Tiêu Chuẩn !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else
                 {
-                    string matieuchuan = txtMaTieuChuan.Text;
-                    string sql = string.Format("SELECT ID_TieuChuan FROM dbo.TieuChuan TChuan WHERE TChuan.MaTieuChuan = N'{0}'", matieuchuan);
-                    string input = KiemDinhChatLuongDAL.DataBaseConnection.GetFieldValuesId(sql);
-                    int id_tieuchuan = Int32.Parse(input);
-
                     if (TieuChuanBUS.Instance.DeleteTieuChuan(id_tieuchuan))
                     {
                         MessageBox.Show("Xóa tiêu chuẩn thành công !", "Thông Báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
