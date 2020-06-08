@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using KiemDinhChatLuongBUS;
 
 namespace KiemDinhChatLuongGUI
 {
@@ -15,12 +16,25 @@ namespace KiemDinhChatLuongGUI
         public FormBaoCaoKiemDinhChatLuong()
         {
             InitializeComponent();
+            FillComBoBox();
+        }
+
+        private void FillComBoBox()
+        {
+            cbxTieuChuan.DataSource = TieuChuanBUS.Instance.GetListTieuChuan();
+            cbxTieuChuan.ValueMember = "TenTieuChuan";
+            cbxTieuChuan.DisplayMember = "TenTieuChuan";
         }
 
         private void FormBaoCaoKiemDinhChatLuong_Load(object sender, EventArgs e)
+        {                       
+
+        }
+
+        private void btnThucHien_Click(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong' table. You can move, or remove it, as needed.
-            this.KiemDinhChatLuongTableAdapter.Fill(this.QuanLyTieuChuanDanhGiaDataSet.KiemDinhChatLuong);           
+            string tentieuchuan = cbxTieuChuan.GetItemText(cbxTieuChuan.SelectedValue);
+            this.BaoCaoKiemDinhChatLuongTableAdapter.Fill(this.DataSetBaoCaoKiemDinhChatLuong.BaoCaoKiemDinhChatLuong, tentieuchuan);
             this.rvKiemDinhChatLuong.RefreshReport();
         }
 

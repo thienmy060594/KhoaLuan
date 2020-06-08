@@ -30,35 +30,37 @@
         {
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.KiemDinhChatLuongBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.QuanLyTieuChuanDanhGiaDataSet = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSet();
-            this.KiemDinhChatLuongTableAdapter = new KiemDinhChatLuongGUI.QuanLyTieuChuanDanhGiaDataSetTableAdapters.KiemDinhChatLuongTableAdapter();
+            this.BaoCaoKiemDinhChatLuongBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.DataSetBaoCaoKiemDinhChatLuong = new KiemDinhChatLuongGUI.DataSetBaoCaoKiemDinhChatLuong();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnThucHien = new System.Windows.Forms.Button();
+            this.cbxTieuChuan = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnDong = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rvKiemDinhChatLuong = new Microsoft.Reporting.WinForms.ReportViewer();
-            ((System.ComponentModel.ISupportInitialize)(this.KiemDinhChatLuongBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QuanLyTieuChuanDanhGiaDataSet)).BeginInit();
+            this.BaoCaoKiemDinhChatLuongTableAdapter = new KiemDinhChatLuongGUI.DataSetBaoCaoKiemDinhChatLuongTableAdapters.BaoCaoKiemDinhChatLuongTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoKiemDinhChatLuongBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoKiemDinhChatLuong)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // KiemDinhChatLuongBindingSource
+            // BaoCaoKiemDinhChatLuongBindingSource
             // 
-            this.KiemDinhChatLuongBindingSource.DataMember = "KiemDinhChatLuong";
-            this.KiemDinhChatLuongBindingSource.DataSource = this.QuanLyTieuChuanDanhGiaDataSet;
+            this.BaoCaoKiemDinhChatLuongBindingSource.DataMember = "BaoCaoKiemDinhChatLuong";
+            this.BaoCaoKiemDinhChatLuongBindingSource.DataSource = this.DataSetBaoCaoKiemDinhChatLuong;
             // 
-            // QuanLyTieuChuanDanhGiaDataSet
+            // DataSetBaoCaoKiemDinhChatLuong
             // 
-            this.QuanLyTieuChuanDanhGiaDataSet.DataSetName = "QuanLyTieuChuanDanhGiaDataSet";
-            this.QuanLyTieuChuanDanhGiaDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // KiemDinhChatLuongTableAdapter
-            // 
-            this.KiemDinhChatLuongTableAdapter.ClearBeforeFill = true;
+            this.DataSetBaoCaoKiemDinhChatLuong.DataSetName = "DataSetBaoCaoKiemDinhChatLuong";
+            this.DataSetBaoCaoKiemDinhChatLuong.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnThucHien);
+            this.groupBox1.Controls.Add(this.cbxTieuChuan);
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnDong);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -68,9 +70,37 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Chức Năng";
             // 
+            // btnThucHien
+            // 
+            this.btnThucHien.Location = new System.Drawing.Point(447, 19);
+            this.btnThucHien.Name = "btnThucHien";
+            this.btnThucHien.Size = new System.Drawing.Size(106, 30);
+            this.btnThucHien.TabIndex = 3;
+            this.btnThucHien.Text = "Thực Hiện";
+            this.btnThucHien.UseVisualStyleBackColor = true;
+            this.btnThucHien.Click += new System.EventHandler(this.btnThucHien_Click);
+            // 
+            // cbxTieuChuan
+            // 
+            this.cbxTieuChuan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTieuChuan.FormattingEnabled = true;
+            this.cbxTieuChuan.Location = new System.Drawing.Point(171, 21);
+            this.cbxTieuChuan.Name = "cbxTieuChuan";
+            this.cbxTieuChuan.Size = new System.Drawing.Size(245, 28);
+            this.cbxTieuChuan.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(70, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(95, 21);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Tiêu Chuẩn";
+            // 
             // btnDong
             // 
-            this.btnDong.Location = new System.Drawing.Point(96, 22);
+            this.btnDong.Location = new System.Drawing.Point(559, 19);
             this.btnDong.Name = "btnDong";
             this.btnDong.Size = new System.Drawing.Size(85, 30);
             this.btnDong.TabIndex = 0;
@@ -92,8 +122,8 @@
             // rvKiemDinhChatLuong
             // 
             this.rvKiemDinhChatLuong.Dock = System.Windows.Forms.DockStyle.Top;
-            reportDataSource1.Name = "DataSetKiemDinhChatLuong";
-            reportDataSource1.Value = this.KiemDinhChatLuongBindingSource;
+            reportDataSource1.Name = "DataSetBaoCaoKiemDinhChatLuong";
+            reportDataSource1.Value = this.BaoCaoKiemDinhChatLuongBindingSource;
             this.rvKiemDinhChatLuong.LocalReport.DataSources.Add(reportDataSource1);
             this.rvKiemDinhChatLuong.LocalReport.ReportEmbeddedResource = "KiemDinhChatLuongGUI.BaoCaoKiemDinhChatLuong.rdlc";
             this.rvKiemDinhChatLuong.Location = new System.Drawing.Point(3, 24);
@@ -101,6 +131,10 @@
             this.rvKiemDinhChatLuong.ServerReport.BearerToken = null;
             this.rvKiemDinhChatLuong.Size = new System.Drawing.Size(1226, 653);
             this.rvKiemDinhChatLuong.TabIndex = 0;
+            // 
+            // BaoCaoKiemDinhChatLuongTableAdapter
+            // 
+            this.BaoCaoKiemDinhChatLuongTableAdapter.ClearBeforeFill = true;
             // 
             // FormBaoCaoKiemDinhChatLuong
             // 
@@ -115,21 +149,25 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Báo Cáo Kiểm Định Chất Lượng";
             this.Load += new System.EventHandler(this.FormBaoCaoKiemDinhChatLuong_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.KiemDinhChatLuongBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.QuanLyTieuChuanDanhGiaDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoKiemDinhChatLuongBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoKiemDinhChatLuong)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.BindingSource KiemDinhChatLuongBindingSource;
-        private QuanLyTieuChuanDanhGiaDataSet QuanLyTieuChuanDanhGiaDataSet;
-        private QuanLyTieuChuanDanhGiaDataSetTableAdapters.KiemDinhChatLuongTableAdapter KiemDinhChatLuongTableAdapter;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private Microsoft.Reporting.WinForms.ReportViewer rvKiemDinhChatLuong;
         private System.Windows.Forms.Button btnDong;
+        private System.Windows.Forms.Button btnThucHien;
+        private System.Windows.Forms.ComboBox cbxTieuChuan;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.BindingSource BaoCaoKiemDinhChatLuongBindingSource;
+        private DataSetBaoCaoKiemDinhChatLuong DataSetBaoCaoKiemDinhChatLuong;
+        private DataSetBaoCaoKiemDinhChatLuongTableAdapters.BaoCaoKiemDinhChatLuongTableAdapter BaoCaoKiemDinhChatLuongTableAdapter;
     }
 }
