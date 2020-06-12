@@ -291,15 +291,13 @@ namespace KiemDinhChatLuongGUI {
             
             private global::System.Data.DataColumn columnTenTiengAnh;
             
-            private global::System.Data.DataColumn columnTenLoaiMon;
+            private global::System.Data.DataColumn columnMonTienQuyet;
             
             private global::System.Data.DataColumn columnSoTinChi;
             
             private global::System.Data.DataColumn columnSoTietLyThuyet;
             
             private global::System.Data.DataColumn columnSoTietThucHanh;
-            
-            private global::System.Data.DataColumn columnMonTienQuyet;
             
             private global::System.Data.DataColumn columnTenNhomTuChon;
             
@@ -404,9 +402,9 @@ namespace KiemDinhChatLuongGUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn TenLoaiMonColumn {
+            public global::System.Data.DataColumn MonTienQuyetColumn {
                 get {
-                    return this.columnTenLoaiMon;
+                    return this.columnMonTienQuyet;
                 }
             }
             
@@ -431,14 +429,6 @@ namespace KiemDinhChatLuongGUI {
             public global::System.Data.DataColumn SoTietThucHanhColumn {
                 get {
                     return this.columnSoTietThucHanh;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn MonTienQuyetColumn {
-                get {
-                    return this.columnMonTienQuyet;
                 }
             }
             
@@ -566,11 +556,10 @@ namespace KiemDinhChatLuongGUI {
                         string MaMonHoc, 
                         string TenMonHoc, 
                         string TenTiengAnh, 
-                        string TenLoaiMon, 
+                        string MonTienQuyet, 
                         int SoTinChi, 
                         int SoTietLyThuyet, 
                         int SoTietThucHanh, 
-                        string MonTienQuyet, 
                         string TenNhomTuChon, 
                         int SoTinChiNhomTuChon, 
                         string HocKy, 
@@ -589,11 +578,10 @@ namespace KiemDinhChatLuongGUI {
                         MaMonHoc,
                         TenMonHoc,
                         TenTiengAnh,
-                        TenLoaiMon,
+                        MonTienQuyet,
                         SoTinChi,
                         SoTietLyThuyet,
                         SoTietThucHanh,
-                        MonTienQuyet,
                         TenNhomTuChon,
                         SoTinChiNhomTuChon,
                         HocKy,
@@ -632,11 +620,10 @@ namespace KiemDinhChatLuongGUI {
                 this.columnMaMonHoc = base.Columns["MaMonHoc"];
                 this.columnTenMonHoc = base.Columns["TenMonHoc"];
                 this.columnTenTiengAnh = base.Columns["TenTiengAnh"];
-                this.columnTenLoaiMon = base.Columns["TenLoaiMon"];
+                this.columnMonTienQuyet = base.Columns["MonTienQuyet"];
                 this.columnSoTinChi = base.Columns["SoTinChi"];
                 this.columnSoTietLyThuyet = base.Columns["SoTietLyThuyet"];
                 this.columnSoTietThucHanh = base.Columns["SoTietThucHanh"];
-                this.columnMonTienQuyet = base.Columns["MonTienQuyet"];
                 this.columnTenNhomTuChon = base.Columns["TenNhomTuChon"];
                 this.columnSoTinChiNhomTuChon = base.Columns["SoTinChiNhomTuChon"];
                 this.columnHocKy = base.Columns["HocKy"];
@@ -664,16 +651,14 @@ namespace KiemDinhChatLuongGUI {
                 base.Columns.Add(this.columnTenMonHoc);
                 this.columnTenTiengAnh = new global::System.Data.DataColumn("TenTiengAnh", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTenTiengAnh);
-                this.columnTenLoaiMon = new global::System.Data.DataColumn("TenLoaiMon", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTenLoaiMon);
+                this.columnMonTienQuyet = new global::System.Data.DataColumn("MonTienQuyet", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMonTienQuyet);
                 this.columnSoTinChi = new global::System.Data.DataColumn("SoTinChi", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoTinChi);
                 this.columnSoTietLyThuyet = new global::System.Data.DataColumn("SoTietLyThuyet", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoTietLyThuyet);
                 this.columnSoTietThucHanh = new global::System.Data.DataColumn("SoTietThucHanh", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSoTietThucHanh);
-                this.columnMonTienQuyet = new global::System.Data.DataColumn("MonTienQuyet", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMonTienQuyet);
                 this.columnTenNhomTuChon = new global::System.Data.DataColumn("TenNhomTuChon", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTenNhomTuChon);
                 this.columnSoTinChiNhomTuChon = new global::System.Data.DataColumn("SoTinChiNhomTuChon", typeof(int), null, global::System.Data.MappingType.Element);
@@ -700,7 +685,6 @@ namespace KiemDinhChatLuongGUI {
                 this.columnMaMonHoc.MaxLength = 50;
                 this.columnTenMonHoc.MaxLength = 50;
                 this.columnTenTiengAnh.MaxLength = 50;
-                this.columnTenLoaiMon.MaxLength = 50;
                 this.columnMonTienQuyet.MaxLength = 50;
                 this.columnTenNhomTuChon.MaxLength = 50;
                 this.columnHocKy.MaxLength = 50;
@@ -950,17 +934,18 @@ namespace KiemDinhChatLuongGUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string TenLoaiMon {
+            public string MonTienQuyet {
                 get {
                     try {
-                        return ((string)(this[this.tableBaoCaoChuongTrinhDaoTao.TenLoaiMonColumn]));
+                        return ((string)(this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'TenLoaiMon\' in table \'BaoCaoChuongTrinhDaoTao\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MonTienQuyet\' in table \'BaoCaoChuongTrinhDaoTao\' is DBNull." +
+                                "", e);
                     }
                 }
                 set {
-                    this[this.tableBaoCaoChuongTrinhDaoTao.TenLoaiMonColumn] = value;
+                    this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn] = value;
                 }
             }
             
@@ -1011,23 +996,6 @@ namespace KiemDinhChatLuongGUI {
                 }
                 set {
                     this[this.tableBaoCaoChuongTrinhDaoTao.SoTietThucHanhColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string MonTienQuyet {
-                get {
-                    try {
-                        return ((string)(this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'MonTienQuyet\' in table \'BaoCaoChuongTrinhDaoTao\' is DBNull." +
-                                "", e);
-                    }
-                }
-                set {
-                    this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn] = value;
                 }
             }
             
@@ -1270,14 +1238,14 @@ namespace KiemDinhChatLuongGUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsTenLoaiMonNull() {
-                return this.IsNull(this.tableBaoCaoChuongTrinhDaoTao.TenLoaiMonColumn);
+            public bool IsMonTienQuyetNull() {
+                return this.IsNull(this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetTenLoaiMonNull() {
-                this[this.tableBaoCaoChuongTrinhDaoTao.TenLoaiMonColumn] = global::System.Convert.DBNull;
+            public void SetMonTienQuyetNull() {
+                this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1314,18 +1282,6 @@ namespace KiemDinhChatLuongGUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetSoTietThucHanhNull() {
                 this[this.tableBaoCaoChuongTrinhDaoTao.SoTietThucHanhColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsMonTienQuyetNull() {
-                return this.IsNull(this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetMonTienQuyetNull() {
-                this[this.tableBaoCaoChuongTrinhDaoTao.MonTienQuyetColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1614,11 +1570,10 @@ namespace KiemDinhChatLuongGUI.DataSetBaoCaoChuongTrinhDaoTaoTableAdapters {
             tableMapping.ColumnMappings.Add("MaMonHoc", "MaMonHoc");
             tableMapping.ColumnMappings.Add("TenMonHoc", "TenMonHoc");
             tableMapping.ColumnMappings.Add("TenTiengAnh", "TenTiengAnh");
-            tableMapping.ColumnMappings.Add("TenLoaiMon", "TenLoaiMon");
+            tableMapping.ColumnMappings.Add("MonTienQuyet", "MonTienQuyet");
             tableMapping.ColumnMappings.Add("SoTinChi", "SoTinChi");
             tableMapping.ColumnMappings.Add("SoTietLyThuyet", "SoTietLyThuyet");
             tableMapping.ColumnMappings.Add("SoTietThucHanh", "SoTietThucHanh");
-            tableMapping.ColumnMappings.Add("MonTienQuyet", "MonTienQuyet");
             tableMapping.ColumnMappings.Add("TenNhomTuChon", "TenNhomTuChon");
             tableMapping.ColumnMappings.Add("SoTinChiNhomTuChon", "SoTinChiNhomTuChon");
             tableMapping.ColumnMappings.Add("HocKy", "HocKy");
