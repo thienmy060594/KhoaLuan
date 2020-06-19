@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource2 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.BaoCaoKiemDinhChatLuongBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.DataSetBaoCaoKiemDinhChatLuong = new KiemDinhChatLuongGUI.DataSetBaoCaoKiemDinhChatLuong();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -111,25 +111,25 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rvKiemDinhChatLuong);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 58);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1232, 683);
+            this.groupBox2.Size = new System.Drawing.Size(1232, 695);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Báo Cáo";
             // 
             // rvKiemDinhChatLuong
             // 
-            this.rvKiemDinhChatLuong.Dock = System.Windows.Forms.DockStyle.Top;
-            reportDataSource1.Name = "DataSetBaoCaoKiemDinhChatLuong";
-            reportDataSource1.Value = this.BaoCaoKiemDinhChatLuongBindingSource;
-            this.rvKiemDinhChatLuong.LocalReport.DataSources.Add(reportDataSource1);
+            this.rvKiemDinhChatLuong.Dock = System.Windows.Forms.DockStyle.Fill;
+            reportDataSource2.Name = "DataSetBaoCaoKiemDinhChatLuong";
+            reportDataSource2.Value = this.BaoCaoKiemDinhChatLuongBindingSource;
+            this.rvKiemDinhChatLuong.LocalReport.DataSources.Add(reportDataSource2);
             this.rvKiemDinhChatLuong.LocalReport.ReportEmbeddedResource = "KiemDinhChatLuongGUI.BaoCaoKiemDinhChatLuong.rdlc";
             this.rvKiemDinhChatLuong.Location = new System.Drawing.Point(3, 24);
             this.rvKiemDinhChatLuong.Name = "rvKiemDinhChatLuong";
             this.rvKiemDinhChatLuong.ServerReport.BearerToken = null;
-            this.rvKiemDinhChatLuong.Size = new System.Drawing.Size(1226, 653);
+            this.rvKiemDinhChatLuong.Size = new System.Drawing.Size(1226, 668);
             this.rvKiemDinhChatLuong.TabIndex = 0;
             // 
             // BaoCaoKiemDinhChatLuongTableAdapter
@@ -148,6 +148,7 @@
             this.Name = "FormBaoCaoKiemDinhChatLuong";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Báo Cáo Kiểm Định Chất Lượng";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormBaoCaoKiemDinhChatLuong_Load);
             ((System.ComponentModel.ISupportInitialize)(this.BaoCaoKiemDinhChatLuongBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoKiemDinhChatLuong)).EndInit();

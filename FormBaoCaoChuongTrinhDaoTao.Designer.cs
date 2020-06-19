@@ -30,6 +30,8 @@
         {            
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
+            this.BaoCaoChuongTrinhDaoTaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.DataSetBaoCaoChuongTrinhDaoTao = new KiemDinhChatLuongGUI.DataSetBaoCaoChuongTrinhDaoTao();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnThucHien = new System.Windows.Forms.Button();
             this.cbxChuongTrinhDaoTao = new System.Windows.Forms.ComboBox();
@@ -37,14 +39,22 @@
             this.btnDong = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rvChuongTrinhDaoTao = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.DataSetBaoCaoChuongTrinhDaoTao = new KiemDinhChatLuongGUI.DataSetBaoCaoChuongTrinhDaoTao();
-            this.BaoCaoChuongTrinhDaoTaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.BaoCaoChuongTrinhDaoTaoTableAdapter = new KiemDinhChatLuongGUI.DataSetBaoCaoChuongTrinhDaoTaoTableAdapters.BaoCaoChuongTrinhDaoTaoTableAdapter();
+            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoChuongTrinhDaoTao)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoChuongTrinhDaoTao)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // BaoCaoChuongTrinhDaoTaoBindingSource
+            // 
+            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataMember = "BaoCaoChuongTrinhDaoTao";
+            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataSource = this.DataSetBaoCaoChuongTrinhDaoTao;
+            // 
+            // DataSetBaoCaoChuongTrinhDaoTao
+            // 
+            this.DataSetBaoCaoChuongTrinhDaoTao.DataSetName = "DataSetBaoCaoChuongTrinhDaoTao";
+            this.DataSetBaoCaoChuongTrinhDaoTao.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // groupBox1
             // 
@@ -101,17 +111,17 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rvChuongTrinhDaoTao);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 77);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1232, 682);
+            this.groupBox2.Size = new System.Drawing.Size(1232, 676);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Báo Cáo";
             // 
             // rvChuongTrinhDaoTao
             // 
-            this.rvChuongTrinhDaoTao.Dock = System.Windows.Forms.DockStyle.Top;
+            this.rvChuongTrinhDaoTao.Dock = System.Windows.Forms.DockStyle.Fill;
             reportDataSource1.Name = "DataSetBaoCaoChuongTrinhDaoTao";
             reportDataSource1.Value = this.BaoCaoChuongTrinhDaoTaoBindingSource;
             this.rvChuongTrinhDaoTao.LocalReport.DataSources.Add(reportDataSource1);
@@ -119,18 +129,8 @@
             this.rvChuongTrinhDaoTao.Location = new System.Drawing.Point(3, 24);
             this.rvChuongTrinhDaoTao.Name = "rvChuongTrinhDaoTao";
             this.rvChuongTrinhDaoTao.ServerReport.BearerToken = null;
-            this.rvChuongTrinhDaoTao.Size = new System.Drawing.Size(1226, 652);
+            this.rvChuongTrinhDaoTao.Size = new System.Drawing.Size(1226, 649);
             this.rvChuongTrinhDaoTao.TabIndex = 0;
-            // 
-            // DataSetBaoCaoChuongTrinhDaoTao
-            // 
-            this.DataSetBaoCaoChuongTrinhDaoTao.DataSetName = "DataSetBaoCaoChuongTrinhDaoTao";
-            this.DataSetBaoCaoChuongTrinhDaoTao.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // BaoCaoChuongTrinhDaoTaoBindingSource
-            // 
-            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataMember = "BaoCaoChuongTrinhDaoTao";
-            this.BaoCaoChuongTrinhDaoTaoBindingSource.DataSource = this.DataSetBaoCaoChuongTrinhDaoTao;
             // 
             // BaoCaoChuongTrinhDaoTaoTableAdapter
             // 
@@ -148,12 +148,13 @@
             this.Name = "FormBaoCaoChuongTrinhDaoTao";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Báo Cáo Chương Trình Đào Tạo";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormBaoCaoChuongTrinhDaoTao_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoChuongTrinhDaoTao)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DataSetBaoCaoChuongTrinhDaoTao)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.BaoCaoChuongTrinhDaoTaoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
