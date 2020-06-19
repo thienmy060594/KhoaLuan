@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<TieuChuanDTO> SearchListTieuChuan(string valueToSearch)
         {
             List<TieuChuanDTO> List = new List<TieuChuanDTO>();
-            string query = string.Format("SELECT * FROM dbo.TieuChuan WHERE CONCAT(MaTieuChuan, TenTieuChuan, NoiDungTieuChuan, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.TieuChuan WHERE CONCAT(MaTieuChuan, TenTieuChuan, NoiDungTieuChuan, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

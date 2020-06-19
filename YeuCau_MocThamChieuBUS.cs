@@ -24,9 +24,9 @@ namespace KiemDinhChatLuongBUS
         public List<YeuCau_MocThamChieuDTO> GetListYeuCau_MocThamChieu()
         {
             List<YeuCau_MocThamChieuDTO> List = new List<YeuCau_MocThamChieuDTO>();
-            string query = "SELECT YCauMTChieu.ID_YeuCau, YCauMTChieu.ID_MocThamChieu, YCau.MaYeuCau, YCau.TenYeuCau, MTChieu.MaMocThamChieu, MTChieu.TenMocThamChieu, YCauMTChieu.GhiChu " +
+            string query = "SELECT YCauMTChieu.ID_YeuCau, YCauMTChieu.ID_MocThamChieu, YCau.TenYeuCau, YCau.NoiDungYeuCau, MTChieu.TenMocThamChieu, MTChieu.NoiDungMocThamChieu, YCauMTChieu.GhiChu " +
                             "FROM dbo.YeuCau_MocThamChieu YCauMTChieu, dbo.YeuCau YCau, dbo.MocThamChieu MTChieu " +
-                             "WHERE YCauMTChieu.ID_YeuCau = YCau.ID_YeuCau AND YCauMTChieu.ID_MocThamChieu = MTChieu.ID_MocThamChieu";
+                            "WHERE YCauMTChieu.ID_YeuCau = YCau.ID_YeuCau AND YCauMTChieu.ID_MocThamChieu = MTChieu.ID_MocThamChieu";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

@@ -24,7 +24,7 @@ namespace KiemDinhChatLuongBUS
         public List<TieuChi_YeuCauDTO> GetListTieuChi_YeuCau()
         {
             List<TieuChi_YeuCauDTO> List = new List<TieuChi_YeuCauDTO>();
-            string query = "SELECT TChiYCau.ID_TieuChi, TChiYCau.ID_YeuCau, TChi.MaTieuChi, TChi.TenTieuChi, YCau.MaYeuCau, YCau.TenYeuCau, TChiYCau.GhiChu " +
+            string query = "SELECT TChiYCau.ID_TieuChi, TChiYCau.ID_YeuCau, TChi.TenTieuChi, TChi.NoiDungTieuChi, YCau.TenYeuCau, YCau.NoiDungYeuCau, TChiYCau.GhiChu " +
                             "FROM dbo.TieuChi_YeuCau TChiYCau, dbo.TieuChi TChi, dbo.YeuCau YCau " +
                             "WHERE TChiYCau.ID_TieuChi = TChi.ID_TieuChi AND TChiYCau.ID_YeuCau = YCau.ID_YeuCau ";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<TieuChi_YeuCauDTO> List = new List<TieuChi_YeuCauDTO>();
             string query = string.Format("SELECT TChiYCau.ID_TieuChi, TChiYCau.ID_YeuCau, TChi.MaTieuChi, TChi.TenTieuChi, YCau.MaYeuCau, YCau.TenYeuCau, TChiYCau.GhiChu " +
                 "FROM dbo.TieuChi_YeuCau TChiYCau, dbo.TieuChi TChi, dbo.YeuCau YCau " +
-                "WHERE TChiYCau.ID_TieuChi = TChi.ID_TieuChi AND TChiYCau.ID_YeuCau = YCau.ID_YeuCau AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, YCau.MaYeuCau, YCau.TenYeuCau, TChiYCau.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE TChiYCau.ID_TieuChi = TChi.ID_TieuChi AND TChiYCau.ID_YeuCau = YCau.ID_YeuCau AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, YCau.MaYeuCau, YCau.TenYeuCau, TChiYCau.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

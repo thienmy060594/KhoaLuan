@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<KhoaDTO> SearchListKhoa(string valueToSearch)
         {
             List<KhoaDTO> List = new List<KhoaDTO>();
-            string query = string.Format("SELECT * FROM dbo.Khoa WHERE CONCAT(MaKhoa, TenKhoa, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.Khoa WHERE CONCAT(MaKhoa, TenKhoa, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<ChuongTrinhDaoTao_MonHocDTO> List = new List<ChuongTrinhDaoTao_MonHocDTO>();
             string query = string.Format("SELECT CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao, CTrinhDTao_MHoc.ID_MonHoc, CTrinhDTao_MHoc.ID_LoaiMon, CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu " +
                 "FROM dbo.ChuongTrinhDaoTao_MonHoc CTrinhDTao_MHoc, dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.MonHoc MHoc, dbo.LoaiMon LMon " +
-                "WHERE CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao = CTrinhDTao.ID_ChuongTrinhDaoTao AND CTrinhDTao_MHoc.ID_MonHoc = MHoc.ID_MonHoc AND CTrinhDTao_MHoc.ID_LoaiMon = LMon.ID_LoaiMon AND CONCAT(CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE CTrinhDTao_MHoc.ID_ChuongTrinhDaoTao = CTrinhDTao.ID_ChuongTrinhDaoTao AND CTrinhDTao_MHoc.ID_MonHoc = MHoc.ID_MonHoc AND CTrinhDTao_MHoc.ID_LoaiMon = LMon.ID_LoaiMon AND CONCAT(CTrinhDTao.MaChuongTrinhDaoTao, MHoc.MaMonHoc, MHoc.TenMonHoc, LMon.MaLoaiMon, LMon.TenLoaiMon, CTrinhDTao_MHoc.HocKy, CTrinhDTao_MHoc.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

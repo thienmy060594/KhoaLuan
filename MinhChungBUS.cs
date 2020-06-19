@@ -66,7 +66,7 @@ namespace KiemDinhChatLuongBUS
         {
             List<MinhChungDTO> List = new List<MinhChungDTO>();
             string query = string.Format("SELECT MChung.ID_TaiLieu, MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu " +
-                "FROM dbo.MinhChung MChung WHERE CONCAT(MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "FROM dbo.MinhChung MChung WHERE CONCAT(MChung.MaTaiLieu, MChung.TenTaiLieu, MChung.NgayKy, MChung.NguoiKy, MChung.SoBanHanh, MChung.TomTatNoiDung, MChung.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

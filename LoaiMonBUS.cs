@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<LoaiMonDTO> SearchListLoaiMon(string valueToSearch)
         {
             List<LoaiMonDTO> List = new List<LoaiMonDTO>();
-            string query = string.Format("SELECT * FROM dbo.LoaiMon WHERE CONCAT(MaLoaiMon, TenLoaiMon, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.LoaiMon WHERE CONCAT(MaLoaiMon, TenLoaiMon, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<YeuCauDTO> SearchListYeuCau(string valueToSearch)
         {
             List<YeuCauDTO> List = new List<YeuCauDTO>();
-            string query = string.Format("SELECT * FROM dbo.YeuCau WHERE CONCAT(MaYeuCau, TenYeuCau, NoiDungYeuCau, GhiChu) LIKE '%"+valueToSearch+"%'");
+            string query = string.Format("SELECT * FROM dbo.YeuCau YCau WHERE CONCAT(YCau.MaYeuCau, YCau.TenYeuCau, YCau.NoiDungYeuCau, YCau.GhiChu) LIKE N'%" + valueToSearch+"%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

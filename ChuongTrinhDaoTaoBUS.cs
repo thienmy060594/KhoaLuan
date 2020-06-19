@@ -62,7 +62,7 @@ namespace KiemDinhChatLuongBUS
             List<ChuongTrinhDaoTaoDTO> List = new List<ChuongTrinhDaoTaoDTO>();
             string query = string.Format("SELECT CTrinhDTao.ID_ChuongTrinhDaoTao, CTrinhDTao.ID_Nganh, CTrinhDTao.ID_TaiLieu, N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu " +
                 "FROM dbo.ChuongTrinhDaoTao CTrinhDTao, dbo.Nganh N, dbo.MinhChung MChung " +
-                "WHERE CTrinhDTao.ID_Nganh = N.ID_Nganh AND CTrinhDTao.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE CTrinhDTao.ID_Nganh = N.ID_Nganh AND CTrinhDTao.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(N.MaNganh, N.TenNganh, MChung.MaTaiLieu, MChung.TenTaiLieu, CTrinhDTao.MaChuongTrinhDaoTao, CTrinhDTao.NamKy, CTrinhDTao.NamApDung, CTrinhDTao.TomTatNoiDung, CTrinhDTao.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

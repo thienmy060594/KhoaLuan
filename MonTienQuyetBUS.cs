@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<MonTienQuyetDTO> List = new List<MonTienQuyetDTO>();
             string query = string.Format("SELECT MTQuyet.ID_MonHoc, MTQuyet.ID_MonHoc_TienQuyet, MHoc1.MaMonHoc, MHoc1.TenMonHoc, MHoc2.MaMonHoc AS MaMonHocTienQuyet, MHoc2.TenMonHoc AS TenMonHocTienQuyet, MTQuyet.GhiChu " +
                 "FROM dbo.MonTienQuyet MTQuyet, dbo.MonHoc MHoc1, dbo.MonHoc MHoc2 " +
-                "WHERE MTQuyet.ID_MonHoc = MHoc1.ID_MonHoc AND MTQuyet.ID_MonHoc_TienQuyet = MHoc2.ID_MonHoc AND CONCAT(MHoc1.MaMonHoc, MHoc1.TenMonHoc, MHoc2.MaMonHoc AS MaMonHocTienQuyet, MHoc2.TenMonHoc AS TenMonHocTienQuyet, MTQuyet.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE MTQuyet.ID_MonHoc = MHoc1.ID_MonHoc AND MTQuyet.ID_MonHoc_TienQuyet = MHoc2.ID_MonHoc AND CONCAT(MHoc1.MaMonHoc, MHoc1.TenMonHoc, MHoc2.MaMonHoc AS MaMonHocTienQuyet, MHoc2.TenMonHoc AS TenMonHocTienQuyet, MTQuyet.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

@@ -24,7 +24,7 @@ namespace KiemDinhChatLuongBUS
         public List<TieuChi_NguonMinhChungDTO> GetListTieuChi_NguonMinhChung()
         {
             List<TieuChi_NguonMinhChungDTO> List = new List<TieuChi_NguonMinhChungDTO>();
-            string query = "SELECT TChiNMChung.ID_TieuChi, TChiNMChung.ID_NguonMinhChung, TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu " +
+            string query = "SELECT TChiNMChung.ID_TieuChi, TChiNMChung.ID_NguonMinhChung, TChi.TenTieuChi, TChi.NoiDungTieuChi, NMChung.TenNguonMinhChung, NMChung.NoiDungNguonMinhChung, TChiNMChung.GhiChu " +
                             "FROM dbo.TieuChi_NguonMinhChung TChiNMChung, dbo.TieuChi TChi, dbo.NguonMinhChung NMChung " +
                             "WHERE TChiNMChung.ID_TieuChi = TChi.ID_TieuChi AND TChiNMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<TieuChi_NguonMinhChungDTO> List = new List<TieuChi_NguonMinhChungDTO>();
             string query = string.Format("SELECT TChiNMChung.ID_TieuChi, TChiNMChung.ID_NguonMinhChung, TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu " +
                 "FROM dbo.TieuChi_NguonMinhChung TChiNMChung, dbo.TieuChi TChi, dbo.NguonMinhChung NMChung " +
-                "WHERE TChiNMChung.ID_TieuChi = TChi.ID_TieuChi AND TChiNMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE TChiNMChung.ID_TieuChi = TChi.ID_TieuChi AND TChiNMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND CONCAT(TChi.MaTieuChi, TChi.TenTieuChi, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, TChiNMChung.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<NganhDTO> List = new List<NganhDTO>();
             string query = string.Format("SELECT N.ID_Nganh, K.ID_Khoa, K.MaKhoa, K.TenKhoa, N.MaNganh, N.TenNganh, N.GhiChu " +
                 "FROM dbo.Khoa K, dbo.Nganh N " +
-                "WHERE K.ID_Khoa = N.ID_Khoa AND CONCAT(K.MaKhoa, K.TenKhoa, N.MaNganh, N.TenNganh, N.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE K.ID_Khoa = N.ID_Khoa AND CONCAT(K.MaKhoa, K.TenKhoa, N.MaNganh, N.TenNganh, N.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

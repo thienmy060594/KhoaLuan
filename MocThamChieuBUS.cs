@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<MocThamChieuDTO> SearchListMocThamChieu(string valueToSearch)
         {
             List<MocThamChieuDTO> List = new List<MocThamChieuDTO>();
-            string query = string.Format("SELECT * FROM dbo.MocThamChieu WHERE CONCAT(MaMocThamChieu, TenMocThamChieu, NoiDungMocThamChieu, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.MocThamChieu WHERE CONCAT(MaMocThamChieu, TenMocThamChieu, NoiDungMocThamChieu, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

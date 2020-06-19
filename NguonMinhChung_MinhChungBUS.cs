@@ -24,7 +24,7 @@ namespace KiemDinhChatLuongBUS
         public List<NguonMinhChung_MinhChungDTO> GetListNguonMinhChung_MinhChung()
         {
             List<NguonMinhChung_MinhChungDTO> List = new List<NguonMinhChung_MinhChungDTO>();
-            string query = "SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
+            string query = "SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.TenNguonMinhChung, NMChung.NoiDungNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
                            "FROM dbo.NguonMinhChung_MinhChung NMChungMChung, dbo.NguonMinhChung NMChung, dbo.MinhChung MChung " +
                            "WHERE NMChungMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND NMChungMChung.ID_TaiLieu = MChung.ID_TaiLieu";
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
@@ -61,7 +61,7 @@ namespace KiemDinhChatLuongBUS
             List<NguonMinhChung_MinhChungDTO> List = new List<NguonMinhChung_MinhChungDTO>();
             string query = string.Format("SELECT NMChungMChung.ID_NguonMinhChung, NMChungMChung.ID_TaiLieu, NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu " +
                 "FROM dbo.NguonMinhChung_MinhChung NMChungMChung, dbo.NguonMinhChung NMChung, dbo.MinhChung MChung " +
-                "WHERE NMChungMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND NMChungMChung.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu) LIKE '%" + valueToSearch + "%'");
+                "WHERE NMChungMChung.ID_NguonMinhChung = NMChung.ID_NguonMinhChung AND NMChungMChung.ID_TaiLieu = MChung.ID_TaiLieu AND CONCAT(NMChung.MaNguonMinhChung, NMChung.TenNguonMinhChung, MChung.MaTaiLieu, MChung.TenTaiLieu, NMChungMChung.GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

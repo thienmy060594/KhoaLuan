@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<NguonMinhChungDTO> SearchListNguonMinhChung(string valueToSearch)
         {
             List<NguonMinhChungDTO> List = new List<NguonMinhChungDTO>();
-            string query = string.Format("SELECT * FROM dbo.NguonMinhChung WHERE CONCAT(MaNguonMinhChung, TenNguonMinhChung, NoiDungNguonMinhChung, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.NguonMinhChung WHERE CONCAT(MaNguonMinhChung, TenNguonMinhChung, NoiDungNguonMinhChung, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {

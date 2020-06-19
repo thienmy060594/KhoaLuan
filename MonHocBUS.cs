@@ -57,7 +57,7 @@ namespace KiemDinhChatLuongBUS
         public List<MonHocDTO> SearchListMonHoc(string valueToSearch)
         {
             List<MonHocDTO> List = new List<MonHocDTO>();
-            string query = string.Format("SELECT * FROM dbo.MonHoc WHERE CONCAT(MaMonHoc, TenMonHoc, TenTiengAnh, SoTinChi, SoTietLyThuyet, SoTietThucHanh, GhiChu) LIKE '%" + valueToSearch + "%'");
+            string query = string.Format("SELECT * FROM dbo.MonHoc WHERE CONCAT(MaMonHoc, TenMonHoc, TenTiengAnh, SoTinChi, SoTietLyThuyet, SoTietThucHanh, GhiChu) LIKE N'%" + valueToSearch + "%'");
             DataTable dataTable = DataBaseConnection.Instance.ExecuteQuery(query);
             foreach (DataRow dataRow in dataTable.Rows)
             {
